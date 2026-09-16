@@ -19,7 +19,7 @@ from _eval_new_capture import gt_trajectory, filter_gt_outliers
 
 RUN_ROOT = r"E:\MIS_TMI_Re_3D\new_capture_runs"
 SESSIONS = ["pnp_seq_20260911_011115", "vio_seq_20260911_010902",
-            "vio_seq_20260911_011013"]
+            "vio_seq_20260911_011013", "vio_seq_20260912_104835"]
 BINS = [(0, 2), (2, 5), (5, 10), (10, 180)]   # deg per valid-frame step
 
 

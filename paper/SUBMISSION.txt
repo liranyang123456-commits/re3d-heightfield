@@ -1,0 +1,81 @@
+CMIG submission pack (latest compile 2026-09-16)
+Journal: Computerized Medical Imaging and Graphics (Elsevier)
+Article type: Research Article
+Title: Pseudo-3D Heightfield Reconstruction from Monocular Endoscopic Video via Gradient-Anchored Geometric Constraints
+
+============================================================
+UPLOAD IN EDITORIAL MANAGER
+============================================================
+1. Manuscript PDF
+   paper/paper_cmig.pdf
+   (also source: paper_cmig.tex + references.bib + figures/*.pdf)
+   Compile folder: e:\MIS_TMI_Re_3D\cmig_latex\
+
+2. Cover letter
+   paper/cover_letter.pdf   (or cover_letter.tex)
+
+3. Highlights (editable file; filename must contain "highlights")
+   paper/highlights_for_upload.txt
+
+4. Supplementary material
+   paper/supplementary_material.pdf
+
+5. Figures (if EM asks for them separately)
+   e:\MIS_TMI_Re_3D\re3d_cmpb_results\figures\
+   Required by the manuscript:
+     fig_qualitative_comparison.pdf
+     fig_pca_scatter.pdf
+     fig_quantitative_comparison.pdf
+     fig_sota_depth_combined.pdf
+     fig_qualitative_scared.pdf
+     fig_stereo_lap_perseq.pdf
+     fig_qualitative_multidataset.pdf
+     fig_qualitative_stereolap.pdf
+     fig_new_capture.pdf
+     fig_ablation.pdf
+     fig_ablation_comparison.pdf
+     fig_cross_dataset_3d_pointclouds.pdf
+     fig_qualitative_multidataset_depth.pdf
+     fig_runtime.pdf
+     fig_sota_summary.pdf
+   Optional graphical abstract: fig_sota_summary.pdf or fig_pipeline.pdf
+
+6. Generated in Editorial Manager (do not skip)
+   Competing-interest / Declaration of Interest
+   CRediT author statement (already in the manuscript)
+
+7. Data availability URL
+   https://github.com/liranyang123456-commits/re3d-heightfield
+
+DO NOT upload
+   paper/paper_cmpb.tex  (CMPB archive only)
+
+============================================================
+CHECKS PASSED
+============================================================
+- Abstract: 250 words (CMIG limit 250)
+- Highlights: 5 bullets, 70/71/73/69/72 characters (limit 85)
+- Bibliography: bibtex OK, key wang2022endonerf resolved, 48 entries
+- GitHub URL in manuscript, cover letter, highlights notes, supplementary
+- New-capture pose-valid: 24/28/26/12 % (not 30%)
+- V3 corner depth filled: AbsRel 0.020 (affine; Cone shape unchanged)
+- V3 rotation bins included; N2 board table in supplementary I.4
+- All \includegraphics files exist
+- Cover letter: 2 pages; supplementary: 18 pages
+- Manuscript review-mode PDF: 61 pages (line numbers; expected)
+
+BibTeX warnings (non-blocking)
+- whelan2015elasticfusion: no page numbers (RSS proceedings)
+- yang2024depthanythingv2: no page numbers (NeurIPS 2024)
+
+============================================================
+COMPILE
+============================================================
+cd e:\MIS_TMI_Re_3D\cmig_latex
+pdflatex paper_cmig.tex
+bibtex paper_cmig
+pdflatex paper_cmig.tex
+pdflatex paper_cmig.tex
+pdflatex cover_letter.tex
+pdflatex supplementary_material.tex
+pdflatex supplementary_material.tex

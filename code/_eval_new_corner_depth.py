@@ -21,7 +21,7 @@ NEW_ROOT = r"E:\MIS_TMI_Re_3D\new_capture"
 RUN_ROOT = r"E:\MIS_TMI_Re_3D\new_capture_runs"
 CLOUD_ROOT = r"E:\MIS_TMI_Re_3D\compare_pose_sources"
 SESSIONS = ["pnp_seq_20260911_011115", "vio_seq_20260911_010902",
-            "vio_seq_20260911_011013"]
+            "vio_seq_20260911_011013", "vio_seq_20260912_104835"]
 CB = (11, 8)          # inner corners of the 12x9-3mm board
 SQ = 3.0              # mm
 SEARCH_R = 25.0       # px

@@ -25,9 +25,9 @@ The paper addresses a computational and visualization problem in endoscopic imag
 
 \textbf{What is new.}
 \begin{itemize}
-    \item A gradient-anchored heightfield that preserves tissue-surface topology while suppressing specular artifacts, without learned natural-image priors.
-    \item The same heightfield drives camera pose estimation and dense epipolar matching, so localization and reconstruction share one 3D signal.
-    \item An optional calibrated stereo variant that recovers metric depth (AbsRel 0.0285 on EndoNeRF) while retaining the heightfield as a geometric regularizer.
+    \item A shared 2.5-D surface embedding: the same heightfield is registered for pose and queried for dense matching. Replacing that pose with a 2D essential matrix collapses the cloud, isolating the embedding rather than the fusion code.
+    \item Shape is treated as a first-class criterion ($\lambda_3/\lambda_1$). Calibration patterns set the metric gauge and the mask; they are not the reconstructed primitive.
+    \item An optional stereo variant that keeps the heightfield as a shape regularizer (AbsRel 0.0285 on the shared EndoNeRF 100-frame set).
 \end{itemize}
 
 \textbf{Evidence.}

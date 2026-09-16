@@ -2,12 +2,12 @@ Highlights
 Journal: Computerized Medical Imaging and Graphics
 Manuscript: Pseudo-3D Heightfield Reconstruction from Monocular Endoscopic Video via Gradient-Anchored Geometric Constraints
 
-- A 2.5-D heightfield yields metric 3D surfaces from endoscopic video.
-- The same heightfield drives pose estimation and dense matching.
-- Normal 3D structure is kept where feed-forward baselines collapse.
-- A stereo variant reaches AbsRel 0.0285 on EndoNeRF.
-- Heightfield confidence maps support surgical visualization and overlay.
+- A shared 2.5-D heightfield couples pose estimation and dense matching.
+- Specular-robust gradients keep Normal 3D where learned clouds collapse.
+- Landmarks fix scale and the mask; they are not the reconstructed surface.
+- A stereo variant reaches AbsRel 0.0285 on the EndoNeRF 100-frame set.
+- Confidence-mapped surfaces support overlay and image-guided measurement.
 
-Character counts (including spaces): 68, 63, 66, 55, 71 (limit 85).
+Character counts (including spaces): 70, 71, 73, 69, 72 (limit 85).
 
 Code and evaluation files: https://github.com/liranyang123456-commits/re3d-heightfield

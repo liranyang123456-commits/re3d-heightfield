@@ -518,7 +518,7 @@ Table~\ref{tab:supp_new_capture_full} reports shape, pose, and corner-depth metr
 
 \begin{table*}[h]
 \centering
-\caption{Full per-session metrics of the proposed method on the newly captured sequences. $\lambda_3/\lambda_1$: 3D shape ratio. ATE / RPE-t in mm against the cleaned PnP reference. Corner depth is evaluated at the $11{\times}8$ inner corners of the $3.0$\,mm board with calibrated intrinsics (affine-aligned). GT rot.: mean relative rotation per valid-frame step after flip removal (P1 also excludes steps ${\geq}60^{\circ}$).}
+\caption{Full per-session metrics of the proposed method on the newly captured sequences. $\lambda_3/\lambda_1$: 3D shape ratio. ATE / RPE-t in mm against the cleaned PnP reference. Corner depth is evaluated at the $11{\times}8$ inner corners of the $3.0$\,mm board with calibrated intrinsics after Sim3 alignment of the fused cloud and per-session affine alignment ($\mathrm{gt}=a{\cdot}\mathrm{pred}+b$). V3's low AbsRel is a local board-plane fit and does not contradict the Cone global shape. GT rot.: mean relative rotation per valid-frame step after flip removal (P1 also excludes steps ${\geq}60^{\circ}$).}
 \label{tab:supp_new_capture_full}
 \setlength{\tabcolsep}{4pt}
 \renewcommand{\arraystretch}{1.05}
@@ -530,18 +530,18 @@ Seq & Frames & GT rot. & $\lambda_3/\lambda_1$ & Shape & ATE$\downarrow$ & Scale
 V1 & 535 & $2.4^{\circ}$ & 0.657 & Normal\,3D & 27.5 & 0.47 & 14.0 & 0.065 & 15.4 & 0.978 \\
 V2 & 496 & $2.5^{\circ}$ & 0.221 & Flat & 58.4 & 0.63 & 13.8 & 0.050 & 13.5 & 0.993 \\
 P1 & 496 & $1.9^{\circ}$ & 0.119 & Cone & 55.2 & 0.35 & 22.4 & 0.070 & 19.8 & 0.991 \\
-V3 & 839 & $4.2^{\circ}$ & 0.053 & Cone & 38.8 & 0.099 & 63.7 & --- & --- & --- \\
+V3 & 839 & $4.2^{\circ}$ & 0.053 & Cone & 38.8 & 0.099 & 63.7 & 0.020 & 4.79 & 1.000 \\
 \bottomrule
 \end{tabular}
 \end{table*}
 
 \subsection*{I.2 Rotation-stratified position error}
 
-Table~\ref{tab:supp_rot_strat} breaks the per-frame position error down by the reference relative-rotation magnitude, quantifying the limitation that fast rotation degrades the heightfield pose.
+Table~\ref{tab:supp_rot_strat} breaks the per-frame position error down by the reference relative-rotation magnitude.
 
 \begin{table}[h]
 \centering
-\caption{Per-frame position error (mm, mean) stratified by reference relative rotation per valid-frame step after flip removal. V3 is omitted (remaining steps lie in $0$--$15^{\circ}$). P1's ${>}10^{\circ}$ bin has only 8 frames and may include residual flips; P1 errors are already ${\approx}40$\,mm in the $0$--$2^{\circ}$ bin.}
+\caption{Per-frame position error (mm, mean) stratified by reference relative rotation per valid-frame step after flip removal. P1's ${>}10^{\circ}$ bin has only 8 frames and may include residual flips. V3 is nearly flat across bins ($32$--$40$\,mm), so its Cone collapse is not a per-step rotation effect.}
 \label{tab:supp_rot_strat}
 \setlength{\tabcolsep}{4pt}
 \renewcommand{\arraystretch}{1.05}
@@ -552,13 +552,37 @@ Seq & $0$--$2^{\circ}$ & $2$--$5^{\circ}$ & $5$--$10^{\circ}$ & $>10^{\circ}$ \\
 P1 & 40.5 & 43.6 & 32.0 & \textbf{90.9} \\
 V1 & 22.7 & 28.0 & 30.9 & \textbf{36.5} \\
 V2 & 51.0 & 48.0 & 51.7 & \textbf{62.5} \\
+V3 & 31.6 & 38.5 & 39.6 & 39.3 \\
 \bottomrule
 \end{tabular}
 \end{table}
 
 \subsection*{I.3 Marker-free segments}
 
-On frames where the chessboard is not visible, the pipeline falls back to a contour-based ROI mask (largest contours of the truncated gradient map) and continues to reconstruct. This fallback was exercised on all four sequences (the board is visible on $12$--$30\%$ of frames; V3 is $12\%$), and the fused clouds remain spatially coherent through the marker-free stretches; however, because no ground truth exists on those stretches, the evaluation above is restricted to board-visible frames, and the marker-free segments are assessed qualitatively.
+On frames where the chessboard is not visible, the pipeline falls back to a contour-based ROI mask (largest contours of the truncated gradient map) and continues to reconstruct. This fallback was exercised on all four sequences (the board is visible on $12$--$28\%$ of frames; V3 is $12\%$), and the fused clouds remain spatially coherent through the marker-free stretches; however, because no ground truth exists on those stretches, the evaluation above is restricted to board-visible frames, and the marker-free segments are assessed qualitatively.
+
+\subsection*{I.4 Multi-scale boards (N2)}
+
+The recordings also contain two smaller calibration targets. Table~\ref{tab:supp_n2_boards} lists valid-frame counts and the camera-to-board working distance of the $12{\times}9$--$3$\,mm trajectory board. The $9{\times}6$--$5$\,mm board appears on at most 19 frames (P1) and the $9{\times}8$--$8$\,mm board on at most one frame per sequence. These counts are not enough for a second Sim3 ATE protocol, so the paper uses only the $12{\times}9$--$3$\,mm poses. Mean standoff on that board is $177$--$216$\,mm.
+
+\begin{table}[h]
+\centering
+\caption{Board occupancy and $12{\times}9$--$3$\,mm working distance. Secondary-board distances come from the same labelled CSV and are diagnostic only.}
+\label{tab:supp_n2_boards}
+\setlength{\tabcolsep}{3.5pt}
+\renewcommand{\arraystretch}{1.05}
+\footnotesize
+\begin{tabular}{l rrrr rrr}
+\toprule
+Seq & Frames & $12{\times}9$ & $9{\times}6$ & $9{\times}8$ & Dist.\ mean & median & p95 (mm) \\
+\midrule
+V1 & 535 & 127 & 3 & 0 & 187 & 190 & 220 \\
+V2 & 496 & 135 & 5 & 1 & 199 & 196 & 235 \\
+P1 & 496 & 129 & 19 & 1 & 216 & 212 & 257 \\
+V3 & 839 & 98 & 0 & 1 & 177 & 180 & 202 \\
+\bottomrule
+\end{tabular}
+\end{table}
 
 % ── References ──
 \bibliographystyle{IEEEtran}

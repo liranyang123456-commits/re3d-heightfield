@@ -1,0 +1,145 @@
+{
+  "note": "Secondary boards have 1-19 frames and are not a second ATE protocol.",
+  "sessions": [
+    {
+      "alias": "V1",
+      "session": "vio_seq_20260911_010902",
+      "n_frames": 535,
+      "n_pose_valid": 130,
+      "pose_valid_pct": 23.7,
+      "boards": {
+        "12x9-3mm": 127,
+        "9x6-5mm": 3
+      },
+      "traj_board": "12x9-3mm",
+      "n_traj": 127,
+      "working_distance_12x9": {
+        "n": 127,
+        "mean_mm": 186.92771193078343,
+        "median_mm": 189.7138855872343,
+        "p05_mm": 144.42586118322936,
+        "p95_mm": 219.5757569912875
+      },
+      "boards_from_csv": {
+        "12x9-3mm": {
+          "n": 127,
+          "mean_dist_mm": 186.92771199436177,
+          "median_dist_mm": 189.7138862528164
+        },
+        "9x6-5mm": {
+          "n": 3,
+          "mean_dist_mm": 327.5502849211022,
+          "median_dist_mm": 325.8425070131177
+        }
+      }
+    },
+    {
+      "alias": "V2",
+      "session": "vio_seq_20260911_011013",
+      "n_frames": 496,
+      "n_pose_valid": 141,
+      "pose_valid_pct": 27.2,
+      "boards": {
+        "12x9-3mm": 135,
+        "9x6-5mm": 5,
+        "9x8-8mm": 1
+      },
+      "traj_board": "12x9-3mm",
+      "n_traj": 135,
+      "working_distance_12x9": {
+        "n": 135,
+        "mean_mm": 198.74317396314888,
+        "median_mm": 195.96302566950197,
+        "p05_mm": 170.35724441173932,
+        "p95_mm": 234.7365412359035
+      },
+      "boards_from_csv": {
+        "12x9-3mm": {
+          "n": 135,
+          "mean_dist_mm": 198.74317405500324,
+          "median_dist_mm": 195.96302479184286
+        },
+        "9x6-5mm": {
+          "n": 5,
+          "mean_dist_mm": 321.34676090528365,
+          "median_dist_mm": 310.766730352898
+        },
+        "9x8-8mm": {
+          "n": 1,
+          "mean_dist_mm": 491.6847499508733,
+          "median_dist_mm": 491.6847499508733
+        }
+      }
+    },
+    {
+      "alias": "P1",
+      "session": "pnp_seq_20260911_011115",
+      "n_frames": 496,
+      "n_pose_valid": 149,
+      "pose_valid_pct": 26.0,
+      "boards": {
+        "12x9-3mm": 129,
+        "9x8-8mm": 1,
+        "9x6-5mm": 19
+      },
+      "traj_board": "12x9-3mm",
+      "n_traj": 129,
+      "working_distance_12x9": {
+        "n": 129,
+        "mean_mm": 216.26629632176432,
+        "median_mm": 212.3241482694262,
+        "p05_mm": 183.12032766564482,
+        "p95_mm": 257.2873337251907
+      },
+      "boards_from_csv": {
+        "12x9-3mm": {
+          "n": 129,
+          "mean_dist_mm": 216.2662962392497,
+          "median_dist_mm": 212.32414819871698
+        },
+        "9x6-5mm": {
+          "n": 19,
+          "mean_dist_mm": 198.56746666040908,
+          "median_dist_mm": 195.73876964585844
+        },
+        "9x8-8mm": {
+          "n": 1,
+          "mean_dist_mm": 534.8104420333499,
+          "median_dist_mm": 534.8104420333499
+        }
+      }
+    },
+    {
+      "alias": "V3",
+      "session": "vio_seq_20260912_104835",
+      "n_frames": 839,
+      "n_pose_valid": 99,
+      "pose_valid_pct": 11.7,
+      "boards": {
+        "12x9-3mm": 98,
+        "9x8-8mm": 1
+      },
+      "traj_board": "12x9-3mm",
+      "n_traj": 98,
+      "working_distance_12x9": {
+        "n": 98,
+        "mean_mm": 177.24567174863222,
+        "median_mm": 179.55942344885742,
+        "p05_mm": 132.72604093069364,
+        "p95_mm": 202.24637061942386
+      },
+      "boards_from_csv": {
+        "12x9-3mm": {
+          "n": 98,
+          "mean_dist_mm": 177.24567166141765,
+          "median_dist_mm": 179.55942353285207
+        },
+        "9x8-8mm": {
+          "n": 1,
+          "mean_dist_mm": 528.5186992997257,
+          "median_dist_mm": 528.5186992997257
+        }
+      }
+    }
+  ]
+}
