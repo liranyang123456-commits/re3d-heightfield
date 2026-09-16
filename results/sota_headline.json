@@ -1,0 +1,38 @@
+{
+  "note": "Protocol-aware headline numbers copied from the evaluation JSONs. Rows are not interchangeable.",
+  "chessboard_shape_lambda3": {
+    "Ours": 0.42047803170753795,
+    "Stereo_SGM": 0.3122865841007917,
+    "MASt3R": 0.22007908748365337,
+    "VGGT": 0.19382031203854666,
+    "COLMAP": 0.13116611319814825,
+    "DUSt3R": 0.08650096050003896,
+    "MUSt3R": 0.0646630677832025,
+    "ORB-SfM": 0.011467041351735893,
+    "source": "E:/MIS_TMI_Re_3D/benchmark_results/evaluation.json pca_ratios[2]"
+  },
+  "chessboard_pose_vs_pnp": {
+    "Ours": {"ate_mm": 3.8864245408123734, "sim3_scale": 1.1074359924105737, "n_common": 50},
+    "ORB-SfM": {"ate_mm": 3.7850962779084982, "sim3_scale": 3.712650648477306, "n_common": 50},
+    "VGGT": {"ate_mm": 3.020860739184445, "sim3_scale": 90.89043282142725, "n_common": 50},
+    "COLMAP": {"ate_mm": 20.10301855686696, "sim3_scale": 8.863798708446273, "n_common": 41},
+    "source": "results/evaluation_vs_pnp.json"
+  },
+  "endonerf_100_median_absrel": {
+    "Ours_E2E": 0.0285,
+    "FoundationStereo": 0.0321,
+    "Stereo_SGM": 0.0323,
+    "DA-V2-S": 0.2038,
+    "Mono": 0.4856,
+    "protocol": "first 50 frames of pulling + first 50 of cutting; per-frame median alignment",
+    "note": "full 217-frame mean AbsRel of the same checkpoint is ~0.0279 and is not the table number"
+  },
+  "new_capture": {
+    "V1": {"session": "vio_seq_20260911_010902", "lambda3": 0.6567639416181901, "ate_mm": 27.49399383408678, "sim3_scale": 0.47232470659082504, "vggt_scale": 193.14697065152595, "vggt_n_common": 11},
+    "V2": {"session": "vio_seq_20260911_011013", "lambda3": 0.22128707201399345, "ate_mm": 58.43239419421683, "sim3_scale": 0.6323306500012216, "vggt_scale": 915.5117324243658, "vggt_n_common": 13},
+    "P1": {"session": "pnp_seq_20260911_011115", "lambda3": 0.11897120741264648, "ate_mm": 55.1798995137458, "sim3_scale": 0.346857582129851, "vggt_scale": 574.5341065546635, "vggt_n_common": 15},
+    "V3": {"session": "vio_seq_20260912_104835", "lambda3": 0.05332383797180394, "ate_mm": 38.84671871999004, "sim3_scale": 0.09931717436684091, "orb_lambda3": 0.24525512217487438, "orb_scale": 4.3206104529715645, "vggt_n_common": 6},
+    "gt_rot_deg_after_flip_removal": {"V1": 2.4, "V2": 2.5, "P1": 1.9, "V3": 4.2},
+    "pose_valid_percent": {"V1": 24, "V2": 28, "P1": 26, "V3": 12}
+  }
+}

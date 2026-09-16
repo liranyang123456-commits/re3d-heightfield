@@ -1,0 +1,66 @@
+[
+  {
+    "tau": 30,
+    "ratio": 0.406557559967041,
+    "shape": "Normal3D",
+    "pts": 59760,
+    "valid_verts_avg": 757,
+    "dense_time_s": 13.8
+  },
+  {
+    "tau": 40,
+    "ratio": 0.409495085477829,
+    "shape": "Normal3D",
+    "pts": 59760,
+    "valid_verts_avg": 742,
+    "dense_time_s": 13.8
+  },
+  {
+    "tau": 50,
+    "ratio": 0.3945920169353485,
+    "shape": "Normal3D",
+    "pts": 59695,
+    "valid_verts_avg": 672,
+    "dense_time_s": 13.7
+  },
+  {
+    "tau": 60,
+    "ratio": 0.38727903366088867,
+    "shape": "Normal3D",
+    "pts": 59620,
+    "valid_verts_avg": 609,
+    "dense_time_s": 13.5
+  },
+  {
+    "tau": 68,
+    "ratio": 0.39257052540779114,
+    "shape": "Normal3D",
+    "pts": 59599,
+    "valid_verts_avg": 574,
+    "dense_time_s": 13.8
+  },
+  {
+    "tau": 75,
+    "ratio": 0.389822781085968,
+    "shape": "Normal3D",
+    "pts": 59538,
+    "valid_verts_avg": 514,
+    "dense_time_s": 13.8
+  },
+  {
+    "tau": 80,
+    "ratio": 0.4024144411087036,
+    "shape": "Normal3D",
+    "pts": 59416,
+    "valid_verts_avg": 463,
+    "dense_time_s": 13.8
+  },
+  {
+    "tau": 90,
+    "ratio": 0.36736199259757996,
+    "shape": "Normal3D",
+    "pts": 59136,
+    "valid_verts_avg": 331,
+    "dense_time_s": 13.8
+  }
+]

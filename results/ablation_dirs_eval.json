@@ -1,0 +1,26 @@
+{
+  "Ablation_Full": {
+    "lambda3_lambda1": 0.00895172449590977,
+    "n_pts_fused": 8844271,
+    "n_pairs": 60,
+    "n_poses": 502
+  },
+  "Ablation_wo_multiscale_icp": {
+    "lambda3_lambda1": 0.010897971791336296,
+    "n_pts_fused": 11525779,
+    "n_pairs": 60,
+    "n_poses": 502
+  },
+  "Ablation_wo_posegraph": {
+    "lambda3_lambda1": 0.013024990039710267,
+    "n_pts_fused": 9013388,
+    "n_pairs": 60,
+    "n_poses": 502
+  },
+  "Ablation_wo_quality_gate": {
+    "lambda3_lambda1": 0.009726179365872115,
+    "n_pts_fused": 8982356,
+    "n_pairs": 60,
+    "n_poses": 502
+  }
+}

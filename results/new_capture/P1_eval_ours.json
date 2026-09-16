@@ -1,0 +1,24 @@
+{
+  "session": "pnp_seq_20260911_011115",
+  "run_dir": "E:\\MIS_TMI_Re_3D\\new_capture_runs\\pnp_seq_20260911_011115",
+  "n_est": 496,
+  "n_gt": 129,
+  "n_gt_clean": 96,
+  "n_gt_outliers_dropped": 33,
+  "gt_motion": {
+    "rel_rot_deg_mean": 12.97683598511824,
+    "rel_rot_deg_p95": 175.17361213467242,
+    "rel_rot_deg_max": 179.8719822721871,
+    "rel_trans_mm_mean": 15.380018982007888,
+    "n": 96
+  },
+  "ate": 55.1798995137458,
+  "sim3_scale": 0.346857582129851,
+  "rot_err_mean": 142.330366291535,
+  "rot_err_max": 178.20114506563183,
+  "rpe_trans_mean": 22.41488139001311,
+  "rpe_rot_mean": 25.487904742008357,
+  "n_common": 96,
+  "cloud_pts": 296365,
+  "lambda3_lambda1": 0.11897120741264648
+}

@@ -1,0 +1,578 @@
+% ======================================================================
+%  CMIG — Supplementary Material
+%  Target: Computerized Medical Imaging and Graphics (Elsevier)
+% ======================================================================
+\documentclass[review]{elsarticle}
+
+% ── Packages ──
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{graphicx}
+\graphicspath{{./}{../re3d_cmpb_results/figures/}}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\usepackage{textcomp}
+\usepackage{algorithmic}
+\usepackage{algorithm}
+\usepackage{subcaption}
+\usepackage{array}
+\usepackage{tabularx}
+\DeclareMathOperator*{\argmin}{arg\,min}
+
+\journal{Computerized Medical Imaging and Graphics}
+
+\begin{document}
+
+\begin{frontmatter}
+
+\title{Supplementary Material:\\
+Pseudo-3D Heightfield Reconstruction from Monocular Endoscopic Video via Gradient-Anchored Geometric Constraints}
+
+\author[1]{Ranyang Li}
+\author[1]{Wufeng Liu}
+\author[1]{Xiaodong Guo}
+\author[1]{Chao Fan}
+\author[2]{Nan Wei}
+\author[3]{Junjun Pan}
+\address[1]{School of Artificial Intelligence and Big Data, Henan University of Technology, Zhengzhou 450001, China}
+\address[2]{Henan Provincial People's Hospital, Zhengzhou University, Zhengzhou 450003, China}
+\address[3]{State Key Laboratory of Virtual Reality Technology and Systems, Beihang University, Beijing 100191, China}
+
+\end{frontmatter}
+
+This supplementary material provides additional details on the experimental configuration (Section~A), per-frame pose error analysis (Section~B), PCA ellipsoid parameters (Section~C), gradient threshold sensitivity analysis (Section~D), algorithm pseudocode (Section~E), extended ablation study (Section~F), additional qualitative visualizations (Section~G), per-sequence stereo laparoscopic results (Section~H), and newly captured sequences (Section~I). Evaluation scripts, the pipeline of record, and the result JSONs used in the main text are at \url{https://github.com/liranyang123456-commits/re3d-heightfield}.
+
+% ======================================================================
+%  Section A: Detailed Experimental Configuration
+% ======================================================================
+\section*{A. Detailed Experimental Configuration}
+
+\subsection*{A.1 Hardware and Software Environment}
+
+All experiments were conducted on the following platform:
+\begin{itemize}[noitemsep]
+    \item \textbf{CPU}: Intel Core i9-14900K (32 cores, 5.8\,GHz turbo)
+    \item \textbf{GPU}: NVIDIA GeForce RTX 5090 (24\,GB VRAM, CUDA 12.4)
+    \item \textbf{RAM}: 64\,GB DDR5-5600
+    \item \textbf{OS}: Ubuntu 22.04 LTS / Windows 11
+    \item \textbf{Python}: 3.9 (Open3D 0.19.0, OpenCV 4.13.0; PyTorch 2.x for the stereo variant)
+\end{itemize}
+
+\subsection*{A.2 Hyperparameter Configuration}
+
+Table~\ref{tab:supp_hyperparams} provides the complete hyperparameter configuration of our method.
+
+\begin{table}[h]
+\centering
+\caption{Complete hyperparameter configuration of the proposed method.}
+\label{tab:supp_hyperparams}
+\setlength{\tabcolsep}{3pt}
+\renewcommand{\arraystretch}{1.05}
+\begin{tabular}{llc}
+\toprule
+Component & Parameter & Value \\
+\midrule
+\multirow{3}{*}{Gradient} & Percentile threshold $\tau_{\%}$ & 68 \\
+ & Height scaling $z_s$ & adaptive \\
+ & Gradient method & Sobel 3$\times$3 \\
+\midrule
+\multirow{2}{*}{UVH Mesh} & Cell size $c_{\mathrm{cell}}$ & 3\,px \\
+ & Triangulation & regular grid \\
+\midrule
+\multirow{5}{*}{ICP} & Method & point-to-point \\
+ & Robust kernel & none (least-squares) \\
+ & Coarse alignment & PCA $\to$ FPFH+RANSAC \\
+ & Voxel downsample budget & 20\,000 pts \\
+ & Correspondence distance & scale-adaptive \\
+\midrule
+\multirow{3}{*}{Quality Gate} & Primary & ICP fitness $> 0.1$ (relaxed to 0.3 after coarse) \\
+ & Optional (if landmarks) & $p_{95} < 5.0$\,px \\
+ & Fallback & centroid-aligned ICP \\
+\midrule
+\multirow{5}{*}{Dense Matching} & Search radius $r$ & 25\,px \\
+ & Epipolar band $\epsilon_{\mathrm{epi}}$ & 2.0\,px \\
+ & Cross-check tolerance & 3\,px \\
+ & Depth filter & $5\times$ median \\
+ & Feature dimensions & 7D \\
+\midrule
+\multirow{3}{*}{Fusion} & Voxel resolution & 1.0\,mm \\
+ & Outlier removal $k$ & 20 neighbors \\
+ & Outlier removal $\sigma$ & 2.0 \\
+\midrule
+\multirow{2}{*}{Pose Graph} & Voxel size & 6.0\,px \\
+ & Correspondence dist. & 15.0\,px \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection*{A.3 Baseline Implementation Details}
+
+Table~\ref{tab:supp_baseline_config} provides the implementation details for each baseline method.
+
+\begin{table}[h]
+\centering
+\caption{Baseline implementation details.}
+\label{tab:supp_baseline_config}
+\setlength{\tabcolsep}{3pt}
+\renewcommand{\arraystretch}{1.05}
+\begin{tabular}{llll}
+\toprule
+Method & Model / Version & Hardware & Key Settings \\
+\midrule
+ORB-SfM & OpenCV 4.13 & CPU & 3000 ORB features \\
+ & & & 5-pt essential \\
+ & & & No BA \\
+COLMAP & 3.8 & CPU & SIFT, sequential \\
+ & & & Full BA \\
+VGGT & official ckpt & GPU & 1.2B params \\
+ & & 18.4\,GB & window=8 frames \\
+Reloc3R & official ckpt & GPU & DUSt3R-based \\
+ & & 12.1\,GB & Motion averaging \\
+DUSt3R & official ckpt & GPU & 512-point maps \\
+ & & 14.8\,GB & Global align. \\
+MASt3R & official ckpt & GPU & Metric pointmaps \\
+ & & 15.2\,GB & Global align. \\
+MUSt3R & official ckpt & GPU & 8 keyframes, $224{\times}224$ \\
+ & & & memory network \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+% ======================================================================
+%  Section B: Per-Frame Pose Error Analysis
+% ======================================================================
+\section*{B. Per-Frame Pose Error Analysis}
+
+Table~\ref{tab:supp_pose_detail} provides the per-method pose statistics against the independent \texttt{solvePnP} chessboard reference. ATE is the position RMSE after Sim3 alignment; RPE-t is the mean relative translation error between consecutive frame pairs (alignment-free); Scale is the Sim3 scale factor.
+
+\begin{table*}[h]
+\centering
+\caption{Pose error statistics for all methods against the independent \texttt{solvePnP} reference (first 50 frames of the chessboard sequence). ATE in mm; RPE-t in mm per frame pair. Stereo SGM shares the heightfield-ICP trajectory of Ours and is therefore identical to Ours on all pose metrics. Global rotation error is not reported: the sequence is translation-dominant (reference relative rotation ${\approx}0.3^{\circ}$ per frame), so the rotational part of a position-fitted Sim3 alignment is ill-conditioned. \textbf{Bold}: best per column.}
+\label{tab:supp_pose_detail}
+\setlength{\tabcolsep}{5pt}
+\renewcommand{\arraystretch}{1.05}
+\begin{tabular}{lccccc}
+\toprule
+Method & $n$ frames & ATE$\downarrow$ & RPE-t$\downarrow$ & Scale \\
+\midrule
+Ours (heightfield-ICP) & 50 & 3.89 & 3.10 & \textbf{1.11}$\times$ \\
+ORB-SfM & 50 & 3.79 & 3.29 & 3.71$\times$ \\
+COLMAP & 41 & 20.10 & 3.28 & 8.86$\times$ \\
+VGGT & 50 & \textbf{3.02} & 2.56 & 90.9$\times$ \\
+DUSt3R & 50 & 30.78 & 2.58 & 647$\times$ \\
+MASt3R & 50 & 36.86 & 2.57 & 217$\times$ \\
+MUSt3R & 20 & 12.13 & \textbf{2.18} & 9.85$\times$ \\
+Reloc3R & 50 & 26.84 & 2.56 & 120$\times$ \\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+\paragraph{Key observations.}
+\begin{enumerate}[noitemsep]
+    \item \textbf{Metric scale is the decisive difference.} Ours recovers a near-ideal scale factor ($1.11{\times}$); every baseline drifts, from $3.7{\times}$ (ORB-SfM) up to $647{\times}$ (DUSt3R). Even the best feed-forward method (VGGT) drifts by $91{\times}$, which precludes metric measurement despite its accurate trajectory shape.
+    \item \textbf{Position accuracy is competitive.} VGGT attains the lowest ATE (3.02\,mm); Ours (3.89\,mm) is within 0.9\,mm and comparable to ORB-SfM (3.79\,mm), while DUSt3R, MASt3R, Reloc3R, and COLMAP exceed 20\,mm.
+    \item \textbf{No local drift.} Relative translation errors are comparable across all methods (2.2--3.3\,mm per pair), indicating that the differences lie in global scale and long-range consistency rather than per-frame increments.
+    \item \textbf{Rotation is not discriminative on this sequence.} The reference relative rotation is only ${\approx}0.3^{\circ}$ per frame; the learned and SfM baselines achieve relative rotation errors of $0.4^{\circ}$--$5.1^{\circ}$ per pair. The heightfield-ICP relative rotation ($16.1^{\circ}$ per pair) is approximate because it is estimated in the pseudo-metric heightfield embedding rather than in metric camera space (see Limitations in the main text); on this translation-dominant sequence it does not affect the fused positions, scale, or the reconstruction.
+\end{enumerate}
+
+% ======================================================================
+%  Section C: PCA Ellipsoid Parameters
+% ======================================================================
+\section*{C. PCA Ellipsoid Parameters and Shape Analysis}
+
+Table~\ref{tab:supp_pca_detail} provides the complete PCA eigenvalue analysis for all methods, including the raw eigenvalues, eigenvalue ratios, and spatial extent along each principal axis.
+
+\begin{table*}[h]
+\centering
+\caption{Complete PCA eigenvalue analysis. $\lambda_1 \geq \lambda_2 \geq \lambda_3$ are the eigenvalues of the point cloud covariance matrix. Extent shows the spatial range along each principal axis. Extents are in millimetres for the metric methods (Ours, Stereo SGM) and in each method's native (non-metric) output units for the feed-forward and SfM baselines, whose scales are off by $3.7{\times}$--$647{\times}$ (Table~\ref{tab:supp_pose_detail}); extents are therefore not physically comparable across rows.}
+\label{tab:supp_pca_detail}
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.05}
+\begin{tabular}{lrrrrrrr}
+\toprule
+Method & Points & $\lambda_1$ & $\lambda_2$ & $\lambda_3$ & $\lambda_2/\lambda_1$ & $\lambda_3/\lambda_1$ & Extent \\
+\midrule
+ORB-SfM & 6{,}114 & 1.00 & 0.06 & 0.01 & 0.06 & 0.01 & 135.3$\times$59.8$\times$199.8 \\
+COLMAP & 1{,}994 & 1.00 & 0.36 & 0.13 & 0.36 & 0.13 & 4.0$\times$6.9$\times$7.5 \\
+VGGT & 324K & 1.00 & 0.75 & 0.19 & 0.75 & 0.19 & 2.5$\times$1.5$\times$2.5 \\
+DUSt3R & 229K & 1.00 & 0.40 & 0.09 & 0.40 & 0.09 & 0.37$\times$0.28$\times$0.24 \\
+MASt3R & 314K & 1.00 & 0.82 & 0.22 & 0.82 & 0.22 & 0.98$\times$0.93$\times$0.65 \\
+MUSt3R & 1{,}004K & 1.00 & 0.19 & 0.06 & 0.19 & 0.06 & 4.7$\times$4.3$\times$8.1 \\
+Reloc3R & 0 & --- & --- & --- & --- & --- & --- \\
+\midrule
+Stereo SGM & 6{,}917 & 1.00 & 0.42 & 0.31 & 0.42 & 0.31 & 78.3$\times$119.6$\times$103.3 \\
+\textbf{Ours} & 11{,}735 & 1.00 & 0.52 & 0.42 & 0.52 & \textbf{0.42} & 191$\times$200$\times$193 \\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+\paragraph{Shape classification criteria.}
+We classify point cloud shapes based on the $\lambda_3/\lambda_1$ ratio:
+\begin{itemize}[noitemsep]
+    \item \textbf{Normal 3D}: $\lambda_3/\lambda_1 \geq 0.25$ --- the point cloud exhibits balanced 3D distribution.
+    \item \textbf{Flat}: $0.15 \leq \lambda_3/\lambda_1 < 0.25$ --- the point cloud collapses along one principal axis.
+    \item \textbf{Cone}: $\lambda_3/\lambda_1 < 0.15$ --- the point cloud is severely elongated, indicating near-degenerate geometry.
+\end{itemize}
+
+\paragraph{Interpretation of extent ratios.}
+The spatial extent along the three principal axes further corroborates the PCA analysis:
+\begin{itemize}[noitemsep]
+    \item \textbf{ORB-SfM}: Extent $135.3 \times 59.8 \times 199.8$ shows a pronounced elongation along the third axis, consistent with cone-shaped degeneracy.
+    \item \textbf{DUSt3R}: The PCA ratio (0.09) reveals a cone-shaped point distribution; its apparent spatial spread arises from the extreme scale drift ($647\times$, Table~\ref{tab:supp_pose_detail}) rather than genuine 3D structure.
+    \item \textbf{Ours}: Extent $191 \times 200 \times 193$\,mm with ratio $1.00:1.05:1.01$ is nearly isotropic, confirming balanced 3D distribution at the correct metric scale.
+\end{itemize}
+
+% ======================================================================
+%  Section D: Gradient Threshold Sensitivity Analysis
+% ======================================================================
+\section*{D. Gradient Threshold Sensitivity Analysis}
+
+We evaluate the sensitivity of the reconstruction to the gradient percentile threshold $\tau_{\%}$, swept from 30 to 90. To isolate the effect on the heightfield and dense reconstruction, the camera poses are held fixed to the heightfield-ICP trajectory used in the main paper, and the heightfield stage is regenerated per threshold with an independent reimplementation of the gradient-truncation pipeline; at the default operating point ($\tau_{\%}{=}68$) this reimplementation attains $\lambda_3/\lambda_1 = 0.393$, close to the full pipeline's 0.429, with a higher fused point count because its ROI mask is slightly larger. The trends below, not the absolute counts, are the quantity of interest. Table~\ref{tab:supp_threshold} reports the PCA shape ratio, fused point count, and shape classification for each threshold value.
+
+\begin{table}[h]
+\centering
+\caption{Gradient threshold sensitivity (poses held fixed; independent heightfield reimplementation). $\tau_{\%}$: gradient percentile threshold. All configurations produce Normal\,3D reconstructions.}
+\label{tab:supp_threshold}
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.05}
+\begin{tabular}{cccc}
+\toprule
+$\tau_{\%}$ & $\lambda_3/\lambda_1$ & Points & Shape \\
+\midrule
+30 & 0.407 & 59{,}760 & Normal\,3D \\
+40 & \textbf{0.410} & 59{,}760 & Normal\,3D \\
+50 & 0.395 & 59{,}695 & Normal\,3D \\
+60 & 0.387 & 59{,}620 & Normal\,3D \\
+\textbf{68} & 0.393 & 59{,}599 & Normal\,3D \\
+75 & 0.390 & 59{,}538 & Normal\,3D \\
+80 & 0.402 & 59{,}416 & Normal\,3D \\
+90 & 0.367 & 59{,}136 & Normal\,3D \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{Analysis.}
+The reconstruction remains Normal\,3D across the entire tested range ($30 \leq \tau_{\%} \leq 90$), with the PCA ratio varying mildly between 0.367 and 0.410, demonstrating robustness to this parameter.
+The ratio peaks near $\tau_{\%}=40$ and degrades slightly at $\tau_{\%}=90$, where the very sparse gradient field provides fewer geometric constraints.
+We retain $\tau_{\%}=68$ as the default because it corresponds to the one-sigma level of the gradient distribution and sits on the flat middle of the response curve, trading a small amount of shape ratio for stronger suppression of specular artifacts.
+
+% ======================================================================
+%  Section E: Algorithm Pseudocode
+% ======================================================================
+\section*{E. Algorithm Pseudocode}
+
+We provide the complete pseudocode for the three main stages of our pipeline.
+
+\begin{algorithm}[h]
+\caption{Pseudo-3D Heightfield Mesh Construction}
+\label{alg:heightfield}
+\begin{algorithmic}[1]
+\REQUIRE Image $I_t$, chessboard mask $M_t$, threshold $\tau_{\%}$, cell size $c_{\mathrm{cell}}$
+\ENSURE Heightfield mesh $\mathcal{H}_t = (\mathcal{V}_t, \mathcal{F}_t)$
+\STATE $g_t \leftarrow \|\nabla I_t\|$ \COMMENT{Gradient magnitude}
+\STATE $\tau_g \leftarrow \operatorname{Perc}_{\tau_{\%}}(g_t)$ \COMMENT{Percentile threshold}
+\STATE $\hat{g}_t(u,v) \leftarrow g_t(u,v)$ if $g_t(u,v) \geq \tau_g$, else $0$
+\STATE $\tilde{g}_t \leftarrow \hat{g}_t \odot M_t$ \COMMENT{Apply chessboard mask}
+\FOR{each grid vertex $(u,v)$ with step $c_{\mathrm{cell}}$}
+    \STATE $h(u,v) \leftarrow z_s \cdot \tilde{g}_t(u,v) / 255$ \COMMENT{Height assignment}
+    \STATE $\mathcal{V}_t \leftarrow \mathcal{V}_t \cup \{(u,v,h(u,v))\}$
+\ENDFOR
+\STATE $\mathcal{F}_t \leftarrow$ RegularGridTriangulation($\mathcal{V}_t$)
+\RETURN $\mathcal{H}_t$
+\end{algorithmic}
+\end{algorithm}
+
+\begin{algorithm}[h]
+\caption{Heightfield-Based Pose Estimation}
+\label{alg:pose}
+\begin{algorithmic}[1]
+\REQUIRE Heightfield meshes $\mathcal{H}_t, \mathcal{H}_{t+1}$ (as point clouds)
+\ENSURE Relative transformation $\mathbf{T}_{t+1,t}$
+\STATE Estimate normals; compute FPFH features for both clouds
+\STATE $\mathbf{T}_{\mathrm{pca}} \leftarrow$ PCAAlignment($\mathcal{H}_t, \mathcal{H}_{t+1}$) \COMMENT{principal-axis alignment}
+\IF{residual($\mathbf{T}_{\mathrm{pca}}$) $> 0.1 \cdot$ scale}
+    \STATE $\mathbf{T}_0 \leftarrow$ RANSACFeatureMatching($\mathcal{H}_t, \mathcal{H}_{t+1}$, FPFH, $5d$) \COMMENT{fallback}
+\ELSE
+    \STATE $\mathbf{T}_0 \leftarrow \mathbf{T}_{\mathrm{pca}}$
+\ENDIF
+\STATE $\mathbf{T} \leftarrow \mathbf{T}_0$
+\WHILE{not converged}
+    \STATE $\mathcal{N}(i) \leftarrow$ nearest-neighbour of $\mathbf{T}\mathbf{p}_i$ in target
+    \STATE $\mathbf{T} \leftarrow \argmin_{\mathbf{T}} \sum_i \|\mathbf{T}\mathbf{p}_i - \mathbf{q}_{\mathcal{N}(i)}\|^2$ \COMMENT{point-to-point}
+\ENDWHILE
+\STATE $\mathrm{fit} \leftarrow$ ICP fitness($\mathbf{T}$)
+\IF{$\mathrm{fit} < 0.1$}
+    \STATE re-initialise from RANSAC / centroid alignment; retry
+\ENDIF
+\RETURN $\mathbf{T}_{t+1,t} \leftarrow \mathbf{T}$
+\end{algorithmic}
+\end{algorithm}
+
+\begin{algorithm}[h]
+\caption{Dense Epipolar Matching and Metric Fusion}
+\label{alg:fusion}
+\begin{algorithmic}[1]
+\REQUIRE Heightfield meshes $\{\mathcal{H}_t\}$, poses $\{\mathbf{T}_t\}$, intrinsics $\mathbf{K}$
+\ENSURE Fused point cloud $\mathcal{P}$
+\STATE $\mathcal{C} \leftarrow \emptyset$ \COMMENT{Correspondence set}
+\FOR{each frame pair $(t, t{+}1)$}
+    \STATE $\mathbf{F} \leftarrow \mathbf{K}^{-\top}[\mathbf{t}]_\times \mathbf{R}\,\mathbf{K}^{-1}$ \COMMENT{Fundamental matrix}
+    \FOR{each valid grid point $(u,v)$ in $\mathcal{H}_t$}
+        \STATE $\mathbf{f} \leftarrow$ Extract7DFeature$(u,v,\mathcal{H}_t)$
+        \STATE $(u',v') \leftarrow \mathbf{T}_{t+1,t} \cdot (u,v,h)$ \COMMENT{RT prediction}
+        \STATE $k^* \leftarrow \arg\min_{k \in W_r} \|\mathbf{f} - \mathbf{f}_k\|_2$ s.t. $|\mathbf{u}'^\top \mathbf{F}\mathbf{u}| < \epsilon_{\mathrm{epi}}$
+        \IF{CrossCheck$(k^*)$ \AND DepthFilter$(k^*)$}
+            \STATE $\mathcal{C} \leftarrow \mathcal{C} \cup \{(u,v) \leftrightarrow (u_{k^*}, v_{k^*})\}$
+        \ENDIF
+    \ENDFOR
+\ENDFOR
+\STATE $\mathcal{P}_{\mathrm{raw}} \leftarrow$ Triangulate($\mathcal{C}$, $\mathbf{K}$, $\{\mathbf{T}_t\}$) \COMMENT{Linear triangulation}
+\STATE $\mathcal{P}_{\mathrm{filtered}} \leftarrow$ MultiViewConsistency($\mathcal{P}_{\mathrm{raw}}$, $\tau_{\mathrm{reproj}}$)
+\STATE $\mathcal{P} \leftarrow$ VoxelDedup($\mathcal{P}_{\mathrm{filtered}}$, 1.0\,mm) $\to$ OutlierRemoval($k{=}20$, $\sigma{=}2.0$)
+\RETURN $\mathcal{P}$
+\end{algorithmic}
+\end{algorithm}
+
+% ======================================================================
+%  Section F: Extended Ablation Study
+% ======================================================================
+\section*{F. Extended Ablation Study}
+
+\subsection*{F.1 Cell Size Sensitivity}
+
+Table~\ref{tab:supp_cell_size} evaluates the impact of the heightfield grid step $c_{\mathrm{cell}}$ on reconstruction quality, using the same fixed-pose protocol as Section~D.
+
+\begin{table}[h]
+\centering
+\caption{Grid-step sensitivity analysis (poses held fixed). Smaller steps produce denser heightfield meshes and denser fused clouds.}
+\label{tab:supp_cell_size}
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.05}
+\begin{tabular}{ccccc}
+\toprule
+$c_{\mathrm{cell}}$ (px) & Mesh vertices & $\lambda_3/\lambda_1$ & Points & Shape \\
+\midrule
+2 & 57{,}280 & 0.389 & 62{,}410 & Normal\,3D \\
+\textbf{3} & \textbf{25{,}680} & \textbf{0.393} & 59{,}599 & Normal\,3D \\
+4 & 14{,}400 & 0.328 & 25{,}346 & Normal\,3D \\
+5 & 9{,}216 & 0.339 & 10{,}944 & Normal\,3D \\
+7 & 4{,}784 & 0.318 & 9{,}104 & Normal\,3D \\
+9 & 2{,}880 & 0.285 & 14{,}456 & Normal\,3D \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+All grid steps produce Normal\,3D reconstructions, but the finer grids ($c_{\mathrm{cell}} \leq 3$) achieve the highest shape ratios ($\geq 0.39$), because a denser heightfield preserves more of the gradient structure that drives both matching and fusion.
+Coarser grids ($c_{\mathrm{cell}} \geq 4$) remain Normal\,3D but lose 0.05--0.11 of shape ratio as the heightfield undersamples the tissue-surface topology.
+We therefore use $c_{\mathrm{cell}}{=}3$ as the default; note that this is the grid step of the heightfield mesh, which the main text denotes $c_{\mathrm{cell}}$.
+
+\subsection*{F.2 Search Radius Sensitivity}
+
+Table~\ref{tab:supp_search_radius} evaluates the dense-matching search radius $r$ using the paper's evaluation pipeline with the original meshes and heightfield-ICP poses.
+
+\begin{table}[h]
+\centering
+\caption{Search radius sensitivity (original pipeline artifacts). The reconstruction is identical for all tested radii.}
+\label{tab:supp_search_radius}
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.05}
+\begin{tabular}{cccc}
+\toprule
+$r$ (px) & $\lambda_3/\lambda_1$ & Points & Shape \\
+\midrule
+10 & 0.429 & 11{,}735 & Normal\,3D \\
+15 & 0.429 & 11{,}735 & Normal\,3D \\
+20 & 0.429 & 11{,}735 & Normal\,3D \\
+\textbf{25} & \textbf{0.429} & \textbf{11{,}735} & \textbf{Normal\,3D} \\
+30 & 0.429 & 11{,}735 & Normal\,3D \\
+40 & 0.429 & 11{,}735 & Normal\,3D \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The reconstruction is \emph{insensitive} to $r$ over $[10, 40]$: the pose-predicted search window and the $\pm 2$\,px epipolar band already localise each candidate to a few pixels, so enlarging the window adds no new matches on this benchmark, and shrinking it to 10\,px does not remove correct ones. The default $r{=}25$ provides margin for the larger inter-frame displacements of free-hand motion without measurable cost.
+
+\subsection*{F.3 Note on ICP Configuration}
+
+The registration stage uses single-scale point-to-point ICP with an adaptive, scale-derived correspondence distance and the FPFH/PCA coarse initialisation described in the main text; a multi-resolution ICP pyramid is not part of the proposed pipeline. The pose-source ablation in the main paper (Table~5) isolates the contribution of this registration stage.
+
+% ======================================================================
+%  Section G: Additional Qualitative Visualizations
+% ======================================================================
+\section*{G. Additional Qualitative Visualizations}
+
+\subsection*{G.1 PCA Ellipsoid Comparison}
+
+Fig.~\ref{fig:supp_ellipsoids} shows the PCA ellipsoid visualization for each method, illustrating the 3D distribution of the reconstructed point clouds.
+The ellipsoid axes are scaled by the square root of the corresponding PCA eigenvalue, providing an intuitive representation of the point cloud's shape.
+
+\begin{figure*}[h]
+\centering
+\includegraphics[width=0.95\textwidth]{fig_pca_ellipsoids.pdf}
+\caption{PCA ellipsoid comparison.\ Each ellipsoid's axes are proportional to $\sqrt{\lambda_i}$, the square root of the corresponding eigenvalue.\ Ours produces a near-spherical ellipsoid ($\lambda_3/\lambda_1 = 0.42$), while baselines produce highly elongated (cone) or flattened (flat) ellipsoids.\ Best viewed in color.}
+\label{fig:supp_ellipsoids}
+\end{figure*}
+
+\subsection*{G.2 Heightfield Mesh Examples}
+
+To illustrate the pseudo-3D heightfield mesh construction, we describe the intermediate results at each stage of the pipeline:
+
+\begin{enumerate}[noitemsep]
+    \item \textbf{Input image}: A $640 \times 358$ endoscopic frame (downsampled from the native $1280 \times 720$) containing the chessboard marker, surrounding tissue, and surgical instruments.
+    \item \textbf{Gradient magnitude}: The Sobel gradient map highlights structural edges (chessboard boundaries, instrument contours) while producing relatively uniform responses in specular regions.
+    \item \textbf{Truncated gradient}: After percentile thresholding ($\tau_{\%}=68$), weak gradients are zeroed, producing a sparse but reliable height field.
+    \item \textbf{Chessboard mask}: The binary mask from corner detection delineates the reliable reconstruction region.
+    \item \textbf{Masked heightfield}: The product of truncated gradient and chessboard mask, ready for UVH mesh construction.
+    \item \textbf{UVH mesh}: The 2.5-D triangulated surface with $|\mathcal{V}_t| \approx 25{,}680$ vertices at $c_{\mathrm{cell}}{=}3$. The $11{,}735$ figure in the main-text chessboard table is the fused point count after triangulation and filtering, not the per-frame mesh size.
+\end{enumerate}
+
+\subsection*{G.3 Failure Cases}
+
+We identify two failure modes of the proposed method:
+
+\paragraph{Partial chessboard occlusion.}
+When the chessboard marker is partially occluded by a surgical instrument, corner detection fails to detect the full corner set, resulting in a reduced mask that covers only the visible portion of the board.
+In such frames, the heightfield mesh is constructed over a smaller region, potentially leading to less constrained ICP registration.
+The quality gating mechanism rejects registrations with low fitness, preventing corrupted poses from entering the reconstruction.
+
+\paragraph{Large inter-frame displacement.}
+When the camera moves rapidly between consecutive frames (displacement $> 25$\,px), the dense matching search radius may be insufficient to find correct correspondences.
+This can be mitigated by increasing $r$ at the cost of higher computational expense and increased risk of false matches, or by using feature-based RANSAC as a fallback initializer.
+
+% ======================================================================
+%  Section H: Per-Sequence Stereo Laparoscopic Results
+% ======================================================================
+\section*{H. Per-Sequence Stereo Laparoscopic Results}
+
+Fig.~\ref{fig:supp_stereo_lap_delta} shows the per-sequence $\delta_1$ accuracy comparison, and Table~\ref{tab:supp_stereo_lap_per_seq} provides the per-sequence depth accuracy and shape classification for all 22 sequences.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.92\columnwidth]{fig_stereo_lap_delta.pdf}
+\caption{Per-sequence $\delta_1$ accuracy on the Stereo Laparoscopic Dataset (22 sequences, five endoscopes). Ours and Stereo SGM share the same SGM disparity source and therefore attain identical per-sequence depth accuracy; the heightfield contributes a per-pixel confidence map rather than a depth change. Dashed lines mark the per-method mean.}
+\label{fig:supp_stereo_lap_delta}
+\end{figure}
+
+\begin{table*}[h]
+\centering
+\caption{Per-sequence depth accuracy and shape classification on the Stereo Laparoscopic Dataset. AbsRel and $\delta_1$ computed after median-scale alignment against ground-truth depth. Ours and Stereo SGM share the same disparity source, so their depth metrics are identical by construction; the small shape differences arise from stochastic PCA subsampling. Shape: N=Normal\,3D, F=Flat, C=Cone.}
+\label{tab:supp_stereo_lap_per_seq}
+\setlength{\tabcolsep}{3.5pt}
+\renewcommand{\arraystretch}{1.05}
+\footnotesize
+\begin{tabular}{lrrrrrrccc}
+\toprule
+Seq & \multicolumn{2}{c}{Ours} & \multicolumn{2}{c}{SGM} & \multicolumn{2}{c}{Mono} & Ours & SGM & Mono \\
+\cmidrule(lr){2-3}\cmidrule(lr){4-5}\cmidrule(lr){6-7}
+ & AbsRel$\downarrow$ & $\delta_1$$\uparrow$ & AbsRel$\downarrow$ & $\delta_1$$\uparrow$ & AbsRel$\downarrow$ & $\delta_1$$\uparrow$ & Shape & Shape & Shape \\
+\midrule
+01 & 0.036 & 0.986 & 0.036 & 0.986 & 0.842 & 0.232 & N & N & F \\
+04 & 0.012 & 0.998 & 0.012 & 0.998 & 1.064 & 0.193 & N & N & C \\
+05 & 0.011 & 1.000 & 0.011 & 1.000 & 1.108 & 0.163 & C & C & C \\
+06 & 0.016 & 0.997 & 0.016 & 0.997 & 0.866 & 0.224 & F & F & C \\
+08 & 0.056 & 0.953 & 0.056 & 0.953 & 0.800 & 0.237 & C & F & C \\
+09 & 0.061 & 0.915 & 0.061 & 0.915 & 0.728 & 0.247 & N & N & C \\
+11 & 0.026 & 0.984 & 0.026 & 0.984 & 0.675 & 0.270 & N & C & C \\
+12 & 0.015 & 0.999 & 0.015 & 0.999 & 0.697 & 0.268 & F & F & C \\
+14 & 0.151 & 0.810 & 0.151 & 0.810 & 1.227 & 0.177 & C & C & C \\
+15 & 0.050 & 0.954 & 0.050 & 0.954 & 0.975 & 0.198 & F & C & C \\
+16 & 0.078 & 0.930 & 0.078 & 0.930 & 1.033 & 0.188 & F & N & C \\
+17 & 0.222 & 0.658 & 0.222 & 0.658 & 1.135 & 0.197 & F & F & C \\
+18 & 0.189 & 0.734 & 0.189 & 0.734 & 1.029 & 0.180 & F & F & C \\
+19 & 0.152 & 0.754 & 0.152 & 0.754 & 1.003 & 0.203 & N & N & C \\
+20 & 0.145 & 0.897 & 0.145 & 0.897 & 0.873 & 0.224 & F & F & C \\
+21 & 0.086 & 0.919 & 0.086 & 0.919 & 1.257 & 0.175 & F & F & C \\
+22 & 0.146 & 0.779 & 0.146 & 0.779 & 0.952 & 0.206 & F & F & C \\
+23 & 0.149 & 0.804 & 0.149 & 0.804 & 1.223 & 0.178 & F & F & C \\
+24 & 0.196 & 0.707 & 0.196 & 0.707 & 0.959 & 0.195 & F & F & C \\
+25 & 0.121 & 0.866 & 0.121 & 0.866 & 0.927 & 0.226 & C & C & C \\
+26 & 0.130 & 0.821 & 0.130 & 0.821 & 1.120 & 0.176 & C & C & C \\
+27 & 0.078 & 0.886 & 0.078 & 0.886 & 1.048 & 0.198 & F & F & C \\
+\midrule
+\textbf{Avg} & 0.097 & 0.880 & 0.097 & 0.880 & 0.979 & 0.207 & --- & --- & --- \\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+\paragraph{Key observations.}
+\begin{enumerate}[noitemsep]
+    \item Ours and Stereo SGM attain identical AbsRel and $\delta_1$ on all 22 sequences, because the depth source is the same SGM disparity; the contribution of the heightfield on this dataset is the per-pixel confidence map, not a depth-accuracy gain (see main text).
+    \item Mono consistently produces Cone shapes ($\lambda_3/\lambda_1 < 0.15$) on 21/22 sequences, confirming that gradient-only inverse-depth provides insufficient geometric structure.
+    \item The per-sequence results demonstrate generalization across five different endoscopes and diverse surgical scenes, with no re-tuning.
+\end{enumerate}
+
+% ======================================================================
+%  Section I: Newly Captured Endoscopic Sequences (detailed)
+% ======================================================================
+\section*{I. Newly Captured Endoscopic Sequences (Detailed Results)}
+
+This section provides the full per-session metrics behind Section~4.8 of the main text. Four sequences were captured with the left channel of a different stereo-endoscope rig ($1280{\times}720$, 30\,fps, calibrated intrinsics $f_x{=}1210.7$, $f_y{=}1194.6$\,px, distortion-corrected). Ground-truth poses come from a $12{\times}9$ chessboard with $3.0$\,mm squares (PnP, reprojection RMSE ${<}0.7$\,px). Planar-PnP flip outliers are removed before ATE and before the GT-rotation column; on P1, residual steps ${\geq}60^{\circ}$ are also excluded from that column because the neighbour-median filter still leaves $180^{\circ}$ IPPE flips. Unfiltered means ($16.4^{\circ}$/$5.1^{\circ}$/$32.3^{\circ}$/$11.1^{\circ}$) are flip-inflated and are not used. The pipeline runs with self-estimated poses on all frames. Pose-valid frames are $24\%$, $28\%$, $26\%$, and $12\%$ (V1, V2, P1, V3; $n_{\mathrm{GT}}/n_{\mathrm{frames}}$).
+
+\subsection*{I.1 Full per-session metrics}
+
+Table~\ref{tab:supp_new_capture_full} reports shape, pose, and corner-depth metrics for the proposed method on all four sequences.
+
+\begin{table*}[h]
+\centering
+\caption{Full per-session metrics of the proposed method on the newly captured sequences. $\lambda_3/\lambda_1$: 3D shape ratio. ATE / RPE-t in mm against the cleaned PnP reference. Corner depth is evaluated at the $11{\times}8$ inner corners of the $3.0$\,mm board with calibrated intrinsics (affine-aligned). GT rot.: mean relative rotation per valid-frame step after flip removal (P1 also excludes steps ${\geq}60^{\circ}$).}
+\label{tab:supp_new_capture_full}
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.05}
+\footnotesize
+\begin{tabular}{l ccc ccc ccc c}
+\toprule
+Seq & Frames & GT rot. & $\lambda_3/\lambda_1$ & Shape & ATE$\downarrow$ & Scale & RPE-t$\downarrow$ & AbsRel$\downarrow$ & RMSE$\downarrow$ & $\delta_1$$\uparrow$ \\
+\midrule
+V1 & 535 & $2.4^{\circ}$ & 0.657 & Normal\,3D & 27.5 & 0.47 & 14.0 & 0.065 & 15.4 & 0.978 \\
+V2 & 496 & $2.5^{\circ}$ & 0.221 & Flat & 58.4 & 0.63 & 13.8 & 0.050 & 13.5 & 0.993 \\
+P1 & 496 & $1.9^{\circ}$ & 0.119 & Cone & 55.2 & 0.35 & 22.4 & 0.070 & 19.8 & 0.991 \\
+V3 & 839 & $4.2^{\circ}$ & 0.053 & Cone & 38.8 & 0.099 & 63.7 & --- & --- & --- \\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+\subsection*{I.2 Rotation-stratified position error}
+
+Table~\ref{tab:supp_rot_strat} breaks the per-frame position error down by the reference relative-rotation magnitude, quantifying the limitation that fast rotation degrades the heightfield pose.
+
+\begin{table}[h]
+\centering
+\caption{Per-frame position error (mm, mean) stratified by reference relative rotation per valid-frame step after flip removal. V3 is omitted (remaining steps lie in $0$--$15^{\circ}$). P1's ${>}10^{\circ}$ bin has only 8 frames and may include residual flips; P1 errors are already ${\approx}40$\,mm in the $0$--$2^{\circ}$ bin.}
+\label{tab:supp_rot_strat}
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.05}
+\begin{tabular}{l cccc}
+\toprule
+Seq & $0$--$2^{\circ}$ & $2$--$5^{\circ}$ & $5$--$10^{\circ}$ & $>10^{\circ}$ \\
+\midrule
+P1 & 40.5 & 43.6 & 32.0 & \textbf{90.9} \\
+V1 & 22.7 & 28.0 & 30.9 & \textbf{36.5} \\
+V2 & 51.0 & 48.0 & 51.7 & \textbf{62.5} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection*{I.3 Marker-free segments}
+
+On frames where the chessboard is not visible, the pipeline falls back to a contour-based ROI mask (largest contours of the truncated gradient map) and continues to reconstruct. This fallback was exercised on all four sequences (the board is visible on $12$--$30\%$ of frames; V3 is $12\%$), and the fused clouds remain spatially coherent through the marker-free stretches; however, because no ground truth exists on those stretches, the evaluation above is restricted to board-visible frames, and the marker-free segments are assessed qualitatively.
+
+% ── References ──
+\bibliographystyle{IEEEtran}
+\begin{thebibliography}{9}
+
+\bibitem{bradski2000opencv}
+G.~Bradski, ``The OpenCV library,'' \emph{Dr. Dobb's J. Software Tools}, 2000.
+
+\bibitem{sturm2012benchmark}
+J.~Sturm \emph{et~al.}, ``A benchmark for the evaluation of RGB-D SLAM systems,'' in \emph{IROS}, 2012, pp.~573--580.
+
+\bibitem{choi2015robust}
+S.~Choi \emph{et~al.}, ``Robust reconstruction of indoor scenes,'' in \emph{CVPR}, 2015, pp.~5556--5565.
+
+\end{thebibliography}
+
+\end{document}

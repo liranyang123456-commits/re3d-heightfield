@@ -1,0 +1,24 @@
+{
+  "session": "vio_seq_20260911_011013",
+  "run_dir": "E:\\MIS_TMI_Re_3D\\benchmark_new\\vggt\\vio_seq_20260911_011013",
+  "n_est": 60,
+  "n_gt": 135,
+  "n_gt_clean": 133,
+  "n_gt_outliers_dropped": 2,
+  "gt_motion": {
+    "rel_rot_deg_mean": 2.505881964325979,
+    "rel_rot_deg_p95": 6.132796394327293,
+    "rel_rot_deg_max": 42.72710034532244,
+    "rel_trans_mm_mean": 8.941689399929494,
+    "n": 133
+  },
+  "ate": 48.93492061083203,
+  "sim3_scale": 915.5117324243658,
+  "rot_err_mean": 53.00133629525281,
+  "rot_err_max": 60.845187177878906,
+  "rpe_trans_mean": 45.338390169922434,
+  "rpe_rot_mean": 11.299372291913189,
+  "n_common": 13,
+  "cloud_pts": 50000,
+  "lambda3_lambda1": 0.06320761070515755
+}

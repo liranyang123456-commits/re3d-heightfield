@@ -1,0 +1,50 @@
+[
+  {
+    "cell": 2,
+    "ratio": 0.3894273638725281,
+    "shape": "Normal3D",
+    "pts": 62410,
+    "mesh_verts": 57280,
+    "dense_time_s": 16.4
+  },
+  {
+    "cell": 3,
+    "ratio": 0.39257052540779114,
+    "shape": "Normal3D",
+    "pts": 59599,
+    "mesh_verts": 25680,
+    "dense_time_s": 14.4
+  },
+  {
+    "cell": 4,
+    "ratio": 0.3277469873428345,
+    "shape": "Normal3D",
+    "pts": 25346,
+    "mesh_verts": 14400,
+    "dense_time_s": 7.0
+  },
+  {
+    "cell": 5,
+    "ratio": 0.33906757831573486,
+    "shape": "Normal3D",
+    "pts": 10944,
+    "mesh_verts": 9216,
+    "dense_time_s": 5.5
+  },
+  {
+    "cell": 7,
+    "ratio": 0.3182770907878876,
+    "shape": "Normal3D",
+    "pts": 9104,
+    "mesh_verts": 4784,
+    "dense_time_s": 5.1
+  },
+  {
+    "cell": 9,
+    "ratio": 0.28502798080444336,
+    "shape": "Normal3D",
+    "pts": 14456,
+    "mesh_verts": 2880,
+    "dense_time_s": 5.5
+  }
+]

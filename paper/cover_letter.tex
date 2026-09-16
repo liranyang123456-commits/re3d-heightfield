@@ -1,0 +1,45 @@
+\documentclass[12pt]{letter}
+\usepackage[margin=1in]{geometry}
+\usepackage{hyperref}
+
+\signature{Ranyang Li, Junjun Pan, et al.}
+\address{School of Artificial Intelligence and Big Data\\
+Henan University of Technology\\
+Zhengzhou 450001, China}
+
+\begin{document}
+
+\begin{letter}{Prof.\ Stephen T.\ C.\ Wong and Prof.\ Xiaoyin Xu\\
+Co-Editors-in-Chief\\
+Computerized Medical Imaging and Graphics\\
+Elsevier}
+
+\opening{Dear Editors-in-Chief,}
+
+We submit the manuscript
+``\textbf{Pseudo-3D Heightfield Reconstruction from Monocular Endoscopic Video via Gradient-Anchored Geometric Constraints}''
+as a Research Article for consideration in \textit{Computerized Medical Imaging and Graphics} (CMIG).
+
+\textbf{Why CMIG.}
+The paper addresses a computational and visualization problem in endoscopic imaging: recovering a metric, renderable 3D surface from monocular (and, when available, stereo) surgical video. Collapsed or planar reconstructions cannot support augmented-reality overlay or image-guided measurement. The proposed 2.5-D heightfield is both a geometric representation and a visualizable mesh, which matches CMIG's scope in reconstruction, visualization, endoscopy, and image-guided intervention.
+
+\textbf{What is new.}
+\begin{itemize}
+    \item A gradient-anchored heightfield that preserves tissue-surface topology while suppressing specular artifacts, without learned natural-image priors.
+    \item The same heightfield drives camera pose estimation and dense epipolar matching, so localization and reconstruction share one 3D signal.
+    \item An optional calibrated stereo variant that recovers metric depth (AbsRel 0.0285 on EndoNeRF) while retaining the heightfield as a geometric regularizer.
+\end{itemize}
+
+\textbf{Evidence.}
+On an endoscopic chessboard benchmark, the proposed method and Stereo SGM are the only approaches that produce Normal 3D point clouds; the learned and SfM baselines collapse to cones or planes. Replacing heightfield-ICP poses with a 2D essential-matrix front-end collapses the cloud, isolating the heightfield signal. On SCARED, a 22-sequence stereo-laparoscopic set, and EndoNeRF, the method matches Stereo SGM in depth accuracy and supplies a confidence map for visualization. Four newly captured phantom sequences (different rig, calibrated PnP reference) show the same scale advantage on two sequences and a Normal 3D cloud on one; two sequences collapse, consistent with sparse metric anchors rather than a $32^{\circ}$ rotation statistic inflated by planar-PnP flips.
+
+\textbf{Declarations.}
+This manuscript is not under consideration elsewhere. All authors have approved the submission. The study uses public datasets and in-house bench-top phantom recordings; it does not involve new human-subject or animal experiments. The authors have no competing interests. Code, evaluation scripts, and result files are at \url{https://github.com/liranyang123456-commits/re3d-heightfield}. Full in-house sequences remain available from the corresponding author.
+
+We thank you for considering this work.
+
+\closing{Sincerely,}
+
+\end{letter}
+
+\end{document}
