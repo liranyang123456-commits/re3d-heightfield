@@ -62,13 +62,8 @@
 \address[mymainaddress]{School of Artificial Intelligence and Big Data, Henan University of Technology, Zhengzhou 450001, China.}
 \address[mysecondaryaddress]{Henan Provincial People's Hospital, Zhengzhou University, Zhengzhou 450003, China.}
 
-\begin{highlights}
-\item A pseudo-3D heightfield stays Normal-3D where SOTA models collapse flat.
-\item Physical normal field vetoes the wrong homography branch (operator correction).
-\item Multi-stride geometric matching suppresses dead-reckoning drift.
-\item Metric gauge recovers near-ideal 1.11x scale; gauge floor 4.49 mm ATE.
-\item Calibrated stereo variant leads EndoNeRF depth with 0.0285 AbsRel.
-\end{highlights}
+% Highlights are uploaded as a separate file (highlights.tex / highlights_for_upload.txt)
+% per the Displays Editorial Manager workflow, so they are not repeated on page 1 here.
 
 \begin{abstract}
 Endoscopic video is the only continuous intra-operative view, yet turning it into a 3D surface that can be \emph{displayed} and \emph{measured} remains unsolved: feed-forward foundation models collapse into flat slabs or cones and lose metric scale, while classical monocular geometry drifts and, under small planar baselines, mis-decomposes into reversed camera motion. We argue that the missing object is a \emph{physical surface embedding} that stays three-dimensional, carries an operative normal field, and accepts an exact metric gauge. We therefore lift each frame into a bilateral gradient-anchored pseudo-3D heightfield and use it in two roles. As a \emph{geometric matching substrate}, the heightfield registers consecutive frames by FPFH/RANSAC and point-to-point ICP, supplies dense epipolar-constrained correspondences, and feeds a multi-stride co-visibility bundle adjustment on $\mathrm{SE}(3)$ that closes loops and suppresses dead-reckoning drift. As an \emph{operator corrector}, its dominant physical normal vetoes the spurious branch of planar-homography decomposition, and a calibration gauge converts its dimensionless translations into true millimetres. On an endoscopic chessboard benchmark the heightfield is the only \emph{monocular} reconstruction that stays Normal\,3D ($\lambda_3/\lambda_1 = 0.42$; VGGT, MASt3R, DUSt3R, MUSt3R, COLMAP and ORB-SfM all remain $\leq 0.22$, and only the stereo SGM reference also reaches Normal\,3D at $0.31$) with near-ideal metric scale ($1.11\times$ vs.\ $3.7\times$--$647\times$). On a 17-sequence surgical benchmark the pattern-free multi-view BA outperforms ORB-SfM ($35.52$ vs.\ $43.72$\,mm mean ATE) and beats VGGT-1B in a smoke-filled cavity ($24.86$ vs.\ $37.25$\,mm); when the gauge is visible, the gauge-referenced trajectory reaches the $4.49$\,mm pattern-localisation floor. On public EndoNeRF the calibrated stereo variant attains the best depth (AbsRel $0.0285$ vs.\ FoundationStereo $0.0321$). The result is an un-collapsed, metrically anchored 3D surface that can be rendered, overlaid, and measured for surgical visualization.
