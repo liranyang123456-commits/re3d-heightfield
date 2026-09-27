@@ -1,13 +1,5 @@
-Highlights
-Journal: Computerized Medical Imaging and Graphics
-Manuscript: Pseudo-3D Heightfield Reconstruction from Monocular Endoscopic Video via Gradient-Anchored Geometric Constraints
-
-- A shared 2.5-D heightfield couples pose estimation and dense matching.
-- Specular-robust gradients keep Normal 3D where learned clouds collapse.
-- Landmarks fix scale and the mask; they are not the reconstructed surface.
-- A stereo variant reaches AbsRel 0.0285 on the EndoNeRF 100-frame set.
-- Confidence-mapped surfaces support overlay and image-guided measurement.
-
-Character counts (including spaces): 70, 71, 73, 69, 72 (limit 85).
-
-Code and evaluation files: https://github.com/liranyang123456-commits/re3d-heightfield
+Heightfield normal field resolves two-fold planar homography ambiguity.
+Multi-stride bundle adjustment eliminates dead-reckoning drift across video.
+Metric scale gauge injection recovers 1:1 physical scale without drift.
+Board-gauge median ATE is 4.49 mm on 13 real sequences.
+Calibrated stereo variant achieves 0.0285 AbsRel on public EndoNeRF.
