@@ -64,8 +64,8 @@
 
 \begin{highlights}
 \item Heightfield normal field resolves two-fold planar homography ambiguity.
-\item Multi-stride bundle adjustment eliminates dead-reckoning drift across video.
-\item Metric scale gauge injection recovers 1:1 physical scale without drift.
+\item Multi-stride BA adds links across non-adjacent keyframes.
+\item Board gauge sets millimetre scale when the pattern is visible.
 \item Board-gauge median ATE is 4.49 mm on 13 real sequences.
 \item Calibrated stereo variant achieves 0.0285 AbsRel on public EndoNeRF.
 \end{highlights}
@@ -1265,7 +1265,9 @@ We evaluate five representative approaches under identical protocols using the A
   Ours-SparseGauge: Metric scale anchored on sparse keyframes (stride 2; 16 anchors, 14 held-out frames).
   Ours-FullGauge: Complete framework with full metric gauge injection.
   Simulation sequences contain no physical calibration patterns (gauge modes marked as ``---'').
-  \textbf{Bold}: best result per sequence across comparable methods.
+  The 13-real median uses only the real sequences, where FullGauge is defined.
+  The 17-seq median uses every sequence; FullGauge is blank there.
+  \textbf{Bold}: lowest ATE in that row.
 }
 \label{tab:17seq_benchmark}
 \setlength{\tabcolsep}{3.2pt}
@@ -1278,24 +1280,24 @@ Sequence & Kind & Split & VGGT-1B & ORB-SfM & \textbf{Ours-BA} & \textbf{Ours-Sp
 \texttt{traj\_023422} & real & test & 16.86 & 68.59 & 65.87 & 63.97 & \textbf{4.55} \\
 \texttt{traj\_144019} & real & val & 12.76 & 65.99 & 43.36 & 49.58 & \textbf{4.66} \\
 \texttt{traj\_023241} & real & val & 18.95 & 71.39 & 32.37 & 47.87 & \textbf{15.90} \\
-\texttt{traj\_015507} & real & train & 43.54 & 56.66 & 74.48 & 71.54 & 80.25 \\
+\texttt{traj\_015507} & real & train & \textbf{43.54} & 56.66 & 74.48 & 71.54 & 80.25 \\
 \texttt{traj\_015629} & real & train & 28.75 & 35.53 & \textbf{21.04} & 35.14 & 26.38 \\
 \texttt{traj\_015918} & real & train & 5.70 & 29.52 & 24.15 & 19.23 & \textbf{1.31} \\
 \texttt{traj\_020132} & real & train & 21.83 & 35.48 & 29.88 & 30.94 & \textbf{2.35} \\
 \texttt{traj\_020407} & real & train & 11.88 & 41.98 & 27.87 & 24.95 & \textbf{1.85} \\
 \texttt{traj\_143156} & real & train & 9.35 & 58.75 & 58.66 & 49.38 & \textbf{3.12} \\
-\texttt{rigid\_123958} & real & extra & 4.14 & 21.58 & 17.84 & 21.04 & \textbf{4.49} \\
+\texttt{rigid\_123958} & real & extra & \textbf{4.14} & 21.58 & 17.84 & 21.04 & 4.49 \\
 \texttt{rigid\_124243} & real & extra & 7.30 & 32.47 & 18.48 & 20.38 & \textbf{3.44} \\
-\texttt{rigid\_140510} & real & extra & 7.53 & 45.00 & 36.33 & 40.52 & \textbf{8.51} \\
+\texttt{rigid\_140510} & real & extra & \textbf{7.53} & 45.00 & 36.33 & 40.52 & 8.51 \\
 \texttt{rigid\_142902} & real & extra & 5.99 & 37.33 & 22.67 & 34.20 & \textbf{2.05} \\
 \midrule
-\texttt{sim\_s10095} & sim & sim & 36.97 & 42.13 & 39.85 & --- & --- \\
+\texttt{sim\_s10095} & sim & sim & \textbf{36.97} & 42.13 & 39.85 & --- & --- \\
 \texttt{sim\_s10096} & sim & sim & \textbf{18.07} & 40.29 & 41.60 & --- & --- \\
-\texttt{sim\_s10097} & sim & sim & 37.25 & 21.04 & \textbf{24.86} & --- & --- \\
-\texttt{sim\_s10098} & sim & sim & 20.75 & 39.55 & 24.53 & --- & --- \\
+\texttt{sim\_s10097} & sim & sim & 37.25 & \textbf{21.04} & 24.86 & --- & --- \\
+\texttt{sim\_s10098} & sim & sim & \textbf{20.75} & 39.55 & 24.53 & --- & --- \\
 \midrule
-\textbf{Overall Mean} & --- & --- & 18.10 & 43.72 & \textbf{35.52} & 39.13 & \textbf{12.22} \\
-\textbf{Overall Median} & --- & --- & 16.86 & 40.29 & \textbf{29.88} & 35.14 & \textbf{4.49} \\
+13-real median & --- & --- & 11.88 & 41.98 & 29.88 & 35.14 & \textbf{4.49} \\
+17-seq median & --- & --- & \textbf{16.86} & 40.29 & 29.88 & --- & --- \\
 \bottomrule
 \end{tabular}
 \end{table*}
