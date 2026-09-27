@@ -28,7 +28,7 @@ Feed-forward 3D foundation models (VGGT, DUSt3R, MASt3R, MUSt3R) produce dense b
 
 \textbf{Headline results.}
 \begin{itemize}
-    \item \textbf{Un-collapsed Normal\,3D geometry:} On the endoscopic chessboard benchmark the heightfield is the only reconstruction that stays Normal\,3D ($\lambda_3/\lambda_1 = 0.42$); VGGT, MASt3R, DUSt3R, MUSt3R, COLMAP and ORB-SfM all collapse to Flat or Cone ($\leq 0.22$).
+    \item \textbf{Un-collapsed Normal\,3D geometry:} On the endoscopic chessboard benchmark the heightfield is the only \emph{monocular} reconstruction that stays Normal\,3D ($\lambda_3/\lambda_1 = 0.42$); VGGT, MASt3R, DUSt3R, MUSt3R, COLMAP and ORB-SfM all collapse to Flat or Cone ($\leq 0.22$), and only the stereo SGM reference also reaches Normal\,3D ($0.31$).
     \item \textbf{Near-ideal metric scale:} The gauge recovers $1.11\times$ scale against the reference, while every baseline drifts by $3.7\times$--$647\times$.
     \item \textbf{Leading depth on public data:} On EndoNeRF the calibrated stereo variant attains the best AbsRel ($0.0285$), ahead of FoundationStereo ($0.0321$) and Stereo SGM ($0.0323$).
     \item \textbf{Drift suppression and gauge ceiling:} On a 17-sequence benchmark the pattern-free multi-view BA outperforms ORB-SfM ($35.52$ vs.\ $43.72$\,mm mean ATE) and beats VGGT-1B in a smoke-filled cavity ($24.86$ vs.\ $37.25$\,mm); with the gauge visible, the gauge-referenced trajectory reaches the $4.49$\,mm pattern-localisation floor.
