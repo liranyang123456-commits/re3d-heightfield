@@ -1,5 +1,5 @@
-Heightfield normal field resolves two-fold planar homography ambiguity.
-Multi-stride bundle adjustment eliminates dead-reckoning drift across video.
-Metric scale gauge injection recovers 1:1 physical scale without drift.
-Metric gauge injection reaches the 4.49 mm reference floor (17 sequences).
-Calibrated stereo variant achieves 0.0285 AbsRel on public EndoNeRF.
+A pseudo-3D heightfield stays Normal-3D where SOTA models collapse flat.
+Physical normal field vetoes the wrong homography branch (operator correction).
+Multi-stride geometric matching suppresses dead-reckoning drift.
+Metric gauge recovers near-ideal 1.11x scale; gauge floor 4.49 mm ATE.
+Calibrated stereo variant leads EndoNeRF depth with 0.0285 AbsRel.

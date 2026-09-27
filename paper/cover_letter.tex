@@ -17,18 +17,21 @@ Elsevier}
 \opening{Dear Professor Zhai,}
 
 We transfer the manuscript
-``\textbf{Pseudo-3D Heightfield Reconstruction from Endoscopic Video via Normal-Guided Multi-View Optimization and Metric Scale Gauge Injection}''
-to \textit{Displays} as a Research Article. The revised manuscript treats the heightfield as a surface that can be displayed and, separately, as a surface whose measurement error is reported.
+``\textbf{Pseudo-3D Heightfield Reconstruction from Endoscopic Video: Geometric Matching with Normal-Guided Correction and Metric Scale Gauge}''
+to \textit{Displays} as a Research Article. The manuscript asks a display-first question: can monocular endoscopic video be turned into a 3D surface that is simultaneously \emph{displayable} (un-collapsed, renderable) and \emph{measurable} (metrically scaled)? We show that the answer is a pseudo-3D heightfield used in two roles---as a geometric matching substrate and as an operator corrector.
 
 \textbf{Why Displays.}
 The useful output is a renderable mesh for intra-operative overlay and measurement, not a disparity map alone. A collapsed cone or planar slab cannot be visualized as a surgical surface and cannot be used to measure physical lengths. This addresses a fundamental display problem: visual signal processing, an un-collapsed 3D surface, and explicit metric scale recovery.
 
-\textbf{What changed for this transfer.}
+\textbf{The story in one paragraph.}
+Feed-forward 3D foundation models (VGGT, DUSt3R, MASt3R, MUSt3R) produce dense but geometrically collapsed, scale-less clouds on endoscopic video, and classical SfM drifts or mis-decomposes under small planar baselines. We reconstruct a bilateral gradient-anchored pseudo-3D heightfield from each frame and exploit it twice. As a \emph{geometric matching substrate}, it registers frames (FPFH/RANSAC/ICP), builds dense epipolar correspondences, and feeds a multi-stride bundle adjustment that suppresses dead-reckoning drift. As an \emph{operator corrector}, its physical normal field vetoes the wrong homography branch, and a calibration gauge injects true metric scale. The same mesh therefore drives matching, pose, branch correction, and scale---so the surface stays three-dimensional and metric where the baselines collapse.
+
+\textbf{Headline results.}
 \begin{itemize}
-    \item \textbf{Normal-guided branch disambiguation:} We resolve the mathematical two-fold ambiguity in small-baseline planar homography decomposition using an operative physical normal prior $\mathbf{n}_{hf}$ derived from the heightfield mesh, vetoing the physically inconsistent branch that cheirality heuristics mis-select on a quarter of frame pairs, without external sensors.
-    \item \textbf{Multi-stride co-visibility Bundle Adjustment (BA):} We replace sequential dead-reckoning pose chaining with a multi-stride co-visibility graph across non-adjacent keyframes, optimizing $\mathrm{SE}(3)$ Lie-algebra camera poses and triangulated 3D points jointly under a robust Huber loss.
-    \item \textbf{Metric scale gauge injection:} We inject a physical metric scale from calibration landmarks ($s_{\mathrm{sq}} = 3.0$\,mm) to resolve the fundamental scale ambiguity of monocular reconstruction. On our newly constructed 17-sequence surgical benchmark (13 real, 4 simulation), the pattern-free multi-view BA attains a mean ATE of $35.52$\,mm against ORB-SfM's $43.72$\,mm and wins the smoke-filled cavity s10097 ($24.86$\,mm vs.\ VGGT-1B's $37.25$\,mm); when the calibration gauge is fully visible, the gauge-referenced trajectory reaches the pattern-localisation floor of $4.49$\,mm median ATE (vs.\ VGGT-1B's $16.86$\,mm).
-    \item \textbf{Stereo validation and baseline gauge:} On public EndoNeRF, the calibrated stereo variant achieves an overall AbsRel of $0.0285$, outperforming FoundationStereo ($0.0321$) and Stereo SGM ($0.0323$). On the chessboard benchmark, sparse gauge triangulation yields a held-out median MAE of $1.45$\,mm, outperforming COLMAP ($3.41$\,mm) and VGGT ($4.65$\,mm).
+    \item \textbf{Un-collapsed Normal\,3D geometry:} On the endoscopic chessboard benchmark the heightfield is the only reconstruction that stays Normal\,3D ($\lambda_3/\lambda_1 = 0.42$); VGGT, MASt3R, DUSt3R, MUSt3R, COLMAP and ORB-SfM all collapse to Flat or Cone ($\leq 0.22$).
+    \item \textbf{Near-ideal metric scale:} The gauge recovers $1.11\times$ scale against the reference, while every baseline drifts by $3.7\times$--$647\times$.
+    \item \textbf{Leading depth on public data:} On EndoNeRF the calibrated stereo variant attains the best AbsRel ($0.0285$), ahead of FoundationStereo ($0.0321$) and Stereo SGM ($0.0323$).
+    \item \textbf{Drift suppression and gauge ceiling:} On a 17-sequence benchmark the pattern-free multi-view BA outperforms ORB-SfM ($35.52$ vs.\ $43.72$\,mm mean ATE) and beats VGGT-1B in a smoke-filled cavity ($24.86$ vs.\ $37.25$\,mm); with the gauge visible, the gauge-referenced trajectory reaches the $4.49$\,mm pattern-localisation floor.
 \end{itemize}
 
 \textbf{Declarations.}
