@@ -1,0 +1,248 @@
+{
+  "purpose": "monocular reconstruction, not IMU displacement",
+  "K": [
+    [
+      1095.344354271825,
+      0.0,
+      691.3639664451478
+    ],
+    [
+      0.0,
+      1097.5832923955224,
+      383.3552907100801
+    ],
+    [
+      0.0,
+      0.0,
+      1.0
+    ]
+  ],
+  "image_size": [
+    1280,
+    720
+  ],
+  "square_mm": 3.0,
+  "real_usable": [
+    {
+      "name": "rigid_20260924_123958",
+      "role": "extra_train",
+      "seconds": 96.1,
+      "cam0": 938,
+      "cam1": 938,
+      "usable_pose_frames": 880,
+      "image_dir": "E:\\EGO_Mo\\datasets\\rigid_20260924_123958\\cam0\\images",
+      "pose": "E:\\EGO_Mo\\datasets\\pose_gt_raw\\rigid_20260924_123958.npz",
+      "usable": true,
+      "reasons": []
+    },
+    {
+      "name": "rigid_20260924_124243",
+      "role": "extra_train",
+      "seconds": 69.8,
+      "cam0": 681,
+      "cam1": 681,
+      "usable_pose_frames": 597,
+      "image_dir": "E:\\EGO_Mo\\datasets\\rigid_20260924_124243\\cam0\\images",
+      "pose": "E:\\EGO_Mo\\datasets\\pose_gt_raw\\rigid_20260924_124243.npz",
+      "usable": true,
+      "reasons": []
+    },
+    {
+      "name": "rigid_20260924_140510",
+      "role": "extra_train",
+      "seconds": 92.3,
+      "cam0": 901,
+      "cam1": 901,
+      "usable_pose_frames": 806,
+      "image_dir": "E:\\EGO_Mo\\datasets\\rigid_20260924_140510\\cam0\\images",
+      "pose": "E:\\EGO_Mo\\datasets\\pose_gt_raw\\rigid_20260924_140510.npz",
+      "usable": true,
+      "reasons": []
+    },
+    {
+      "name": "rigid_20260924_142902",
+      "role": "extra_train",
+      "seconds": 84.2,
+      "cam0": 821,
+      "cam1": 821,
+      "usable_pose_frames": 709,
+      "image_dir": "E:\\EGO_Mo\\datasets\\rigid_20260924_142902\\cam0\\images",
+      "pose": "E:\\EGO_Mo\\datasets\\pose_gt_raw\\rigid_20260924_142902.npz",
+      "usable": true,
+      "reasons": []
+    },
+    {
+      "name": "traj_20260923_015507",
+      "role": "train",
+      "seconds": 60.7,
+      "cam0": 1793,
+      "cam1": 1596,
+      "usable_pose_frames": 1478,
+      "image_dir": "E:\\EGO_Mo\\datasets\\traj_20260923_015507\\cam0\\images",
+      "pose": "E:\\EGO_Mo\\datasets\\pose_gt_raw\\traj_20260923_015507.npz",
+      "usable": true,
+      "reasons": []
+    },
+    {
+      "name": "traj_20260923_015629",
+      "role": "train",
+      "seconds": 59.6,
+      "cam0": 1732,
+      "cam1": 1504,
+      "usable_pose_frames": 1503,
+      "image_dir": "E:\\EGO_Mo\\datasets\\traj_20260923_015629\\cam0\\images",
+      "pose": "E:\\EGO_Mo\\datasets\\pose_gt_raw\\traj_20260923_015629.npz",
+      "usable": true,
+      "reasons": []
+    },
+    {
+      "name": "traj_20260923_015918",
+      "role": "train",
+      "seconds": 40.8,
+      "cam0": 399,
+      "cam1": 391,
+      "usable_pose_frames": 318,
+      "image_dir": "E:\\EGO_Mo\\datasets\\traj_20260923_015918\\cam0\\images",
+      "pose": "E:\\EGO_Mo\\datasets\\pose_gt_raw\\traj_20260923_015918.npz",
+      "usable": true,
+      "reasons": []
+    },
+    {
+      "name": "traj_20260923_020132",
+      "role": "train",
+      "seconds": 63.7,
+      "cam0": 1560,
+      "cam1": 1525,
+      "usable_pose_frames": 1244,
+      "image_dir": "E:\\EGO_Mo\\datasets\\traj_20260923_020132\\cam0\\images",
+      "pose": "E:\\EGO_Mo\\datasets\\pose_gt_raw\\traj_20260923_020132.npz",
+      "usable": true,
+      "reasons": []
+    },
+    {
+      "name": "traj_20260923_020407",
+      "role": "train",
+      "seconds": 75.8,
+      "cam0": 1861,
+      "cam1": 1814,
+      "usable_pose_frames": 1728,
+      "image_dir": "E:\\EGO_Mo\\datasets\\traj_20260923_020407\\cam0\\images",
+      "pose": "E:\\EGO_Mo\\datasets\\pose_gt_raw\\traj_20260923_020407.npz",
+      "usable": true,
+      "reasons": []
+    },
+    {
+      "name": "traj_20260923_023241",
+      "role": "val",
+      "seconds": 86.8,
+      "cam0": 847,
+      "cam1": 847,
+      "usable_pose_frames": 403,
+      "image_dir": "E:\\EGO_Mo\\datasets\\traj_20260923_023241\\cam0\\images",
+      "pose": "E:\\EGO_Mo\\datasets\\pose_gt_raw\\traj_20260923_023241.npz",
+      "usable": true,
+      "reasons": []
+    },
+    {
+      "name": "traj_20260923_023422",
+      "role": "test",
+      "seconds": 115.2,
+      "cam0": 1125,
+      "cam1": 1124,
+      "usable_pose_frames": 713,
+      "image_dir": "E:\\EGO_Mo\\datasets\\traj_20260923_023422\\cam0\\images",
+      "pose": "E:\\EGO_Mo\\datasets\\pose_gt_raw\\traj_20260923_023422.npz",
+      "usable": true,
+      "reasons": []
+    },
+    {
+      "name": "traj_20260924_143156",
+      "role": "train",
+      "seconds": 194.9,
+      "cam0": 1901,
+      "cam1": 1901,
+      "usable_pose_frames": 1393,
+      "image_dir": "E:\\EGO_Mo\\datasets\\traj_20260924_143156\\cam0\\images",
+      "pose": "E:\\EGO_Mo\\datasets\\pose_gt_raw\\traj_20260924_143156.npz",
+      "usable": true,
+      "reasons": []
+    },
+    {
+      "name": "traj_20260924_144019",
+      "role": "val",
+      "seconds": 174.0,
+      "cam0": 1699,
+      "cam1": 1699,
+      "usable_pose_frames": 1171,
+      "image_dir": "E:\\EGO_Mo\\datasets\\traj_20260924_144019\\cam0\\images",
+      "pose": "E:\\EGO_Mo\\datasets\\pose_gt_raw\\traj_20260924_144019.npz",
+      "usable": true,
+      "reasons": []
+    }
+  ],
+  "real_rejected": [
+    {
+      "name": "rigid_20260924_133412",
+      "role": null,
+      "seconds": 74.1,
+      "cam0": 2228,
+      "cam1": 2228,
+      "usable_pose_frames": 861,
+      "image_dir": "E:\\EGO_Mo\\datasets\\rigid_20260924_133412\\cam0\\images",
+      "pose": "E:\\EGO_Mo\\datasets\\pose_gt_raw\\rigid_20260924_133412.npz",
+      "usable": false,
+      "reasons": [
+        "rigidity verdict 'NOT rigid'"
+      ]
+    },
+    {
+      "name": "rigid_20260924_135318",
+      "role": null,
+      "seconds": 86.7,
+      "cam0": 2606,
+      "cam1": 2605,
+      "usable_pose_frames": 1175,
+      "image_dir": "E:\\EGO_Mo\\datasets\\rigid_20260924_135318\\cam0\\images",
+      "pose": "E:\\EGO_Mo\\datasets\\pose_gt_raw\\rigid_20260924_135318.npz",
+      "usable": false,
+      "reasons": [
+        "rigidity verdict 'NOT rigid'"
+      ]
+    }
+  ],
+  "sim_with_images": [
+    {
+      "name": "sim_20260924_172955_s10095",
+      "frames": 60,
+      "cam0": 60,
+      "image_dir": "E:\\EGO_Mo\\datasets\\synthetic_corpus\\corpus_20260924_172930\\visual\\sim_20260924_172955_s10095\\cam0\\images",
+      "pose": "E:\\EGO_Mo\\datasets\\synthetic_corpus\\corpus_20260924_172930\\visual\\sim_20260924_172955_s10095\\ground_truth.npz",
+      "kind": "rendered_sim"
+    },
+    {
+      "name": "sim_20260924_173022_s10096",
+      "frames": 60,
+      "cam0": 60,
+      "image_dir": "E:\\EGO_Mo\\datasets\\synthetic_corpus\\corpus_20260924_172930\\visual\\sim_20260924_173022_s10096\\cam0\\images",
+      "pose": "E:\\EGO_Mo\\datasets\\synthetic_corpus\\corpus_20260924_172930\\visual\\sim_20260924_173022_s10096\\ground_truth.npz",
+      "kind": "rendered_sim"
+    },
+    {
+      "name": "sim_20260924_173049_s10097",
+      "frames": 60,
+      "cam0": 60,
+      "image_dir": "E:\\EGO_Mo\\datasets\\synthetic_corpus\\corpus_20260924_172930\\visual\\sim_20260924_173049_s10097\\cam0\\images",
+      "pose": "E:\\EGO_Mo\\datasets\\synthetic_corpus\\corpus_20260924_172930\\visual\\sim_20260924_173049_s10097\\ground_truth.npz",
+      "kind": "rendered_sim"
+    },
+    {
+      "name": "sim_20260924_173116_s10098",
+      "frames": 60,
+      "cam0": 60,
+      "image_dir": "E:\\EGO_Mo\\datasets\\synthetic_corpus\\corpus_20260924_172930\\visual\\sim_20260924_173116_s10098\\cam0\\images",
+      "pose": "E:\\EGO_Mo\\datasets\\synthetic_corpus\\corpus_20260924_172930\\visual\\sim_20260924_173116_s10098\\ground_truth.npz",
+      "kind": "rendered_sim"
+    }
+  ],
+  "sim_note": "corpus_20260925_135023 has IMU and pose ground truth but no rendered images, so it cannot be used for reconstruction."
+}

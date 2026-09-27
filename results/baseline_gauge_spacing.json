@@ -1,0 +1,10 @@
+{
+  "gauge_stride": 10,
+  "square_mm": 5.0,
+  "n_pairs": 86,
+  "n_holdout": 77,
+  "holdout_median_of_medians": 5.031069093733566,
+  "holdout_median_mae": 1.4462129235862153,
+  "holdout_mean_mae": 8.249144177596028,
+  "n_mae_lt_3": 66
+}

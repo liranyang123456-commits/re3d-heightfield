@@ -1,0 +1,43 @@
+\documentclass[12pt]{letter}
+\usepackage[margin=1in]{geometry}
+\usepackage{hyperref}
+
+\signature{Ranyang Li, et al.}
+\address{School of Artificial Intelligence and Big Data\\
+Henan University of Technology\\
+Zhengzhou 450001, China}
+
+\begin{document}
+
+\begin{letter}{Prof.\ Guangtao Zhai\\
+Editor-in-Chief\\
+Displays\\
+Elsevier}
+
+\opening{Dear Professor Zhai,}
+
+We transfer the manuscript
+``\textbf{Pseudo-3D Heightfield Reconstruction from Endoscopic Video via Normal-Guided Multi-View Optimization and Metric Scale Gauge Injection}''
+to \textit{Displays} as a Research Article. The revised manuscript treats the heightfield as a surface that can be displayed and, separately, as a surface whose measurement error is reported.
+
+\textbf{Why Displays.}
+The useful output is a renderable mesh for intra-operative overlay and measurement, not a disparity map alone. A collapsed cone or planar slab cannot be visualized as a surgical surface and cannot be used to measure physical lengths. This addresses a fundamental display problem: visual signal processing, an un-collapsed 3D surface, and explicit metric scale recovery.
+
+\textbf{What changed for this transfer.}
+\begin{itemize}
+    \item \textbf{Normal-guided branch disambiguation:} The heightfield normal selects one of the two branches of a small-baseline homography. On the evaluated pairs the selected translation agrees with the reference at median $|t^\top t_{\mathrm{gt}}| = 0.984$.
+    \item \textbf{Multi-stride co-visibility Bundle Adjustment (BA):} We replace sequential dead-reckoning pose chaining with a multi-stride co-visibility graph across non-adjacent keyframes, optimizing $\mathrm{SE}(3)$ Lie-algebra camera poses and triangulated 3D points jointly under a robust Huber loss.
+    \item \textbf{Metric scale gauge:} On the 13 real sequences with a visible $3$\,mm board, full-gauge median ATE is $4.49$\,mm (VGGT-1B $11.88$\,mm, ORB-SfM $41.98$\,mm, same 13 sequences). Marker-free BA does not beat VGGT-1B on the 17-sequence median ($29.88$ vs.\ $16.86$\,mm). On \texttt{s10097}, BA is $24.86$\,mm and VGGT-1B is $37.25$\,mm.
+    \item \textbf{Stereo validation and baseline gauge:} On public EndoNeRF, the calibrated stereo variant achieves an overall AbsRel of $0.0285$, outperforming FoundationStereo ($0.0321$) and Stereo SGM ($0.0323$). On the chessboard benchmark, sparse gauge triangulation yields a held-out median MAE of $1.45$\,mm, outperforming COLMAP ($3.41$\,mm) and VGGT ($4.65$\,mm).
+\end{itemize}
+
+\textbf{Declarations.}
+This manuscript is not under consideration elsewhere. All authors have approved the submission. The study uses public datasets and in-house bench-top phantom recordings; it does not involve new human-subject or animal experiments. The authors have no competing interests. Code, evaluation scripts, and result files are at \url{https://github.com/liranyang123456-commits/re3d-heightfield}. Full in-house sequences remain available from the corresponding author.
+
+We thank you for considering this work.
+
+\closing{Sincerely,}
+
+\end{letter}
+
+\end{document}

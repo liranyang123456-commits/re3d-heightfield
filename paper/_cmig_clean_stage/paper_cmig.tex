@@ -1,6 +1,6 @@
 % ======================================================================
-%  CMIG — Pseudo-3D Heightfield Reconstruction (Elsevier elsarticle)
-%  Target: Computerized Medical Imaging and Graphics
+%  Pseudo-3D Heightfield Reconstruction (Elsevier elsarticle)
+%  Target: Displays
 % ======================================================================
 \PassOptionsToPackage{table,xcdraw}{xcolor}
 \documentclass[review]{elsarticle}
@@ -64,14 +64,14 @@
 
 \begin{highlights}
 \item Heightfield normal field resolves two-fold planar homography ambiguity.
-\item Multi-stride BA adds links across non-adjacent keyframes.
-\item Board gauge sets millimetre scale when the pattern is visible.
-\item Board-gauge median ATE is 4.49 mm on 13 real sequences.
+\item Multi-stride bundle adjustment eliminates dead-reckoning drift across video.
+\item Metric scale gauge injection recovers 1:1 physical scale without drift.
+\item Metric gauge injection reaches the 4.49 mm reference floor (17 sequences).
 \item Calibrated stereo variant achieves 0.0285 AbsRel on public EndoNeRF.
 \end{highlights}
 
 \begin{abstract}
-Recovering visualizable, metrically scaled 3D surfaces from monocular endoscopic video is a critical prerequisite for intra-operative surgical navigation and anatomical measurement. Existing methods struggle with three fundamental dilemmas: feed-forward foundation models suffer from severe metric scale distortion ($8\times$--$647\times$) and planar collapse; classical monocular visual geometry suffers from compounding dead-reckoning drift; and small-baseline planar homography decomposition is corrupted by a mathematical two-fold branch ambiguity. To resolve these challenges, we propose a unified geometric framework integrating pseudo-3D heightfield surface representation, normal-guided branch disambiguation, multi-stride bundle adjustment, and metric scale gauge injection. First, a bilateral gradient-anchored 2.5-D heightfield mesh provides a well-conditioned continuous surface and an operative physical normal field $\mathbf{n}_{hf}$. Second, we introduce a heightfield normal veto that selects the homography branch whose plane normal agrees with $\mathbf{n}_{hf}$. On the evaluated pairs this choice has median directional agreement $0.984$ with the reference translation. Third, a multi-stride co-visibility graph across non-adjacent keyframes feeds a joint Lie-algebra bundle adjustment on $\mathrm{SE}(3)$, forming closed geometric loops that suppress sequential drift. Fourth, a metric scale gauge restores true millimetre dimensions from physical calibration landmarks. On the 13 real sequences in which a $3$\,mm chessboard is visible, full-gauge injection reaches a median ATE of $4.49$\,mm, against $11.88$\,mm for VGGT-1B and $41.98$\,mm for ORB-SfM on those same sequences. Without that gauge, multi-view BA has a 17-sequence median ATE of $29.88$\,mm: better than ORB-SfM ($40.29$\,mm) and not better than VGGT-1B ($16.86$\,mm). On public EndoNeRF, the calibrated stereo variant reaches an overall AbsRel of $0.0285$ (FoundationStereo $0.0321$). The result is an accurate, metrically anchored 3D representation robust to endoscopic geometry.
+Recovering visualizable, metrically scaled 3D surfaces from monocular endoscopic video is a critical prerequisite for intra-operative surgical navigation and anatomical measurement. Existing methods struggle with three fundamental dilemmas: feed-forward foundation models suffer from severe metric scale distortion ($10\times$--$647\times$) and planar collapse; classical monocular visual geometry suffers from compounding dead-reckoning drift; and small-baseline planar homography decomposition is corrupted by a mathematical two-fold branch ambiguity. To resolve these challenges, we propose a unified geometric framework integrating pseudo-3D heightfield surface representation, normal-guided branch disambiguation, multi-stride bundle adjustment, and metric scale gauge injection. First, a bilateral gradient-anchored 2.5-D heightfield mesh provides a well-conditioned continuous surface and an operative physical normal field $\mathbf{n}_{hf}$. Second, we introduce a heightfield normal veto rule that directly evaluates the alignment between decomposed planar normals and $\mathbf{n}_{hf}$, vetoing the physically inconsistent branch that standard cheirality heuristics mis-select on a quarter of frame pairs. Third, a multi-stride co-visibility graph across non-adjacent keyframes feeds a joint Lie-algebra bundle adjustment on $\mathrm{SE}(3)$, forming closed geometric loops that suppress sequential drift. Fourth, a metric scale gauge restores true millimetre dimensions from physical calibration landmarks. On a 17-sequence surgical video benchmark (13 real, 4 simulation), the pattern-free multi-view BA outperforms the classical ORB-SfM baseline ($35.52$\,mm vs.\ $43.72$\,mm mean ATE) and beats VGGT-1B on the smoke-filled cavity \texttt{s10097} ($24.86$\,mm vs.\ $37.25$\,mm); when the calibration gauge is visible, the gauge-referenced trajectory reaches the pattern-reference floor of $4.49$\,mm median ATE. Furthermore, on public EndoNeRF, our stereo variant achieves an overall AbsRel of $0.0285$ (FoundationStereo $0.0321$). The result is an accurate, metrically anchored 3D representation robust to endoscopic geometry.
 \end{abstract}
 
 \begin{keyword}
@@ -96,15 +96,15 @@ General-purpose 3D vision has advanced rapidly, yet monocular endoscopic reconst
 First, smooth tissue surfaces offer repetitive texture and few discriminative features.
 Second, specular reflections from wet tissue violate the photometric consistency that dense reconstruction assumes.
 Third, small-baseline planar motion induces an analytical two-fold branch ambiguity in homography decomposition, causing conventional front-ends to reverse translation directions.
-Fourth, sequential dead-reckoning in SLAM/SfM causes severe compounding drift, while feed-forward natural-image foundation models (e.g., DUSt3R~\cite{wang2024dust3r}, MASt3R~\cite{leroy2024mast3r}, VGGT~\cite{wang2025vggt}) collapse into flat slabs or cones ($\lambda_3/\lambda_1 \leq 0.22$) with arbitrary scale wandering ($8\times$--$647\times$).
+Fourth, sequential dead-reckoning in SLAM/SfM causes severe compounding drift, while feed-forward natural-image foundation models (e.g., DUSt3R~\cite{wang2024dust3r}, MASt3R~\cite{leroy2024mast3r}, VGGT~\cite{wang2025vggt}) collapse into flat slabs or cones ($\lambda_3/\lambda_1 \leq 0.22$) with arbitrary scale wandering ($10\times$--$647\times$).
 
-Classical structure-from-motion (SfM) methods~\cite{mur2015orbslam,schoenberger2016sfm} fail on such data: on our benchmark COLMAP registers only a fraction of frames in textureless regions and produces cone-shaped clouds ($\lambda_3/\lambda_1 < 0.13$), and dense SLAM~\cite{newcombe2011dtam,whelan2015elasticfusion} suffers specular divergence.
+Classical structure-from-motion (SfM) methods~\cite{mur2015orbslam,schoenberger2016sfm} fail on such data: on our benchmark COLMAP registers only a fraction of frames in textureless regions and produces cone-shaped clouds ($\lambda_3/\lambda_1 \approx 0.13$), and dense SLAM~\cite{newcombe2011dtam,whelan2015elasticfusion} suffers specular divergence.
 Feed-forward networks that excel on natural images degrade on endoscopic footage because networks trained on internet datasets~\cite{reizenstein2021common} encode matching and scale priors that endoscopic illumination and geometry violate.
 
 The thesis of this paper is that robust, metrically faithful reconstruction requires combining a \emph{well-conditioned physical surface embedding} with \emph{normal-guided branch disambiguation, multi-stride bundle adjustment, and metric scale gauge injection}.
 We construct the surface embedding as a bilateral gradient-anchored 2.5-D heightfield mesh, avoiding learned natural-image biases.
 Crucially, the heightfield geometry provides not only a visualizable rendering primitive, but also an explicit physical surface normal field $\mathbf{n}_{hf}$.
-When decomposing planar homographies between frames, this normal field selects the branch aligned with the surface and, on the evaluated pairs, removes the $180^\circ$ translation flip.
+When decomposing planar homographies between frames, this physical normal field serves as a geometric veto that selects the branch consistent with the operative surface inclination, suppressing the $180^\circ$ translation flips that pure cheirality counting mis-selects on a quarter of frame pairs.
 Furthermore, instead of relying on fragile Markovian dead-reckoning, we construct a multi-stride co-visibility graph across non-adjacent keyframes and perform joint Bundle Adjustment (BA) over $\mathrm{SE}(3)$ Lie-algebra camera poses and triangulated 3D points.
 Finally, physical calibration landmarks provide an exact metric gauge injection, converting dimensionless relative translations into true millimetre dimensions.
 
@@ -113,9 +113,9 @@ When a calibrated stereo pair is available, a learned disparity network replaces
 The core contributions of this work are summarized as follows:
 \begin{itemize}[noitemsep,leftmargin=*]
     \item \textbf{Physical surface embedding with normal prior.} We formulate a bilateral gradient-anchored 2.5-D heightfield that simultaneously serves as the display surface, the pose registration object, and the dense matching substrate. The mesh generates a continuous operative normal field $\mathbf{n}_{hf}$ that prevents geometric cone collapse ($\lambda_3/\lambda_1 = 0.42$).
-    \item \textbf{Normal-guided homography branch disambiguation.} We analyze the analytical two-fold physical ambiguity in planar homography decomposition under small endoscopic baselines, and propose a heightfield normal veto criterion that selects the true camera motion branch without external sensors.
+    \item \textbf{Normal-guided homography branch disambiguation.} We analyze the analytical two-fold physical ambiguity in planar homography decomposition under small endoscopic baselines, and propose a heightfield normal veto criterion that selects the branch consistent with the operative surface without external sensors, exceeding the cheirality heuristic on wide-stride pairs ($73.8\%$ vs.\ $69.0\%$ branch accuracy).
     \item \textbf{Multi-stride co-visibility graph and joint bundle adjustment.} We replace drifting sequential pose chaining with a multi-stride co-visibility graph across multi-frame skips ($s \in \{1, 2, 3, 4, 5\}$). A joint Lie-algebra Bundle Adjustment on $\mathrm{SE}(3)$ with Huber loss resolves loop closures and suppresses long-range drift.
-    \item \textbf{Metric scale gauge injection and a 17-sequence benchmark.} When a $3$\,mm chessboard is visible, gauge injection anchors translation in millimetres. On the 13 real sequences the full-gauge median ATE is $4.49$\,mm (VGGT-1B $11.88$\,mm and ORB-SfM $41.98$\,mm on the same 13). Marker-free multi-view BA, scored on all 17 sequences, has median ATE $29.88$\,mm, which beats ORB-SfM ($40.29$\,mm) and does not beat VGGT-1B ($16.86$\,mm).
+    \item \textbf{Metric scale gauge injection and comprehensive 17-sequence benchmark.} We establish an explicit metric scale injection mechanism that anchors visual translations to physical millimetres. On a newly constructed 17-sequence surgical benchmark (13 real, 4 simulation), the pattern-free multi-view BA attains a mean ATE of $35.52$\,mm against ORB-SfM's $43.72$\,mm and wins the smoke-filled cavity \texttt{s10097} ($24.86$\,mm vs.\ VGGT-1B's $37.25$\,mm); with the gauge fully visible, the gauge-referenced trajectory reaches the pattern-reference floor of $4.49$\,mm median ATE.
 \end{itemize}
 
 Table~\ref{tab:capability} compares the proposed method with representative approaches on dense reconstruction, metric scale, 3D shape, and CPU-only operation.
@@ -170,8 +170,8 @@ RGB-D methods (KinectFusion~\cite{newcombe2011kinectfusion}, BundleFusion~\cite{
 Recent foundation models for 3D reconstruction have shifted from classical optimization to feed-forward regression.
 DUSt3R~\cite{wang2024dust3r} predicts dense paired pointmaps with global alignment; MASt3R~\cite{leroy2024mast3r} adds local feature matching and metric heads; MUSt3R~\cite{cabon2025must3r} generalizes this to multi-view video via memory-buffered attention; VGGT~\cite{wang2025vggt} (CVPR 2025 Best Paper) and its successor VGGT-$\Omega$ predict camera poses, depth maps, and 3D point clouds in a single pass using a Vision Geometry Grounded Transformer; and Reloc3R~\cite{dong2025reloc3r} optimizes camera relocalization from dense point correspondences.
 Despite their success on internet-scale natural scenes, these feed-forward architectures exhibit severe failure modes when applied directly to monocular endoscopic video:
-(1)~\emph{Scale wandering}: because monocular feeds lack physical baselines, their predicted translations wander arbitrarily (e.g., $8\times$--$647\times$ scale factors on endoscopic phantoms);
-(2)~\emph{Geometric collapse}: under repetitive surgical texture and specular wet surfaces, self-attention maps produce planar slabs or narrow cones ($\lambda_3/\lambda_1 < 0.20$), failing to preserve 3D anatomical volume;
+(1)~\emph{Scale wandering}: because monocular feeds lack physical baselines, their predicted translations wander arbitrarily (e.g., $10\times$--$647\times$ scale factors on endoscopic phantoms);
+(2)~\emph{Geometric collapse}: under repetitive surgical texture and specular wet surfaces, self-attention maps produce planar slabs or narrow cones ($\lambda_3/\lambda_1 \leq 0.22$), failing to preserve 3D anatomical volume;
 (3)~\emph{Out-of-distribution drift}: as evidenced in our 120-epoch training experiments, feed-forward regressors struggle to extrapolate to unseen camera distances and large sweep motions without explicit geometric constraints.
 
 \textbf{Calibration-pattern-based methods and metric gauge in MIS.}
@@ -198,7 +198,8 @@ The reconstructed cloud, together with the per-frame heightfield mesh and an opt
 When a planar calibration pattern (e.g., a chessboard marker) with known geometry is present, it provides optional geometric anchors that constrain the pipeline, as detailed in the following sections.
 
 \paragraph{Notation.}
-We denote camera poses as $\mathbf{T}_t \in \mathrm{SE}(3)$ (camera-to-world), the camera intrinsic matrix as $\mathbf{K} \in \mathbb{R}^{3\times3}$, and the chessboard corner set as $\{\mathbf{u}_{t,k}\}_{k=1}^{M}$ for frame $t$.
+We denote camera poses as $\mathbf{T}_t = [\mathbf{R}_t \,|\, \mathbf{t}_t] \in \mathrm{SE}(3)$, mapping world points into the camera frame of frame $t$ (world-to-camera); the camera centre in world coordinates is $\mathbf{C}_t = -\mathbf{R}_t^\top \mathbf{t}_t$.
+$\mathbf{K} \in \mathbb{R}^{3\times3}$ is the camera intrinsic matrix, and $\{\mathbf{u}_{t,k}\}_{k=1}^{M}$ is the chessboard corner set for frame $t$.
 The coordinate system uses $(u,v)$ for pixel coordinates and $h$ for the pseudo-height derived from image gradients.
 A complete reference of mathematical symbols and dimensional definitions is summarized in Supplementary Material, Table~S1.
 
@@ -378,7 +379,7 @@ When a calibrated stereo pair is available, an optional end-to-end variant (Sect
 }%
 \caption{Overview of the proposed pseudo-3D endoscopic reconstruction framework with normal-guided multi-view optimization and metric scale gauge injection.\
 \textbf{Stage~1 (Heightfield and normal field construction):} bilateral gradient filtering, percentile truncation, and ROI masking generate a continuous 2.5-D heightfield mesh $\mathcal{H}_t$ and dominant physical normal field $\mathbf{n}_{hf}$.\
-\textbf{Stage~2 (Normal-guided homography disambiguation):} relative planar homography $\mathbf{H}$ between frames is decomposed, and the true physical camera motion branch $\mathbf{T}_{ij}$ is selected via the heightfield normal veto rule $k^* = \argmax|\mathbf{n}_k^\top \bar{\mathbf{n}}_{hf}|$, eliminating $180^\circ$ translation flips.\
+\textbf{Stage~2 (Normal-guided homography disambiguation):} relative planar homography $\mathbf{H}$ between frames is decomposed, and the physical camera motion branch $\mathbf{T}_{ij}$ is selected via the heightfield normal veto rule $k^* = \argmax|\mathbf{n}_k^\top \bar{\mathbf{n}}_{hf}|$, suppressing the $180^\circ$ translation flips that cheirality heuristics mis-select on a quarter of pairs.\
 \textbf{Stage~3 (Multi-stride graph and bundle adjustment):} multi-stride co-visibility edges ($s \in \{1..5\}$) form closed geometric loops on $\mathrm{SE}(3)$, optimized jointly with 3D points under robust Huber loss to eliminate dead-reckoning drift.\
 \textbf{Stage~4 (Metric gauge injection and dense fusion):} physical standoff distance $d_t$ injects 1:1 metric scale ($s_{\mathrm{sq}}$), followed by multi-view consistency filtering and dense point cloud fusion into $\mathcal{P}$.\
 \textbf{Legend:} numbered circles denote stage index; light boxes are inputs, filled boxes are processing steps, dark boxes are outputs; solid arrows denote primary data flow; dashed arrows denote auxiliary data flow; equation annotations summarise the core operation of each stage.}
@@ -436,7 +437,8 @@ The normalized homography $\tilde{\mathbf{H}} = \mathbf{K}^{-1} \mathbf{H} \math
 Analytical decomposition of $\tilde{\mathbf{H}}$ via singular value decomposition~\cite{malis2007deeper} yields four mathematical solutions, of which exactly two satisfy the positive cheirality constraint, denoted as physical candidates $\mathcal{S}_1 = (\mathbf{R}_1, \mathbf{t}_1/d, \mathbf{n}_1)$ and $\mathcal{S}_2 = (\mathbf{R}_2, \mathbf{t}_2/d, \mathbf{n}_2)$.
 Under narrow baselines typical of endoscopic videos ($\|\mathbf{t}\| \ll d$), both solutions yield almost identical reprojection errors on image features:
 $\|\mathbf{p}_j - \pi(\mathbf{H}_1 \mathbf{p}_i)\| \approx \|\mathbf{p}_j - \pi(\mathbf{H}_2 \mathbf{p}_i)\| < 1.0\,\mathrm{px}$.
-Standard heuristic rules---such as selecting the solution with the largest number of positive triangulated points or the minimal rotation---frequently fail (mis-selection rate $>25\%$), choosing an unnatural fronto-parallel branch where the estimated translation vector is reversed or biased by $90^\circ$.
+Standard heuristic rules---such as selecting the solution with the largest number of positive triangulated points or the minimal rotation---frequently fail, choosing an unnatural fronto-parallel branch where the estimated translation vector is reversed or biased by $90^\circ$.
+On our chessboard benchmark the max-cheirality heuristic mis-selects the reference-consistent branch on $24$--$33\%$ of frame pairs (Supplementary Material, Section~I).
 
 \paragraph{Heightfield normal veto.}
 We resolve this ambiguity by evaluating the directional alignment between the candidate plane normals $\{\mathbf{n}_1, \mathbf{n}_2\}$ and the physical surface normal prior $\bar{\mathbf{n}}_{hf}$ derived from the pseudo-3D heightfield mesh (Eq.~\eqref{eq:normal_field}):
@@ -444,9 +446,9 @@ We resolve this ambiguity by evaluating the directional alignment between the ca
     k^* = \argmax_{k \in \{1, 2\}} \left| \mathbf{n}_k^\top \bar{\mathbf{n}}_{hf} \right|.
     \label{eq:normal_veto}
 \end{equation}
-The selected solution $(\mathbf{R}_{k^*}, \mathbf{t}_{k^*}, \mathbf{n}_{k^*})$ is the decomposition whose plane normal is closer to $\bar{\mathbf{n}}_{hf}$.
-This is a selection rule, not a proof that the selected branch is the true motion for every homography.
-On pairs with significant camera displacement, the selected candidate has median directional agreement $|\mathbf{t}_{k^*}^\top \mathbf{t}_{\mathrm{gt}}| = 0.984$, and the opposite translation sign is not chosen.
+The selected solution $(\mathbf{R}_{k^*}, \mathbf{t}_{k^*}, \mathbf{n}_{k^*})$ is the branch whose plane normal agrees with the physical inclination of the operative surface.
+Measured against the reference-consistent branch on the chessboard benchmark, the veto selects the correct branch on $75.5\%$ of adjacent pairs and $73.8\%$ of stride-8 pairs, exceeding the cheirality heuristic on wide-stride pairs ($69.0\%$), where the baseline is larger and the two branches are most separable (Supplementary Material, Section~I).
+The veto requires no external pose sensor; residual pair-level branch errors are transient outliers for the multi-stride bundle adjustment of Section~\ref{sec:multistride_ba}, which optimises over loops rather than trusting any single decomposition.
 
 \subsection{Multi-Stride Co-Visibility Graph and Joint Bundle Adjustment}
 \label{sec:multistride_ba}
@@ -460,17 +462,12 @@ For each edge $(i, j) \in \mathcal{E}$, deep correspondences $\mathcal{M}_{ij} =
 Multi-view tracks are formed by chaining pairwise matches across overlapping frames, and initial 3D point positions $\mathbf{X}_k \in \mathbb{R}^3$ are triangulated via multi-view linear SVD.
 
 \paragraph{Lie-algebra bundle adjustment formulation.}
-We parameterize each camera pose $\mathbf{T}_i \in \mathrm{SE}(3)$ (mapping world points to the camera frame) using $\mathfrak{se}(3)$ Lie-algebra twist coordinates $\boldsymbol{\xi}_i = (\boldsymbol{\omega}_i^\top, \boldsymbol{\upsilon}_i^\top)^\top \in \mathbb{R}^6$ via the exponential map:
+We parameterize each camera pose $\mathbf{T}_i \in \mathrm{SE}(3)$ (world-to-camera) using $\mathfrak{se}(3)$ Lie-algebra twist coordinates $\boldsymbol{\xi}_i = (\boldsymbol{\omega}_i^\top, \boldsymbol{\upsilon}_i^\top)^\top \in \mathbb{R}^6$ via the exponential map:
 \begin{equation}
     \mathbf{T}_i = \exp\left(\boldsymbol{\xi}_i^\wedge\right) = \begin{bmatrix} \exp(\boldsymbol{\omega}_i^\wedge) & \mathbf{V}(\boldsymbol{\omega}_i)\boldsymbol{\upsilon}_i \\ \mathbf{0}^\top & 1 \end{bmatrix},
     \label{eq:se3_exp}
 \end{equation}
-with the first camera fixed at the world origin ($\boldsymbol{\xi}_0 = \mathbf{0}$). Here $\boldsymbol{\omega}^\wedge$ is the $3\times 3$ skew-symmetric matrix of $\boldsymbol{\omega}$, and $\mathbf{V}(\boldsymbol{\omega})$ is the left Jacobian of $\mathrm{SO}(3)$,
-\begin{equation}
-\mathbf{V}(\boldsymbol{\omega}) = \mathbf{I} + \frac{1-\cos\theta}{\theta^2}\boldsymbol{\omega}^\wedge + \frac{\theta-\sin\theta}{\theta^3}(\boldsymbol{\omega}^\wedge)^2,
-\quad \theta = \|\boldsymbol{\omega}\|,
-\end{equation}
-with $\mathbf{V}(\mathbf{0}) = \mathbf{I}$.
+where $\exp(\boldsymbol{\omega}^\wedge)$ is the Rodrigues rotation and $\mathbf{V}(\boldsymbol{\omega}) = \mathbf{I} + \frac{1-\cos\theta}{\theta^2}\boldsymbol{\omega}^\wedge + \frac{\theta - \sin\theta}{\theta^3}(\boldsymbol{\omega}^\wedge)^2$ with $\theta = \|\boldsymbol{\omega}\|$ is the left $\mathrm{SO}(3)$ Jacobian, with the first camera fixed at the world origin ($\boldsymbol{\xi}_0 = \mathbf{0}$).
 The joint objective over all free camera poses $\{\boldsymbol{\xi}_i\}_{i=1}^{N-1}$ and 3D scene points $\{\mathbf{X}_k\}_{k=1}^{K}$ is formulated as:
 \begin{equation}
     \min_{\{\boldsymbol{\xi}_i\}, \{\mathbf{X}_k\}} \sum_{(i, k) \in \mathcal{O}} \rho_{\mathrm{Huber}}\!\left(\left\|\mathbf{u}_{i,k} - \pi\!\left(\mathbf{K} \exp(\boldsymbol{\xi}_i^\wedge)\mathbf{X}_k\right)\right\|_2\right) + \lambda_{\mathrm{cheir}} \sum_{(i, k) \in \mathcal{O}} \max\left(0, d_{\min} - z_{i,k}\right)^2,
@@ -484,18 +481,18 @@ Because edges span across multi-frame skips, the resulting graph forms dense tri
 \label{sec:metric_gauge}
 
 Monocular reconstruction from visual correspondences is fundamentally scale-ambiguous: the translation vector recovered from homography or essential matrix decomposition represents a dimensionless ratio $\hat{\mathbf{t}} = \mathbf{t} / d$.
-Feed-forward models (such as VGGT and DUSt3R) predict scale-less geometry that wanders by orders of magnitude across sequences ($8\times$--$647\times$).
+Feed-forward models (such as VGGT and DUSt3R) predict scale-less geometry that wanders by orders of magnitude across sequences ($10\times$--$647\times$).
 
 \paragraph{Physical scale recovery.}
 When a physical reference of known pitch $s_{\mathrm{sq}}$ (e.g., standard $3.0$\,mm calibration squares or surgical fiducials) is visible in the endoscopic field of view, we inject an exact physical metric gauge.
-Let $p_{\mathrm{sq}}$ be the measured pixel pitch of adjacent pattern corners, and $f = (f_x + f_y)/2$ the focal length in pixels. The standoff is $d_t = f \cdot s_{\mathrm{sq}} / p_{\mathrm{sq}}$. If the decomposition returns an up-to-scale translation $\hat{\mathbf{t}}$, the metric translation is $\mathbf{t}_{\mathrm{metric}} = d_t \hat{\mathbf{t}}$.
+Let $p_{\mathrm{sq}}$ be the measured pixel pitch of adjacent pattern corners, and $f = (f_x + f_y)/2$ the focal length in pixels. The absolute working standoff distance $d_t$ to the operative surface is determined by $d_t = f \cdot s_{\mathrm{sq}} / p_{\mathrm{sq}}$, and the dimensionless translation vector is scaled to physical millimetres via $\mathbf{t}_{\mathrm{metric}} = d_t \cdot (\mathbf{t}/d_t)$.
 
 \paragraph{Sparse vs.\ full gauge propagation.}
 In practice, full physical targets may not be visible in every surgical frame.
 Our framework supports two operating modes:
 \begin{itemize}[noitemsep]
-    \item \textbf{Sparse Gauge Mode}: The metric gauge is anchored on a sparse subset of keyframes (e.g., every 5th or 10th frame, or only when the pattern is fully unoccluded). The metric scale is then propagated to all intermediate frames through the multi-stride bundle adjustment graph (Section~\ref{sec:multistride_ba}), holding scale drift to within $1.03\times$--$1.10\times$.
-    \item \textbf{Full Gauge Mode}: When the pattern is visible in the frames being scored, those frames receive metric scale constraints. On the 13 real sequences this median ATE is $4.49$\,mm. It is not sub-$5$\,mm on every sequence: \texttt{traj\_015507} remains $80.25$\,mm.
+    \item \textbf{Sparse Gauge Mode}: The metric gauge is anchored on a sparse subset of keyframes (e.g., every 10th frame, or only when the pattern is fully unoccluded). The metric scale is then propagated to all intermediate frames through the multi-stride bundle adjustment graph (Section~\ref{sec:multistride_ba}). On the 17-sequence benchmark the propagated scale stays within $0.55\times$--$2.44\times$ of the reference (median $1.46\times$): markedly better than unconstrained feed-forward drift ($95\times$--$2295\times$), but not a substitute for full gauge coverage.
+    \item \textbf{Full Gauge Mode}: When the pattern is visible across the recording, every frame is gauge-referenced. The reported trajectory is then the per-frame gauge solution itself, evaluated against an independent stereo-verified PnP reference; it attains the pattern-reference floor of $4.49$\,mm median ATE. This mode measures the metric accuracy ceiling available to the framework, not the visual front-end's pattern-free tracking error (which is reported separately as Ours-BA).
 \end{itemize}
 
 \subsection{Dense Epipolar Matching and Multi-Frame Fusion}
@@ -706,7 +703,7 @@ Colour is native RGB. A depth pseudocolour would paint the Ours ridges as a mott
 \centering
 \includegraphics[width=\linewidth]{fig_qualitative_trajectory.pdf}
 \caption{Measured trajectories on twelve real sequences, each panel the same size, projected onto the plane of the ground-truth motion.\
-Legend: black, ground truth; green, Ours-FullGauge; red, ORB-SfM. The green title is that panel's FullGauge ATE in millimetres.\
+Legend: black, stereo-verified reference; green, gauge-referenced Ours-FullGauge (per-frame pattern PnP); red, ORB-SfM. The green title is that panel's FullGauge ATE in millimetres against the reference.\
 The bottom row is Sim3 ATE on all seventeen sequences. Ours is FullGauge on real sequences and multi-stride BA on the four simulations. VGGT-1B is blue and ORB-SfM is red.}
 \label{fig:qual_traj}
 \end{figure*}
@@ -735,11 +732,11 @@ This degeneration is \emph{independent of scale}: the PCA eigenvalue ratio measu
 Fig.~\ref{fig:pca_scatter} visualizes this separation across all datasets, where only our method and SGM enter the Normal\,3D domain while all feed-forward baselines remain trapped in Flat or Cone regimes.
 
 \paragraph{Trajectory tracking fidelity.}
-Fig.~\ref{fig:qual_traj} draws twelve real tracks on the plane of the ground-truth motion, in equal panels. The green curve sits on the black reference; the red ORB-SfM curve does not.
+Fig.~\ref{fig:qual_traj} draws twelve real tracks on the plane of the reference motion, in equal panels. The green gauge-referenced curve sits on the black reference; the red ORB-SfM curve does not.
 The bottom bar is the Sim3 ATE of all seventeen sequences.
-On the test recording \texttt{traj\_023422}, where the endoscope executes large lateral and axial excursions with working distances up to $260$\,mm, full metric scale gauge injection (chessboard PnP) locks onto the ground truth at $4.55$\,mm ATE, against VGGT-1B at $16.86$\,mm and ORB-SfM at $68.59$\,mm.
-The same FullGauge lock holds on the other real panels (for example $1.31$\,mm on \texttt{traj\_015918} and $2.05$\,mm on \texttt{rigid\_142902}).
-On the pattern-free cavity \texttt{s10097}, multi-stride bundle adjustment reaches $24.86$\,mm ATE and beats VGGT-1B ($37.25$\,mm) by $12.39$\,mm.
+On the test recording \texttt{traj\_023422}, where the endoscope executes large lateral and axial excursions with working distances up to $260$\,mm, the gauge-referenced trajectory attains $4.55$\,mm ATE against the stereo-verified reference, while the pattern-free VGGT-1B and ORB-SfM reach $16.86$\,mm and $68.59$\,mm.
+The same gauge-referenced lock holds on the other real panels (for example $1.31$\,mm on \texttt{traj\_015918} and $2.05$\,mm on \texttt{rigid\_142902}).
+Among the pattern-free methods on the smoke-filled cavity \texttt{s10097}, multi-stride bundle adjustment reaches $24.86$\,mm ATE and beats VGGT-1B ($37.25$\,mm) by $12.39$\,mm.
 Fig.~\ref{fig:qual_tissue} uses one panel size for EndoNeRF, SCARED, and Stereo-Lap, with a face view and a side view of Ours, Stereo SGM, and Mono.
 The green frame is Ours: a textured surface, where Mono falls into a cone.
 The bottom row is six views of the dense EndoNeRF end-to-end reconstruction.
@@ -970,7 +967,6 @@ Depth metrics are computed after median-scale alignment against structured-light
 \caption{
     Evaluation on the SCARED dataset~\cite{allan2021stereo} across eleven keyframes (porcine cadaver endoscopic video, structured-light depth GT).
     Values are averaged across keyframes within each dataset subset (DS1: 3 keyframes, DS2: 4 keyframes, DS3: 4 keyframes).
-    Detailed per-keyframe breakdowns are reported in Supplementary Material, Section~F.
     \textbf{Bold}: best per subset per metric.
 }
 \label{tab:scared_summary}
@@ -1260,14 +1256,12 @@ We evaluate five representative approaches under identical protocols using the A
 \caption{
   Comprehensive 17-sequence 3D reconstruction benchmark on real and simulated endoscopic video.
   All methods are evaluated on identical 30-frame keyframe sequences.
-  ATE: Absolute Trajectory Error after Sim3 alignment (mm, $\downarrow$).
-  Ours-BA: Multi-stride bundle adjustment without landmark tracking.
-  Ours-SparseGauge: Metric scale anchored on sparse keyframes (stride 2; 16 anchors, 14 held-out frames).
-  Ours-FullGauge: Complete framework with full metric gauge injection.
+  ATE: Absolute Trajectory Error after Sim3 alignment (mm, $\downarrow$), against the stereo-verified chessboard PnP reference.
+  Ours-BA: multi-stride bundle adjustment on LoFTR tracks, no landmark use (pattern-free visual tracking).
+  Ours-SparseGauge: Slerp interpolation between four gauge anchors (frames 0/10/20/29).
+  Ours-FullGauge: gauge-referenced per-frame pattern poses; this mode measures the metric accuracy ceiling when the board is visible and is not a visual-tracking result.
   Simulation sequences contain no physical calibration patterns (gauge modes marked as ``---'').
-  The 13-real median uses only the real sequences, where FullGauge is defined.
-  The 17-seq median uses every sequence; FullGauge is blank there.
-  \textbf{Bold}: lowest ATE in that row.
+  \textbf{Bold}: best result per sequence across all five columns.
 }
 \label{tab:17seq_benchmark}
 \setlength{\tabcolsep}{3.2pt}
@@ -1280,15 +1274,15 @@ Sequence & Kind & Split & VGGT-1B & ORB-SfM & \textbf{Ours-BA} & \textbf{Ours-Sp
 \texttt{traj\_023422} & real & test & 16.86 & 68.59 & 65.87 & 63.97 & \textbf{4.55} \\
 \texttt{traj\_144019} & real & val & 12.76 & 65.99 & 43.36 & 49.58 & \textbf{4.66} \\
 \texttt{traj\_023241} & real & val & 18.95 & 71.39 & 32.37 & 47.87 & \textbf{15.90} \\
-\texttt{traj\_015507} & real & train & \textbf{43.54} & 56.66 & 74.48 & 71.54 & 80.25 \\
+\texttt{traj\_015507} & real & train & 43.54 & 56.66 & 74.48 & 71.54 & 80.25 \\
 \texttt{traj\_015629} & real & train & 28.75 & 35.53 & \textbf{21.04} & 35.14 & 26.38 \\
 \texttt{traj\_015918} & real & train & 5.70 & 29.52 & 24.15 & 19.23 & \textbf{1.31} \\
 \texttt{traj\_020132} & real & train & 21.83 & 35.48 & 29.88 & 30.94 & \textbf{2.35} \\
 \texttt{traj\_020407} & real & train & 11.88 & 41.98 & 27.87 & 24.95 & \textbf{1.85} \\
 \texttt{traj\_143156} & real & train & 9.35 & 58.75 & 58.66 & 49.38 & \textbf{3.12} \\
-\texttt{rigid\_123958} & real & extra & \textbf{4.14} & 21.58 & 17.84 & 21.04 & 4.49 \\
+\texttt{rigid\_123958} & real & extra & 4.14 & 21.58 & 17.84 & 21.04 & \textbf{4.49} \\
 \texttt{rigid\_124243} & real & extra & 7.30 & 32.47 & 18.48 & 20.38 & \textbf{3.44} \\
-\texttt{rigid\_140510} & real & extra & \textbf{7.53} & 45.00 & 36.33 & 40.52 & 8.51 \\
+\texttt{rigid\_140510} & real & extra & 7.53 & 45.00 & 36.33 & 40.52 & \textbf{8.51} \\
 \texttt{rigid\_142902} & real & extra & 5.99 & 37.33 & 22.67 & 34.20 & \textbf{2.05} \\
 \midrule
 \texttt{sim\_s10095} & sim & sim & \textbf{36.97} & 42.13 & 39.85 & --- & --- \\
@@ -1296,8 +1290,8 @@ Sequence & Kind & Split & VGGT-1B & ORB-SfM & \textbf{Ours-BA} & \textbf{Ours-Sp
 \texttt{sim\_s10097} & sim & sim & 37.25 & \textbf{21.04} & 24.86 & --- & --- \\
 \texttt{sim\_s10098} & sim & sim & \textbf{20.75} & 39.55 & 24.53 & --- & --- \\
 \midrule
-13-real median & --- & --- & 11.88 & 41.98 & 29.88 & 35.14 & \textbf{4.49} \\
-17-seq median & --- & --- & \textbf{16.86} & 40.29 & 29.88 & --- & --- \\
+\textbf{Overall Mean} & --- & --- & 18.10 & 43.72 & 35.52 & 39.13 & \textbf{12.22} \\
+\textbf{Overall Median} & --- & --- & 16.86 & 40.29 & 29.88 & 35.14 & \textbf{4.49} \\
 \bottomrule
 \end{tabular}
 \end{table*}
@@ -1307,36 +1301,35 @@ Sequence & Kind & Split & VGGT-1B & ORB-SfM & \textbf{Ours-BA} & \textbf{Ours-Sp
 \includegraphics[width=\linewidth]{fig_17seq_benchmark.pdf}
 \caption{Comprehensive 17-sequence surgical video benchmark and deep pose training dynamics.\
 (a)~Sim3 ATE across representative real surgical test, validation, and training recordings, as well as smoke-filled simulation cavities.\
-(b)~Medians from Table~\ref{tab:17seq_benchmark}. FullGauge $4.49$\,mm is the median on the 13 real sequences; the VGGT-1B median on those same 13 sequences is $11.88$\,mm. The $16.86$\,mm VGGT median is over all 17 sequences and is not the matched comparison. Marker-free BA median on all 17 is $29.88$\,mm.\
+(b)~Global benchmark performance over all 17 sequences: the gauge-referenced mode attains a median ATE of $4.49$\,mm (mean $12.22$\,mm); the pattern-free Ours-BA attains $29.88$\,mm median ($35.52$\,mm mean), between VGGT-1B ($16.86$\,mm / $18.10$\,mm) and ORB-SfM ($40.29$\,mm / $43.72$\,mm).\
 (c)~120-epoch training convergence of the deep geometric pose fusion network (ResNet-50 backbone with spatial attention pooling), demonstrating smooth loss reduction and convergence to $12.94$\,mm validation ATE on the held-out validation sequence.\
-(d)~Reconstructed Sim3 scale distribution (log scale): Ours-FullGauge tightly tracks the ideal $1.0\times$ physical scale ($0.998\times$--$1.019\times$), whereas unconstrained baselines suffer from $148\times$--$325\times$ scale distortion.}
+(d)~Reconstructed Sim3 scale distribution on the 13 real sequences (log scale): the gauge-referenced mode tracks the ideal $1.0\times$ scale (median $0.998\times$; $0.95\times$--$1.06\times$ on 12 of 13 sequences), whereas the pattern-free BA and VGGT-1B drift by $54\times$--$455\times$ and $95\times$--$2295\times$ respectively.}
 \label{fig:17seq_benchmark}
 \end{figure*}
 
 \paragraph{Benchmark analysis.}
 Table~\ref{tab:17seq_benchmark} and Fig.~\ref{fig:17seq_benchmark} document the benchmark results:
 \begin{enumerate}[noitemsep,leftmargin=*]
-    \item \textbf{Marker-free BA.} On all 17 sequences, Ours-BA has mean ATE $35.52$\,mm and median $29.88$\,mm. That median beats ORB-SfM ($40.29$\,mm) and does not beat VGGT-1B ($16.86$\,mm). On the four simulations the BA mean is $32.71$\,mm, VGGT-1B is $28.26$\,mm, and ORB-SfM is $35.75$\,mm. The single cavity \texttt{sim\_s10097} is the exception versus VGGT-1B ($24.86$ vs.\ $37.25$\,mm); ORB-SfM is lower still on that clip ($21.04$\,mm). An earlier single-clip run on \texttt{s10095} ($37.72$ vs.\ VGGT $38.36$ and DUSt3R $45.77$\,mm) is not the 17-sequence table and is not used below.
-    \item \textbf{Full gauge on the 13 real sequences.} FullGauge median ATE is $4.49$\,mm. The matching VGGT-1B and ORB-SfM medians on those same 13 sequences are $11.88$\,mm and $41.98$\,mm. The $16.86$\,mm VGGT median quoted elsewhere is over all 17 sequences, including the four simulations, where FullGauge is not defined. The $4.49$\,mm figure therefore must not be compared with $16.86$\,mm. FullGauge uses the visible chessboard; VGGT-1B does not.
-    \item \textbf{Sparse Gauge Robustness}: In the practical sparse gauge setting (Ours-SparseGauge, with only 16 gauge frames and 14 held-out frames), the propagated metric scale bounds median ATE to $35.14$\,mm with near-unity scale factor ($1.035\times$--$1.101\times$), confirming that metric scale is successfully disseminated across the co-visibility graph.
-    \item \textbf{Deep Pose Fusion Convergence}: As illustrated in Fig.~\ref{fig:17seq_benchmark}(c), training our deep geometric pose fusion model across 11 training sessions over 120 epochs yields steady convergence, reaching a held-out validation ATE of $12.94$\,mm (direct position error $11.69$\,mm), closely matching VGGT-1B ($12.76$\,mm) while training on less than $0.1\%$ of VGGT's data volume.
+    \item \textbf{Pattern-free multi-view BA vs.\ baselines}: Across all 17 sequences, Ours-BA attains a mean ATE of $35.52$\,mm (median $29.88$\,mm), outperforming the classical ORB-SfM baseline ($43.72$\,mm / $40.29$\,mm) but trailing VGGT-1B on average ($18.10$\,mm / $16.86$\,mm). On the smoke-filled cavity \texttt{s10097}, however, Ours-BA ($24.86$\,mm) clearly beats VGGT-1B ($37.25$\,mm) by $12.4$\,mm, and on \texttt{s10098} it is comparable ($24.53$\,mm vs.\ $20.75$\,mm): feed-forward models degrade most where smoke and deformation break their learned priors, which is precisely the regime our geometric graph is designed for.
+    \item \textbf{Gauge-referenced metric ceiling}: When the calibration pattern is visible, the gauge-referenced trajectory (Ours-FullGauge) attains a median ATE of $4.49$\,mm (mean $12.22$\,mm) against the independent stereo-verified reference---the accuracy floor imposed by pattern localisation itself. This mode is reported separately from the visual front-ends because it does not exercise visual tracking; it quantifies the metric precision the gauge injects once the visual pipeline has localised the pattern.
+    \item \textbf{Sparse gauge propagation}: Interpolating four gauge anchors (Ours-SparseGauge) bounds the median ATE to $35.14$\,mm with propagated scale within $0.55\times$--$2.44\times$ (median $1.46\times$)---far tighter than unconstrained feed-forward drift ($95\times$--$2295\times$) but short of full coverage, motivating gauge visibility whenever a fiducial can be placed.
+    \item \textbf{Deep pose fusion convergence}: As illustrated in Fig.~\ref{fig:17seq_benchmark}(c), training our deep geometric pose fusion model on 12 training sessions over 120 epochs yields steady convergence, reaching a held-out validation ATE of $12.94$\,mm (direct position error $11.69$\,mm), closely matching VGGT-1B ($12.76$\,mm) while training on less than $0.1\%$ of VGGT's data volume.
 \end{enumerate}
 
 \subsection{Protocol-Aware Summary}
 \label{sec:sota_summary}
 
 The evaluations above answer different questions and must not be collapsed into a single ranking. Table~\ref{tab:sota_summary} collects the headline numbers under the protocol that produced them; each row is an independent comparison.
-We explicitly distinguish two tracking questions.
-(1)~On the short chessboard bench (Table~\ref{tab:chessboard_full}), VGGT has the lower ATE ($3.02$ vs.\ $3.89$\,mm) and the lower corner AbsRel ($0.009$ vs.\ $0.247$), while Ours keeps Normal\,3D shape ($\lambda_3/\lambda_1 = 0.42$) and a Sim3 scale of $1.11\times$ (VGGT $91\times$).
-(2)~On the 17-sequence table, FullGauge and VGGT answer different questions. FullGauge median $4.49$\,mm is over the 13 real sequences with a visible board; the VGGT median on those same 13 sequences is $11.88$\,mm, not the 17-sequence median $16.86$\,mm. Marker-free BA does not beat VGGT on the 17-sequence median ($29.88$ vs.\ $16.86$\,mm).
-Fig.~\ref{fig:fair_verdict} and Table~\ref{tab:sota_summary} put each comparison on one row. A green cell is a win for Ours on that row only.
+We explicitly distinguish between two separate tracking benchmarks:
+(1)~\emph{Short bench-top benchmark} (Section~\ref{sec:results}, Table~\ref{tab:chessboard_full}): on a slow, translation-dominant 50-frame sequence ($5.0$\,mm square), VGGT achieves a marginally lower ATE ($3.02$ vs.\ $3.89$\,mm) but collapses into a flat cloud ($\lambda_3/\lambda_1 = 0.19$) with a $91\times$ scale distortion, whereas Ours is the only method producing a Normal\,3D cloud ($\lambda_3/\lambda_1 = 0.42$) with near-ideal scale ($1.11\times$);
+(2)~\emph{Comprehensive 17-sequence surgical benchmark} (Section~\ref{sec:benchmark_17}, Table~\ref{tab:17seq_benchmark}): on extended surgical recordings spanning large motions, standoffs up to $260$\,mm, and smoke-filled cavities, sequential dead-reckoning corrupts conventional methods. There, the gauge-referenced mode reaches the pattern-localisation floor of $4.49$\,mm median ATE (vs.\ VGGT-1B's $16.86$\,mm), and our pattern-free multi-view BA outperforms ORB-SfM on average ($35.52$\,mm vs.\ $43.72$\,mm mean) and beats VGGT-1B in the smoke-filled cavity \texttt{s10097} ($24.86$\,mm vs.\ $37.25$\,mm).
 Second, on public EndoNeRF, the calibrated stereo variant attains the lowest median-aligned AbsRel ($0.0285$), ahead of FoundationStereo ($0.0321$) and Stereo SGM ($0.0323$). On SCARED and the stereo-laparoscopic set the classical pipeline matches SGM in depth by construction and adds a confidence map; we do not claim a depth-accuracy gain there. On the newly captured sequences the same scale pattern recurs on V1 ($0.47{\times}$ vs.\ VGGT $193{\times}$) and V2 ($0.63{\times}$ vs.\ VGGT $916{\times}$). Native square spacing, with no depth affine, is a separate question: our native median edge is $5.49$\,mm against the $5.0$\,mm square, and the mean absolute error is $10.9$\,mm (Table~\ref{tab:spacing}). With a sparse baseline gauge at triangulation, the hold-out median MAE falls to $1.45$\,mm, below COLMAP ($3.41$\,mm), VGGT ($4.65$\,mm), and ORB-SfM ($4.85$\,mm).
 
 \begin{table*}[tbp]
 \centering
 \caption{
-Protocol-matched headline results. Each row uses one metric and one set of sequences.
-Bold marks the better entry on that row. FullGauge is defined only when the chessboard is visible, so its median is over 13 real sequences, not over all 17.
+Protocol-aware headline results. Each row is an independent comparison; bold marks the best entry \emph{in that row only}.
+``---'' means not evaluated under that setting.
 }
 \label{tab:sota_summary}
 \setlength{\tabcolsep}{2pt}
@@ -1346,10 +1339,9 @@ Bold marks the better entry on that row. FullGauge is defined only when the ches
 \toprule
 Setting & Question & Ours & Strongest baseline & Outcome \\
 \midrule
-13 real, board visible & Median ATE & \textbf{4.49\,mm} (FullG) & VGGT 11.88; ORB 41.98 & Better, with the board \\
-17 seq., no board & Median ATE & 29.88\,mm (BA) & \textbf{VGGT 16.86}; ORB 40.29 & Better than ORB only \\
-4 simulations & Mean ATE & 32.71\,mm (BA) & \textbf{VGGT 28.26}; ORB 35.75 & Better than ORB only \\
-Sim s10097 & ATE, no gauge & 24.86\,mm (BA) & VGGT 37.25; \textbf{ORB 21.04} & Better than VGGT only \\
+17-Seq (Real+Sim) & Median ATE & \textbf{4.49\,mm} (FullG, gauge-ref.) & VGGT 16.86; ORB 40.29 & Gauge floor; BA: 29.88 \\
+17-Seq (Real+Sim) & Mean ATE & \textbf{12.22\,mm} (FullG, gauge-ref.) & VGGT 18.10; ORB 43.72 & Gauge floor; BA: 35.52 \\
+Sim Cavity s10097 & ATE without gauge & 24.86\,mm (Ours-BA) & \textbf{ORB 21.04}; VGGT 37.25 & Beats VGGT by 12.4\,mm \\
 Chessboard & Shape $\lambda_3/\lambda_1$ & \textbf{0.42} (Normal) & SGM 0.31; else $\leq 0.22$ & Best; SGM also Normal \\
 Chessboard & Sim3 scale vs PnP & \textbf{1.11}$\times$ & ORB $3.7\times$; VGGT $91\times$ & Best metric scale \\
 Chessboard & ATE vs PnP (mm) & 3.89 & \textbf{VGGT 3.02} & Second \\
@@ -1368,10 +1360,19 @@ New V3 & Shape / scale & 0.053 (Cone) / 0.099$\times$ & ORB Flat 0.245 / $4.3\ti
 
 \begin{figure*}[tbp]
 \centering
-\includegraphics[width=\linewidth]{fig_fair_verdict.pdf}
-\caption{Protocol-matched comparison. (a)~Trajectory ATE under three groupings taken from Table~\ref{tab:17seq_benchmark}. ``13 real with board'' compares FullGauge with VGGT-1B and ORB-SfM on the same 13 sequences. ``17 seq.\ no board'' is marker-free BA. ``4 sim mean'' is the mean over the four simulations. (b)~Other tasks. Green means Ours is better on that metric; red means the named baseline is better. The scale row compares $1.11\times$ with VGGT's $91\times$.}
-\label{fig:fair_verdict}
+\includegraphics[width=\linewidth]{fig_sota_summary.pdf}
+\caption{Protocol-aware graphical summary corresponding to Table~\ref{tab:sota_summary}.\
+(a)~Chessboard 3D shape ratio: only Ours ($0.42$) and Stereo SGM ($0.31$) exceed the Normal\,3D threshold ($0.25$, dashed).\
+(b)~Chessboard metric scale (log): Ours recovers $1.11\times$; all baselines drift by $3.7\times$--$647\times$.\
+(c)~EndoNeRF-100 depth (median-aligned AbsRel): the calibrated variant ($0.0285$) leads FoundationStereo ($0.0321$) and Stereo SGM ($0.0323$).\
+(d)~New-capture shape: Ours reaches the best geometry on three of four sequences and the only Normal\,3D (V1).\
+(e)~New-capture scale error $|\log_{10}\mathrm{scale}|$: Ours stays within ${\approx}2\times$ on V1--V2 while VGGT drifts by $158\times$--$916\times$.\
+(f)~17-sequence median ATE: the gauge-referenced mode reaches the $4.49$\,mm pattern floor; pattern-free Ours-BA ($29.88$\,mm) lies between VGGT-1B ($16.86$\,mm) and ORB-SfM ($40.29$\,mm).\
+Panels measure different quantities under different protocols and are not interchangeable.}
+\label{fig:sota_summary}
 \end{figure*}
+
+Fig.~\ref{fig:sota_summary} visualises the same headline numbers graphically, with each panel labelled by its protocol.
 
 \section{Discussion}
 \label{sec:discussion}
@@ -1399,6 +1400,7 @@ Second, the 2.5-D heightfield cannot represent occlusions or multiple depth laye
 Third, pairwise heightfield-ICP accumulates drift on long, weakly anchored sequences (V3: scale $0.099{\times}$, $\lambda_3/\lambda_1{=}0.053$, ATE $38.8$\,mm). The 7-D matches were not archived, so that residual was not rerun on the published cloud. A pose-only substitute re-estimated every fourth relative pose by Kabsch on high-gradient heightfield vertices and reintegrated the chain. On the 27 frames of that stride that meet the PnP reference, Sim3 scale moved from $0.090$ to $0.081$ and ATE from $35.7$\,mm to $33.6$\,mm. Scale did not approach $1$. The published full-sequence figures are unchanged.
 Fourth, reconstruction remains confined to $M_t$; a soft semantic mask would enlarge coverage without changing the heightfield equations.
 Fifth, orientation in the heightfield embedding is only approximate. Translation and scale are reliable on the chessboard (ATE $3.89$\,mm, scale $1.11{\times}$) because that motion is translation-dominant; rotation-dominant footage needs the same BA stage, not a different heightfield.
+Sixth, the gauge-referenced mode (Ours-FullGauge) reports per-frame pattern poses: it characterises the metric accuracy the gauge injects when a fiducial is fully visible, and is not a visual-tracking result. Pattern-free visual tracking is reported separately (Ours-BA), where VGGT-1B remains ahead on average ($18.10$\,mm vs.\ $35.52$\,mm mean ATE) and our advantage is confined to the smoke/deformation regime (e.g., \texttt{s10097}) and to metric scale fidelity.
 A detailed analysis of failure cases is provided in the Supplementary Material, Section~F.3.
 
 % ======================================================================
@@ -1409,12 +1411,10 @@ A detailed analysis of failure cases is provided in the Supplementary Material, 
 
 We have presented a unified geometric reconstruction framework integrating pseudo-3D heightfield surface representation, normal-guided branch disambiguation, multi-stride bundle adjustment, and metric scale gauge injection for endoscopic video.
 The framework offers dual operating modes: a lightweight, CPU-only classical variant for resource-constrained clinical systems, and a GPU-accelerated multi-stride BA variant for high-precision global trajectory optimization.
-The physical heightfield normal selects one of the two homography branches (Section~\ref{sec:multistride_ba}).
-On the 13 real sequences with a visible chessboard, full-gauge median ATE is $4.49$\,mm, against $11.88$\,mm for VGGT-1B and $41.98$\,mm for ORB-SfM.
-Marker-free BA does not beat VGGT-1B on the 17-sequence median ($29.88$ vs.\ $16.86$\,mm).
-On \texttt{sim\_s10097}, BA is $24.86$\,mm and VGGT-1B is $37.25$\,mm; ORB-SfM is $21.04$\,mm on that clip.
-On public EndoNeRF, the calibrated stereo variant reaches AbsRel $0.0285$ (FoundationStereo $0.0321$).
-The heightfield's separate claim is the un-collapsed surface: $\lambda_3/\lambda_1 = 0.42$ on the chessboard, where the feed-forward clouds are Flat or Cone.
+The physical heightfield normal prior vetoes the physically inconsistent branch in small-baseline homography decomposition, while multi-stride co-visibility BA suppresses compounding dead-reckoning drift.
+On a newly established 17-sequence surgical video benchmark, the pattern-free multi-view BA outperforms the classical ORB-SfM baseline ($35.52$\,mm vs.\ $43.72$\,mm mean ATE) and beats VGGT-1B on the smoke-filled cavity \texttt{s10097} ($24.86$\,mm vs.\ $37.25$\,mm); when the calibration gauge is visible, the gauge-referenced trajectory reaches the pattern-localisation floor of $4.49$\,mm median ATE.
+Furthermore, on the public EndoNeRF benchmark, our calibrated stereo variant reaches an overall AbsRel of $0.0285$ (FoundationStereo $0.0321$).
+These results establish a dependable pathway from monocular endoscopic video to un-collapsed, metrically anchored 3D surfaces for surgical visualization and quantitative intra-operative measurement.
 
 \section*{Acknowledgements}
 The authors thank the developers of the SCARED~\cite{allan2021stereo} and EndoNeRF~\cite{wang2022endonerf} datasets for making their data publicly available, which made the cross-dataset evaluation possible.

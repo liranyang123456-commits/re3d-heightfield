@@ -1,0 +1,50 @@
+{
+  "traj_20260923_023422": [
+    {
+      "tag": "flip",
+      "ate_mm": 50.52,
+      "scale": 93.775,
+      "posed": 141,
+      "stride": 8
+    },
+    {
+      "tag": "raw",
+      "ate_mm": 49.18,
+      "scale": 93.775,
+      "posed": 141,
+      "stride": 8
+    }
+  ],
+  "traj_20260924_144019": [
+    {
+      "tag": "flip",
+      "ate_mm": 45.86,
+      "scale": 77.184,
+      "posed": 211,
+      "stride": 8
+    },
+    {
+      "tag": "raw",
+      "ate_mm": 45.72,
+      "scale": 77.184,
+      "posed": 211,
+      "stride": 8
+    }
+  ],
+  "sim_20260924_172955_s10095": [
+    {
+      "tag": "flip",
+      "ate_mm": 46.98,
+      "scale": 96.118,
+      "posed": 8,
+      "stride": 8
+    },
+    {
+      "tag": "raw",
+      "ate_mm": 46.98,
+      "scale": 96.118,
+      "posed": 8,
+      "stride": 8
+    }
+  ]
+}

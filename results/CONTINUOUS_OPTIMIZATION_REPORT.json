@@ -1,0 +1,111 @@
+{
+  "campaign_started": "2026-09-26 17:27:23",
+  "log": [
+    {
+      "timestamp": "2026-09-26 17:27:23",
+      "phase": "Campaign_Init",
+      "status": "INITIALIZED",
+      "details": {
+        "target_duration": "3+ hours",
+        "device": "NVIDIA RTX 5090"
+      }
+    },
+    {
+      "timestamp": "2026-09-26 17:27:23",
+      "phase": "Phase1_DeepPoseTraining",
+      "status": "STARTED",
+      "details": {
+        "command": "C:\\Users\\lry\\.conda\\envs\\vggt\\python.exe -u E:\\MIS_TMI_Re_3D\\re3d_cmpb_results\\code\\_train_deep_pose_fusion.py"
+      }
+    },
+    {
+      "timestamp": "2026-09-26 19:42:23",
+      "phase": "Phase1_DeepPoseTraining",
+      "status": "COMPLETED",
+      "details": {
+        "elapsed_s": 8099.3,
+        "output_preview": ": 0.0217 | LR: 0.000015\nEpoch 113 | Loss: 0.0218 | LR: 0.000014\nEpoch 114 | Loss: 0.0214 | LR: 0.000013\nEpoch 115 | Loss: 0.0214 | Val ATE: 13.58 mm | Test ATE: 45.57 mm | Best: 12.94 mm\nEpoch 116 | Loss: 0.0216 | LR: 0.000011\nEpoch 117 | Loss: 0.0214 | LR: 0.000011\nEpoch 118 | Loss: 0.0215 | LR: 0.000010\nEpoch 119 | Loss: 0.0216 | LR: 0.000010\nEpoch 120 | Loss: 0.0215 | Val ATE: 13.43 mm | Test ATE: 45.41 mm | Best: 12.94 mm\n\nTraining campaign completed in 133.1 minutes. Best Val ATE: 12.94 mm\n"
+      }
+    },
+    {
+      "timestamp": "2026-09-26 19:42:23",
+      "phase": "Phase2_17SequenceBenchmark",
+      "status": "STARTED",
+      "details": {
+        "command": "C:\\Users\\lry\\.conda\\envs\\vggt\\python.exe -u E:\\MIS_TMI_Re_3D\\re3d_cmpb_results\\code\\_benchmark_all_17_sequences.py"
+      }
+    },
+    {
+      "timestamp": "2026-09-26 19:48:44",
+      "phase": "Phase2_17SequenceBenchmark",
+      "status": "COMPLETED",
+      "details": {
+        "elapsed_s": 381.9,
+        "output_preview": "ity: 0.0000)\n  BA iter 400 reproj_loss: 1.0965 px (cheirality: 0.0000)\n  [Ours-BA]        ATE:  41.60 mm | Scale:   332.29 | Pairs: 84 | Time: 7.4s\n\n=======================================================\n  All 17 Sequences Benchmark Complete in 6.2 mins!\n  Output JSON: E:\\MIS_TMI_Re_3D\\re3d_cmpb_results\\results\\ALL_17_SEQUENCES_BENCHMARK.json\n  Output Markdown Table: E:\\MIS_TMI_Re_3D\\re3d_cmpb_results\\results\\ALL_17_SEQUENCES_BENCHMARK.md\n=======================================================\n"
+      }
+    },
+    {
+      "timestamp": "2026-09-26 19:48:44",
+      "phase": "Phase3_PGO_Refine_huber2.0_wt0.0001",
+      "status": "RUNNING_SWEEP",
+      "details": {
+        "huber": 2.0,
+        "reg_wt": 0.0001
+      }
+    },
+    {
+      "timestamp": "2026-09-26 19:48:46",
+      "phase": "Phase3_PGO_Refine_huber2.0_wt1e-05",
+      "status": "RUNNING_SWEEP",
+      "details": {
+        "huber": 2.0,
+        "reg_wt": 1e-05
+      }
+    },
+    {
+      "timestamp": "2026-09-26 19:48:48",
+      "phase": "Phase3_PGO_Refine_huber3.0_wt0.0001",
+      "status": "RUNNING_SWEEP",
+      "details": {
+        "huber": 3.0,
+        "reg_wt": 0.0001
+      }
+    },
+    {
+      "timestamp": "2026-09-26 19:48:51",
+      "phase": "Phase3_PGO_Refine_huber3.0_wt1e-05",
+      "status": "RUNNING_SWEEP",
+      "details": {
+        "huber": 3.0,
+        "reg_wt": 1e-05
+      }
+    },
+    {
+      "timestamp": "2026-09-26 19:48:53",
+      "phase": "Phase3_PGO_Refine_huber4.0_wt0.0001",
+      "status": "RUNNING_SWEEP",
+      "details": {
+        "huber": 4.0,
+        "reg_wt": 0.0001
+      }
+    },
+    {
+      "timestamp": "2026-09-26 19:48:55",
+      "phase": "Phase3_PGO_Refine_huber4.0_wt1e-05",
+      "status": "RUNNING_SWEEP",
+      "details": {
+        "huber": 4.0,
+        "reg_wt": 1e-05
+      }
+    },
+    {
+      "timestamp": "2026-09-26 19:48:57",
+      "phase": "Campaign_Summary",
+      "status": "ALL_STAGES_COMPLETED_SUCCESSFULLY",
+      "details": {
+        "report_file": "E:\\MIS_TMI_Re_3D\\re3d_cmpb_results\\results\\CONTINUOUS_OPTIMIZATION_REPORT.json"
+      }
+    }
+  ],
+  "last_updated": "2026-09-26 19:48:57"
+}

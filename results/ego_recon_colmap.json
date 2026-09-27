@@ -1,0 +1,32 @@
+{
+  "method": "COLMAP",
+  "max_frames": 30,
+  "results": [
+    {
+      "name": "traj_20260923_023422",
+      "n": 30,
+      "registered": 5,
+      "ate_mm": 24.15,
+      "sim3_scale": 5.832,
+      "kind": "real",
+      "role": "test"
+    },
+    {
+      "name": "traj_20260924_144019",
+      "n": 30,
+      "registered": 26,
+      "ate_mm": 12.44,
+      "sim3_scale": 13.724,
+      "kind": "real",
+      "role": "val"
+    },
+    {
+      "name": "sim_20260924_172955_s10095",
+      "n": 30,
+      "registered": 2,
+      "ate_mm": null,
+      "kind": "sim",
+      "role": null
+    }
+  ]
+}

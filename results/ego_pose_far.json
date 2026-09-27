@@ -1,0 +1,20 @@
+{
+  "test": {
+    "ate_mm": 59.0,
+    "scale": 1.948,
+    "direct_mm": 53.85
+  },
+  "val": {
+    "ate_mm": 23.21,
+    "scale": 1.386,
+    "direct_mm": 24.5
+  },
+  "train_sequences": [
+    "traj_20260923_020132",
+    "traj_20260924_143156",
+    "rigid_20260924_140510",
+    "rigid_20260924_142902",
+    "rigid_20260926_143218"
+  ],
+  "note": "far-camera subset only; test and reported val held out"
+}

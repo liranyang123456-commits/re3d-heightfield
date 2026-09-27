@@ -1,0 +1,30 @@
+{
+  "method": "MUSt3R",
+  "max_frames": 30,
+  "image_size": 224,
+  "results": [
+    {
+      "name": "traj_20260923_023422",
+      "kind": "real",
+      "n": 30,
+      "ate_mm": 45.63,
+      "sim3_scale": 94.703,
+      "role": "test"
+    },
+    {
+      "name": "traj_20260924_144019",
+      "kind": "real",
+      "n": 30,
+      "ate_mm": 17.17,
+      "sim3_scale": 208.834,
+      "role": "val"
+    },
+    {
+      "name": "sim_20260924_172955_s10095",
+      "kind": "sim",
+      "n": 30,
+      "ate_mm": 33.84,
+      "sim3_scale": 140.552
+    }
+  ]
+}

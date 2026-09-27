@@ -1,0 +1,74 @@
+{
+  "protocol": "Nearest cloud point within 25 px, published K and pose convention from chessboard_depth_eval_v3. Back-project that depth along the corner ray. No affine and no Sim3. Square size 5.0 mm.",
+  "gt_ray_spacing": {
+    "n_edges": 6700,
+    "mean_mm": 4.997753026378127,
+    "median_mm": 4.9968997687605246,
+    "mae_mm": 0.046808197077318384,
+    "rmse_mm": 0.060672162588388534,
+    "p25_mm": 4.959770723244795,
+    "p75_mm": 5.035070894580948
+  },
+  "methods": [
+    {
+      "method": "Ours",
+      "convention": "c2w",
+      "n_corners": 1284,
+      "absrel_affine_check": 0.2478431914296707,
+      "spacing": {
+        "n_edges": 1874,
+        "mean_mm": 12.634378229166227,
+        "median_mm": 5.491263975698704,
+        "mae_mm": 10.914012338537123,
+        "rmse_mm": 20.01278848492757,
+        "p25_mm": 1.0981244091650302,
+        "p75_mm": 16.46834937163583
+      }
+    },
+    {
+      "method": "ORB-SfM",
+      "convention": "c2w",
+      "n_corners": 1497,
+      "absrel_affine_check": 0.17794053267094817,
+      "spacing": {
+        "n_edges": 2010,
+        "mean_mm": 8.102289050235061,
+        "median_mm": 6.259144789516971,
+        "mae_mm": 5.8870286529989295,
+        "rmse_mm": 8.160013193828764,
+        "p25_mm": 1.8250068214412223,
+        "p75_mm": 12.382602738632789
+      }
+    },
+    {
+      "method": "COLMAP",
+      "convention": "c2w",
+      "n_corners": 1187,
+      "absrel_affine_check": 0.16835888945599772,
+      "spacing": {
+        "n_edges": 1825,
+        "mean_mm": 0.1097583030066235,
+        "median_mm": 0.07221072966660118,
+        "mae_mm": 4.890241696993376,
+        "rmse_mm": 4.892341125382392,
+        "p25_mm": 0.047701537088022904,
+        "p75_mm": 0.11769694130163359
+      }
+    },
+    {
+      "method": "VGGT",
+      "convention": "c2w",
+      "n_corners": 1727,
+      "absrel_affine_check": 0.009053623402923388,
+      "spacing": {
+        "n_edges": 2531,
+        "mean_mm": 0.01956621132267137,
+        "median_mm": 0.019483147487131713,
+        "mae_mm": 4.980433788677328,
+        "rmse_mm": 4.980433891217747,
+        "p25_mm": 0.01879999455692931,
+        "p75_mm": 0.02012528946553581
+      }
+    }
+  ]
+}

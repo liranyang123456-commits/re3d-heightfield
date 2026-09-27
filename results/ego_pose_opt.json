@@ -1,0 +1,150 @@
+{
+  "traj_20260923_023422": [
+    {
+      "tag": "f30:auto",
+      "ate_mm": 85.0,
+      "scale": 2.1,
+      "posed_steps": 5
+    },
+    {
+      "tag": "f30:auto_inv",
+      "ate_mm": 85.47,
+      "scale": 2.228,
+      "posed_steps": 5
+    },
+    {
+      "tag": "f30:homo",
+      "ate_mm": 89.01,
+      "scale": 3.044,
+      "posed_steps": 1
+    },
+    {
+      "tag": "f30:homo_inv",
+      "ate_mm": 89.01,
+      "scale": 3.044,
+      "posed_steps": 1
+    },
+    {
+      "tag": "f30:ess",
+      "ate_mm": 77.81,
+      "scale": 4.205,
+      "posed_steps": 5
+    },
+    {
+      "tag": "f30:ess_inv",
+      "ate_mm": 78.73,
+      "scale": 4.27,
+      "posed_steps": 5
+    },
+    {
+      "tag": "video:auto",
+      "ate_mm": 75.49,
+      "scale": 0.161,
+      "posed_steps": 748
+    },
+    {
+      "tag": "video:auto_inv",
+      "ate_mm": 82.29,
+      "scale": 0.145,
+      "posed_steps": 748
+    },
+    {
+      "tag": "video:homo",
+      "ate_mm": 80.14,
+      "scale": 0.169,
+      "posed_steps": 599
+    },
+    {
+      "tag": "video:homo_inv",
+      "ate_mm": 84.57,
+      "scale": 0.172,
+      "posed_steps": 599
+    },
+    {
+      "tag": "video:ess",
+      "ate_mm": 74.02,
+      "scale": 0.221,
+      "posed_steps": 370
+    },
+    {
+      "tag": "video:ess_inv",
+      "ate_mm": 72.56,
+      "scale": 0.226,
+      "posed_steps": 370
+    }
+  ],
+  "traj_20260924_144019": [
+    {
+      "tag": "f30:auto",
+      "ate_mm": 55.72,
+      "scale": 1.494,
+      "posed_steps": 5
+    },
+    {
+      "tag": "f30:auto_inv",
+      "ate_mm": 54.59,
+      "scale": 1.389,
+      "posed_steps": 5
+    },
+    {
+      "tag": "f30:homo",
+      "ate_mm": 62.71,
+      "scale": 19.758,
+      "posed_steps": 2
+    },
+    {
+      "tag": "f30:homo_inv",
+      "ate_mm": 62.71,
+      "scale": 19.743,
+      "posed_steps": 2
+    },
+    {
+      "tag": "f30:ess",
+      "ate_mm": 55.37,
+      "scale": 1.482,
+      "posed_steps": 3
+    },
+    {
+      "tag": "f30:ess_inv",
+      "ate_mm": 54.42,
+      "scale": 1.374,
+      "posed_steps": 3
+    },
+    {
+      "tag": "video:auto",
+      "ate_mm": 55.05,
+      "scale": 0.122,
+      "posed_steps": 1389
+    },
+    {
+      "tag": "video:auto_inv",
+      "ate_mm": 52.9,
+      "scale": 0.154,
+      "posed_steps": 1389
+    },
+    {
+      "tag": "video:homo",
+      "ate_mm": 56.54,
+      "scale": 0.112,
+      "posed_steps": 1255
+    },
+    {
+      "tag": "video:homo_inv",
+      "ate_mm": 56.9,
+      "scale": 0.127,
+      "posed_steps": 1255
+    },
+    {
+      "tag": "video:ess",
+      "ate_mm": 58.47,
+      "scale": 0.186,
+      "posed_steps": 575
+    },
+    {
+      "tag": "video:ess_inv",
+      "ate_mm": 51.38,
+      "scale": 0.178,
+      "posed_steps": 575
+    }
+  ]
+}

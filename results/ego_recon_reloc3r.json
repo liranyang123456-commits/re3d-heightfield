@@ -1,0 +1,30 @@
+{
+  "method": "Reloc3r",
+  "max_frames": 30,
+  "results": [
+    {
+      "name": "traj_20260923_023422",
+      "kind": "real",
+      "role": "test",
+      "n": 30,
+      "ate_mm": 45.36,
+      "sim3_scale": 44.756
+    },
+    {
+      "name": "traj_20260924_144019",
+      "kind": "real",
+      "role": "val",
+      "n": 30,
+      "ate_mm": 42.68,
+      "sim3_scale": 41.595
+    },
+    {
+      "name": "sim_20260924_172955_s10095",
+      "kind": "sim",
+      "role": null,
+      "n": 30,
+      "ate_mm": 38.98,
+      "sim3_scale": 16.286
+    }
+  ]
+}

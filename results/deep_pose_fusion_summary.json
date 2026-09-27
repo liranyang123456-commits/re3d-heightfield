@@ -1,0 +1,271 @@
+{
+  "epochs_completed": 120,
+  "best_val_ate": 12.94,
+  "elapsed_min": 133.1,
+  "history": [
+    {
+      "epoch": 5,
+      "loss": 0.1747,
+      "val_internal_ate": 27.1,
+      "heldout_val_ate": 16.01,
+      "heldout_val_direct": 14.03,
+      "heldout_test_ate": 51.55,
+      "heldout_test_direct": 40.02,
+      "lr": 0.000498,
+      "is_best": true
+    },
+    {
+      "epoch": 10,
+      "loss": 0.1123,
+      "val_internal_ate": 25.41,
+      "heldout_val_ate": 13.72,
+      "heldout_val_direct": 12.42,
+      "heldout_test_ate": 43.93,
+      "heldout_test_direct": 36.04,
+      "lr": 0.000492,
+      "is_best": true
+    },
+    {
+      "epoch": 15,
+      "loss": 0.0905,
+      "val_internal_ate": 28.7,
+      "heldout_val_ate": 14.75,
+      "heldout_val_direct": 12.3,
+      "heldout_test_ate": 44.61,
+      "heldout_test_direct": 34.79,
+      "lr": 0.000481,
+      "is_best": false
+    },
+    {
+      "epoch": 20,
+      "loss": 0.0731,
+      "val_internal_ate": 28.84,
+      "heldout_val_ate": 14.71,
+      "heldout_val_direct": 12.74,
+      "heldout_test_ate": 47.07,
+      "heldout_test_direct": 36.19,
+      "lr": 0.000467,
+      "is_best": false
+    },
+    {
+      "epoch": 25,
+      "loss": 0.0634,
+      "val_internal_ate": 28.37,
+      "heldout_val_ate": 14.37,
+      "heldout_val_direct": 12.24,
+      "heldout_test_ate": 45.93,
+      "heldout_test_direct": 36.14,
+      "lr": 0.000449,
+      "is_best": false
+    },
+    {
+      "epoch": 30,
+      "loss": 0.056,
+      "val_internal_ate": 26.77,
+      "heldout_val_ate": 14.96,
+      "heldout_val_direct": 12.93,
+      "heldout_test_ate": 46.6,
+      "heldout_test_direct": 35.91,
+      "lr": 0.000428,
+      "is_best": false
+    },
+    {
+      "epoch": 35,
+      "loss": 0.0518,
+      "val_internal_ate": 25.68,
+      "heldout_val_ate": 13.04,
+      "heldout_val_direct": 11.77,
+      "heldout_test_ate": 44.65,
+      "heldout_test_direct": 35.37,
+      "lr": 0.000404,
+      "is_best": true
+    },
+    {
+      "epoch": 40,
+      "loss": 0.0462,
+      "val_internal_ate": 24.95,
+      "heldout_val_ate": 14.56,
+      "heldout_val_direct": 13.15,
+      "heldout_test_ate": 45.62,
+      "heldout_test_direct": 35.99,
+      "lr": 0.000377,
+      "is_best": false
+    },
+    {
+      "epoch": 45,
+      "loss": 0.0443,
+      "val_internal_ate": 26.36,
+      "heldout_val_ate": 13.93,
+      "heldout_val_direct": 12.25,
+      "heldout_test_ate": 45.32,
+      "heldout_test_direct": 35.49,
+      "lr": 0.000349,
+      "is_best": false
+    },
+    {
+      "epoch": 50,
+      "loss": 0.0391,
+      "val_internal_ate": 24.66,
+      "heldout_val_ate": 13.76,
+      "heldout_val_direct": 12.26,
+      "heldout_test_ate": 44.82,
+      "heldout_test_direct": 35.23,
+      "lr": 0.000318,
+      "is_best": false
+    },
+    {
+      "epoch": 55,
+      "loss": 0.0373,
+      "val_internal_ate": 27.02,
+      "heldout_val_ate": 13.97,
+      "heldout_val_direct": 12.64,
+      "heldout_test_ate": 45.92,
+      "heldout_test_direct": 36.19,
+      "lr": 0.000287,
+      "is_best": false
+    },
+    {
+      "epoch": 60,
+      "loss": 0.0349,
+      "val_internal_ate": 25.78,
+      "heldout_val_ate": 13.95,
+      "heldout_val_direct": 12.31,
+      "heldout_test_ate": 44.54,
+      "heldout_test_direct": 35.0,
+      "lr": 0.000255,
+      "is_best": false
+    },
+    {
+      "epoch": 65,
+      "loss": 0.0329,
+      "val_internal_ate": 26.17,
+      "heldout_val_ate": 12.94,
+      "heldout_val_direct": 11.69,
+      "heldout_test_ate": 44.38,
+      "heldout_test_direct": 35.02,
+      "lr": 0.000223,
+      "is_best": true
+    },
+    {
+      "epoch": 70,
+      "loss": 0.0309,
+      "val_internal_ate": 25.58,
+      "heldout_val_ate": 13.95,
+      "heldout_val_direct": 12.76,
+      "heldout_test_ate": 44.92,
+      "heldout_test_direct": 35.67,
+      "lr": 0.000192,
+      "is_best": false
+    },
+    {
+      "epoch": 75,
+      "loss": 0.0284,
+      "val_internal_ate": 26.15,
+      "heldout_val_ate": 13.74,
+      "heldout_val_direct": 12.53,
+      "heldout_test_ate": 45.7,
+      "heldout_test_direct": 35.91,
+      "lr": 0.000161,
+      "is_best": false
+    },
+    {
+      "epoch": 80,
+      "loss": 0.0267,
+      "val_internal_ate": 26.63,
+      "heldout_val_ate": 13.75,
+      "heldout_val_direct": 12.73,
+      "heldout_test_ate": 46.05,
+      "heldout_test_direct": 35.98,
+      "lr": 0.000132,
+      "is_best": false
+    },
+    {
+      "epoch": 85,
+      "loss": 0.0262,
+      "val_internal_ate": 26.71,
+      "heldout_val_ate": 13.54,
+      "heldout_val_direct": 12.42,
+      "heldout_test_ate": 45.49,
+      "heldout_test_direct": 36.07,
+      "lr": 0.000106,
+      "is_best": false
+    },
+    {
+      "epoch": 90,
+      "loss": 0.0247,
+      "val_internal_ate": 26.47,
+      "heldout_val_ate": 13.57,
+      "heldout_val_direct": 12.07,
+      "heldout_test_ate": 46.11,
+      "heldout_test_direct": 35.89,
+      "lr": 8.2e-05,
+      "is_best": false
+    },
+    {
+      "epoch": 95,
+      "loss": 0.0238,
+      "val_internal_ate": 26.34,
+      "heldout_val_ate": 13.52,
+      "heldout_val_direct": 12.2,
+      "heldout_test_ate": 45.92,
+      "heldout_test_direct": 35.58,
+      "lr": 6.1e-05,
+      "is_best": false
+    },
+    {
+      "epoch": 100,
+      "loss": 0.0231,
+      "val_internal_ate": 25.73,
+      "heldout_val_ate": 13.36,
+      "heldout_val_direct": 12.1,
+      "heldout_test_ate": 45.23,
+      "heldout_test_direct": 35.42,
+      "lr": 4.3e-05,
+      "is_best": false
+    },
+    {
+      "epoch": 105,
+      "loss": 0.0222,
+      "val_internal_ate": 26.04,
+      "heldout_val_ate": 13.41,
+      "heldout_val_direct": 12.13,
+      "heldout_test_ate": 45.39,
+      "heldout_test_direct": 35.53,
+      "lr": 2.9e-05,
+      "is_best": false
+    },
+    {
+      "epoch": 110,
+      "loss": 0.0219,
+      "val_internal_ate": 26.08,
+      "heldout_val_ate": 13.48,
+      "heldout_val_direct": 12.36,
+      "heldout_test_ate": 45.24,
+      "heldout_test_direct": 35.51,
+      "lr": 1.8e-05,
+      "is_best": false
+    },
+    {
+      "epoch": 115,
+      "loss": 0.0214,
+      "val_internal_ate": 26.56,
+      "heldout_val_ate": 13.58,
+      "heldout_val_direct": 12.28,
+      "heldout_test_ate": 45.57,
+      "heldout_test_direct": 35.75,
+      "lr": 1.2e-05,
+      "is_best": false
+    },
+    {
+      "epoch": 120,
+      "loss": 0.0215,
+      "val_internal_ate": 26.05,
+      "heldout_val_ate": 13.43,
+      "heldout_val_direct": 12.17,
+      "heldout_test_ate": 45.41,
+      "heldout_test_direct": 35.64,
+      "lr": 1e-05,
+      "is_best": false
+    }
+  ]
+}

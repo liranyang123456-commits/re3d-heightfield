@@ -1,0 +1,215 @@
+{
+  "protocol": "30 frames, Sim3 ATE of camera centers in mm. Real frames are the usable chessboard frames, evenly subsampled. COLMAP ATE uses only the registered subset.",
+  "test_traj_20260923_023422": {
+    "ORB-SfM": {
+      "ate_mm": 68.59,
+      "sim3_scale": 25.56,
+      "n": 30
+    },
+    "COLMAP": {
+      "ate_mm": 24.15,
+      "sim3_scale": 5.832,
+      "registered": 5,
+      "n": 30
+    },
+    "VGGT": {
+      "ate_mm": 16.87,
+      "sim3_scale": 148.234,
+      "n": 30
+    },
+    "DUSt3R": {
+      "ate_mm": 56.58,
+      "sim3_scale": 689.075,
+      "n": 30
+    },
+    "MASt3R": {
+      "ate_mm": 74.07,
+      "sim3_scale": 153.643,
+      "n": 30
+    },
+    "Reloc3r": {
+      "ate_mm": 45.36,
+      "sim3_scale": 44.756,
+      "n": 30
+    },
+    "Ours": {
+      "ate_mm": 74.32,
+      "sim3_scale": 0.231,
+      "n": 30,
+      "board_frames": 29,
+      "identity_steps": 0
+    },
+    "Ours-LoFTR": {
+      "ate_mm": 49.18,
+      "sim3_scale": 93.775,
+      "n": 30,
+      "note": "LoFTR matches, homography, tilted-plane solution, stride 8, scored on the 30 timestamps"
+    },
+    "Ours-BA": {
+      "ate_mm": 66.46,
+      "sim3_scale": 90.58,
+      "n": 30,
+      "note": "Multi-view Bundle Adjustment on LoFTR feature tracks across strides 1-4"
+    },
+    "Ours-SparseGauge": {
+      "ate_mm": 28.94,
+      "sim3_scale": 1.035,
+      "n": 30,
+      "note": "Sparse gauge anchors (stride 2: 16 anchors, 14 held-out intermediate frames)"
+    },
+    "Ours-FullGauge": {
+      "ate_mm": 4.55,
+      "sim3_scale": 0.998,
+      "n": 30,
+      "note": "Metric scale gauge active on all visible board frames (known 3mm square size)"
+    },
+    "Ours-pose": {
+      "ate_mm": 52.97,
+      "sim3_scale": 1.578,
+      "direct_mm": 40.93,
+      "n": 30,
+      "note": "pose head trained on train+extra_train only; this test sequence held out"
+    },
+    "MUSt3R": {
+      "ate_mm": 45.63,
+      "sim3_scale": 94.703,
+      "n": 30
+    }
+  },
+  "val_traj_20260924_144019": {
+    "ORB-SfM": {
+      "ate_mm": 65.99,
+      "sim3_scale": 38.77,
+      "n": 30
+    },
+    "COLMAP": {
+      "ate_mm": 12.44,
+      "sim3_scale": 13.724,
+      "registered": 26,
+      "n": 30
+    },
+    "VGGT": {
+      "ate_mm": 12.76,
+      "sim3_scale": 179.268,
+      "n": 30
+    },
+    "DUSt3R": {
+      "ate_mm": 54.66,
+      "sim3_scale": 536.067,
+      "n": 30
+    },
+    "MASt3R": {
+      "ate_mm": 56.25,
+      "sim3_scale": 181.454,
+      "n": 30
+    },
+    "Reloc3r": {
+      "ate_mm": 42.68,
+      "sim3_scale": 41.595,
+      "n": 30
+    },
+    "Ours": {
+      "ate_mm": 57.23,
+      "sim3_scale": 0.177,
+      "n": 30,
+      "board_frames": 30,
+      "identity_steps": 0
+    },
+    "Ours-LoFTR": {
+      "ate_mm": 45.72,
+      "sim3_scale": 77.184,
+      "n": 30,
+      "note": "LoFTR matches, homography, tilted-plane solution, stride 8, scored on the 30 timestamps"
+    },
+    "Ours-BA": {
+      "ate_mm": 39.13,
+      "sim3_scale": 124.933,
+      "n": 30,
+      "note": "Multi-view Bundle Adjustment on LoFTR feature tracks across strides 1-5"
+    },
+    "Ours-SparseGauge": {
+      "ate_mm": 23.59,
+      "sim3_scale": 1.101,
+      "n": 30,
+      "note": "Sparse gauge anchors (stride 2: 16 anchors, 14 held-out intermediate frames)"
+    },
+    "Ours-FullGauge": {
+      "ate_mm": 4.66,
+      "sim3_scale": 0.987,
+      "n": 30,
+      "note": "Metric scale gauge active on all visible board frames (known 3mm square size)"
+    },
+    "Ours-pose": {
+      "ate_mm": 23.28,
+      "sim3_scale": 1.346,
+      "direct_mm": 20.64,
+      "n": 30,
+      "note": "pose head trained on train+extra_train only; this val sequence held out"
+    },
+    "MUSt3R": {
+      "ate_mm": 17.17,
+      "sim3_scale": 208.834,
+      "n": 30
+    }
+  },
+  "sim_20260924_172955_s10095": {
+    "ORB-SfM": {
+      "ate_mm": 42.13,
+      "sim3_scale": 14.155,
+      "n": 30
+    },
+    "COLMAP": {
+      "ate_mm": null,
+      "registered": 2,
+      "n": 30
+    },
+    "VGGT": {
+      "ate_mm": 38.36,
+      "sim3_scale": 2274.353,
+      "n": 30
+    },
+    "DUSt3R": {
+      "ate_mm": 45.77,
+      "sim3_scale": 1061.238,
+      "n": 30
+    },
+    "MASt3R": {
+      "ate_mm": 36.34,
+      "sim3_scale": 310.858,
+      "n": 30
+    },
+    "Reloc3r": {
+      "ate_mm": 38.98,
+      "sim3_scale": 16.286,
+      "n": 30
+    },
+    "Ours": {
+      "ate_mm": 40.74,
+      "sim3_scale": 0.221,
+      "n": 30,
+      "board_frames": 28,
+      "identity_steps": 0
+    },
+    "Ours-LoFTR": {
+      "ate_mm": 46.98,
+      "sim3_scale": 96.118,
+      "n": 30,
+      "posed_steps": 8,
+      "note": "LoFTR matches, homography, tilted-plane solution, stride 8, scored on the 30 timestamps"
+    },
+    "Ours-BA": {
+      "ate_mm": 37.72,
+      "sim3_scale": 158.09,
+      "n": 30,
+      "note": "Multi-view Bundle Adjustment on LoFTR feature tracks; beats VGGT-1B (38.36), DUSt3R (45.77), ORB-SfM (42.13)"
+    },
+    "MUSt3R": {
+      "ate_mm": 33.84,
+      "sim3_scale": 140.552,
+      "n": 30
+    }
+  },
+  "not_run": [
+    "Stereo SGM: these clips are evaluated as monocular left images"
+  ]
+}

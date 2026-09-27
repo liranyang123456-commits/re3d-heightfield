@@ -1,0 +1,74 @@
+{
+  "traj_20260923_015507": {
+    "name": "traj_20260923_015507",
+    "kind": "real",
+    "n": 30,
+    "VGGT": {
+      "ate_mm": 43.54,
+      "scale": 325.486,
+      "time_s": 30.6
+    },
+    "Ours-BA": {
+      "ate_mm": 74.48,
+      "scale": 455.225,
+      "time_s": 11.7
+    },
+    "Ours-SparseGauge": {
+      "ate_mm": 71.54,
+      "scale": 1.456
+    }
+  },
+  "traj_20260923_023241": {
+    "name": "traj_20260923_023241",
+    "kind": "real",
+    "n": 30,
+    "VGGT": {
+      "ate_mm": 18.95,
+      "scale": 158.682,
+      "time_s": 11.5
+    },
+    "Ours-BA": {
+      "ate_mm": 32.37,
+      "scale": 101.756,
+      "time_s": 8.1
+    },
+    "Ours-SparseGauge": {
+      "ate_mm": 47.87,
+      "scale": 1.473
+    }
+  },
+  "traj_20260924_143156": {
+    "name": "traj_20260924_143156",
+    "kind": "real",
+    "n": 30,
+    "VGGT": {
+      "ate_mm": 9.35,
+      "scale": 174.741,
+      "time_s": 11.6
+    },
+    "Ours-BA": {
+      "ate_mm": 58.66,
+      "scale": 101.25,
+      "time_s": 8.6
+    },
+    "Ours-SparseGauge": {
+      "ate_mm": 49.38,
+      "scale": 1.323
+    }
+  },
+  "sim_20260924_173022_s10096": {
+    "name": "sim_20260924_173022_s10096",
+    "kind": "sim",
+    "n": 30,
+    "VGGT": {
+      "ate_mm": 18.07,
+      "scale": 1077.915,
+      "time_s": 11.6
+    },
+    "Ours-BA": {
+      "ate_mm": 41.6,
+      "scale": 332.292,
+      "time_s": 7.9
+    }
+  }
+}

@@ -1,0 +1,134 @@
+{
+  "traj_20260923_023422": [
+    {
+      "stride": 8,
+      "rule": "visible_minrot",
+      "ate_mm": 77.11,
+      "scale": 86.287,
+      "steps": 450,
+      "n": 30
+    },
+    {
+      "stride": 8,
+      "rule": "max_front",
+      "ate_mm": 76.22,
+      "scale": 59.382,
+      "steps": 450,
+      "n": 30
+    },
+    {
+      "stride": 8,
+      "rule": "max_nz",
+      "ate_mm": 73.48,
+      "scale": 59.372,
+      "steps": 450,
+      "n": 30
+    },
+    {
+      "stride": 8,
+      "rule": "front_minrot",
+      "ate_mm": 71.86,
+      "scale": 63.079,
+      "steps": 450,
+      "n": 30
+    },
+    {
+      "stride": 12,
+      "rule": "visible_minrot",
+      "ate_mm": 70.71,
+      "scale": 73.819,
+      "steps": 535,
+      "n": 30
+    },
+    {
+      "stride": 12,
+      "rule": "max_front",
+      "ate_mm": 75.59,
+      "scale": 55.361,
+      "steps": 535,
+      "n": 30
+    },
+    {
+      "stride": 12,
+      "rule": "max_nz",
+      "ate_mm": 75.94,
+      "scale": 58.338,
+      "steps": 535,
+      "n": 30
+    },
+    {
+      "stride": 12,
+      "rule": "front_minrot",
+      "ate_mm": 76.05,
+      "scale": 57.766,
+      "steps": 535,
+      "n": 30
+    }
+  ],
+  "traj_20260924_144019": [
+    {
+      "stride": 8,
+      "rule": "visible_minrot",
+      "ate_mm": 58.88,
+      "scale": 68.155,
+      "steps": 394,
+      "n": 30
+    },
+    {
+      "stride": 8,
+      "rule": "max_front",
+      "ate_mm": 57.01,
+      "scale": 48.287,
+      "steps": 394,
+      "n": 30
+    },
+    {
+      "stride": 8,
+      "rule": "max_nz",
+      "ate_mm": 50.91,
+      "scale": 75.338,
+      "steps": 394,
+      "n": 30
+    },
+    {
+      "stride": 8,
+      "rule": "front_minrot",
+      "ate_mm": 59.53,
+      "scale": 58.163,
+      "steps": 394,
+      "n": 30
+    },
+    {
+      "stride": 12,
+      "rule": "visible_minrot",
+      "ate_mm": 55.77,
+      "scale": 54.293,
+      "steps": 532,
+      "n": 30
+    },
+    {
+      "stride": 12,
+      "rule": "max_front",
+      "ate_mm": 50.62,
+      "scale": 55.97,
+      "steps": 532,
+      "n": 30
+    },
+    {
+      "stride": 12,
+      "rule": "max_nz",
+      "ate_mm": 49.69,
+      "scale": 63.106,
+      "steps": 532,
+      "n": 30
+    },
+    {
+      "stride": 12,
+      "rule": "front_minrot",
+      "ate_mm": 52.06,
+      "scale": 59.382,
+      "steps": 532,
+      "n": 30
+    }
+  ]
+}

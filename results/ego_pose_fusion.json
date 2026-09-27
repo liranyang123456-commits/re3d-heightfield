@@ -1,0 +1,15 @@
+{
+  "test_traj_20260923_023422": {
+    "ate_mm": 52.97,
+    "scale": 1.578,
+    "direct_mm": 40.93,
+    "n": 30
+  },
+  "val_traj_20260924_144019": {
+    "ate_mm": 23.28,
+    "scale": 1.346,
+    "direct_mm": 20.64,
+    "n": 30
+  },
+  "note": "trained on train+extra_train only; reported test and val held out"
+}

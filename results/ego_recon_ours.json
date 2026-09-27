@@ -1,0 +1,41 @@
+{
+  "method": "Ours-heightfield",
+  "max_frames": 30,
+  "work_width": 640,
+  "cell": 3,
+  "tau_pct": 68,
+  "results": [
+    {
+      "name": "traj_20260923_023422",
+      "kind": "real",
+      "n": 30,
+      "ate_mm": 74.32,
+      "sim3_scale": 0.231,
+      "board_frames": 29,
+      "median_fitness": 0.817,
+      "identity_steps": 0,
+      "role": "test"
+    },
+    {
+      "name": "traj_20260924_144019",
+      "kind": "real",
+      "n": 30,
+      "ate_mm": 57.23,
+      "sim3_scale": 0.177,
+      "board_frames": 30,
+      "median_fitness": 0.795,
+      "identity_steps": 0,
+      "role": "val"
+    },
+    {
+      "name": "sim_20260924_172955_s10095",
+      "kind": "sim",
+      "n": 30,
+      "ate_mm": 40.74,
+      "sim3_scale": 0.221,
+      "board_frames": 28,
+      "median_fitness": 0.846,
+      "identity_steps": 0
+    }
+  ]
+}

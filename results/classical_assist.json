@@ -1,0 +1,13 @@
+{
+  "protocol": "every 10th pair sets predictor bias and baseline scale from the detector; held-out ZNCC uses an 18 px window",
+  "template_radius": 8,
+  "window_px": 18,
+  "n_holdout_px": 75,
+  "holdout_match_median_px": 0.7296336285806271,
+  "holdout_match_frac_lt_3px": 0.68,
+  "n_holdout_edges": 75,
+  "holdout_median_edge_mm": 4.974426366758759,
+  "holdout_median_mae_mm": 2.0070697705571137,
+  "holdout_mean_mae_mm": 17.353342399062022,
+  "n_mae_lt_3": 55
+}

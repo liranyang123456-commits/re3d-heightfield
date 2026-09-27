@@ -1,0 +1,62 @@
+{
+  "traj_20260923_023422": [
+    {
+      "start": 0,
+      "conj": false,
+      "smooth": 0.825,
+      "ate_mm": 78.38,
+      "scale": 20.633
+    },
+    {
+      "start": 0,
+      "conj": true,
+      "smooth": 0.825,
+      "ate_mm": 83.82,
+      "scale": 20.14
+    },
+    {
+      "start": 1,
+      "conj": false,
+      "smooth": 0.813,
+      "ate_mm": 80.38,
+      "scale": 20.641
+    },
+    {
+      "start": 1,
+      "conj": true,
+      "smooth": 0.813,
+      "ate_mm": 83.19,
+      "scale": 20.205
+    }
+  ],
+  "traj_20260924_144019": [
+    {
+      "start": 0,
+      "conj": false,
+      "smooth": 0.93,
+      "ate_mm": 64.25,
+      "scale": 13.544
+    },
+    {
+      "start": 0,
+      "conj": true,
+      "smooth": 0.93,
+      "ate_mm": 63.72,
+      "scale": 13.17
+    },
+    {
+      "start": 1,
+      "conj": false,
+      "smooth": 0.93,
+      "ate_mm": 64.36,
+      "scale": 13.56
+    },
+    {
+      "start": 1,
+      "conj": true,
+      "smooth": 0.93,
+      "ate_mm": 63.97,
+      "scale": 13.182
+    }
+  ]
+}
