@@ -52,7 +52,7 @@ for extra in ["cover_letter.tex", "highlights.tex", "references.bib", "elsarticl
 zip_path = PAPER / "RINENG_submission.zip"
 if zip_path.exists():
     zip_path.unlink()
-include_ext = {".tex", ".bib", ".bst", ".pdf", ".txt"}
+include_ext = {".tex", ".bib", ".bst", ".pdf", ".txt", ".docx"}
 with zipfile.ZipFile(zip_path, "w", zipfile.ZIP_DEFLATED) as z:
     for p in sorted(STAGE.iterdir()):
         if p.suffix.lower() in include_ext:

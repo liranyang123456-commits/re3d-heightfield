@@ -1,0 +1,7 @@
+# Highlights
+
+- A pseudo-3D heightfield stays Normal-3D where SOTA models collapse flat.
+- Physical normal field vetoes the wrong homography branch (operator correction).
+- Multi-stride geometric matching suppresses dead-reckoning drift.
+- Metric gauge recovers near-ideal 1.11x scale; gauge floor 4.49 mm ATE.
+- Calibrated stereo variant leads EndoNeRF depth with 0.0285 AbsRel.
