@@ -1,6 +1,6 @@
 % ======================================================================
 %  Pseudo-3D Heightfield Reconstruction (Elsevier elsarticle)
-%  Target: Displays
+%  Target: Results in Engineering
 % ======================================================================
 \PassOptionsToPackage{table,xcdraw}{xcolor}
 \documentclass[review]{elsarticle}
@@ -63,7 +63,7 @@
 \address[mysecondaryaddress]{Henan Provincial People's Hospital, Zhengzhou University, Zhengzhou 450003, China.}
 
 % Highlights are uploaded as a separate file (highlights.tex / highlights_for_upload.txt)
-% per the Displays Editorial Manager workflow, so they are not repeated on page 1 here.
+% per the journal's Editorial Manager workflow, so they are not repeated on page 1 here.
 
 \begin{abstract}
 Endoscopic video is the only continuous intra-operative view, yet turning it into a 3D surface that can be \emph{displayed} and \emph{measured} remains unsolved: feed-forward foundation models collapse into flat slabs or cones and lose metric scale, while classical monocular geometry drifts and, under small planar baselines, mis-decomposes into reversed camera motion. We argue that the missing object is a \emph{physical surface embedding} that stays three-dimensional, carries an operative normal field, and accepts an exact metric gauge. We lift each frame into a bilateral gradient-anchored pseudo-3D heightfield and use it in two roles. As a \emph{geometric matching substrate}, it registers consecutive frames by FPFH/RANSAC and point-to-point ICP, supplies dense epipolar-constrained correspondences, and feeds a multi-stride bundle adjustment on $\mathrm{SE}(3)$ that closes loops and suppresses dead-reckoning drift. As an \emph{operator corrector}, its physical normal vetoes the spurious homography branch, and a calibration gauge converts dimensionless translations into true millimetres. On an endoscopic chessboard benchmark the heightfield is the only \emph{monocular} reconstruction that stays Normal\,3D ($\lambda_3/\lambda_1 = 0.42$; all feed-forward and SfM baselines remain $\leq 0.22$) with near-ideal metric scale ($1.11\times$ vs.\ $3.7\times$--$647\times$). On a 17-sequence surgical benchmark the pattern-free BA outperforms ORB-SfM ($35.52$ vs.\ $43.72$\,mm mean ATE) and beats VGGT-1B in a smoke-filled cavity ($24.86$ vs.\ $37.25$\,mm); with the gauge visible it reaches the $4.49$\,mm pattern-localisation floor. On public EndoNeRF the calibrated stereo variant attains the best depth (AbsRel $0.0285$). The result is an un-collapsed, metrically anchored 3D surface that can be rendered, overlaid, and measured for surgical visualization.
@@ -83,7 +83,7 @@ Endoscopy \sep 3D reconstruction \sep Heightfield \sep Bundle adjustment \sep Me
 \section{Introduction}
 \label{sec:introduction}
 
-Recovering visualizable, metrically scaled 3D surfaces from monocular endoscopic video is a core imaging problem for intra-operative navigation, augmented-reality overlay, and quantitative surgical assessment in minimally invasive surgery (MIS)~\cite{stoyanov2005soft,mountney2010simultaneous}.
+Recovering well-formed, metrically scaled 3D surfaces from monocular endoscopic video is a core engineering problem for intra-operative navigation, augmented-reality overlay, and quantitative surgical assessment in minimally invasive surgery (MIS)~\cite{stoyanov2005soft,mountney2010simultaneous}.
 Unlike CT or MRI, the endoscope is already in the sterile field and supplies the only continuous intra-operative view; converting that video into a metric surface therefore determines whether graphical overlays and image-guided measurements can be trusted.
 A missing or wrong metric scale has direct consequences: estimating the safe instrument-to-tissue standoff that avoids serosal injury, measuring lesion diameter for resection-margin planning, and quantifying tissue deformation during suturing.
 These tasks require \emph{metric} (not merely relative) depth, yet most existing pipelines recover only up-to-scale geometry, and the monocular setting removes the baseline cue that stereo reconstruction relies on.
@@ -180,7 +180,7 @@ The proposed method bridges these gaps by coupling a physical heightfield surfac
 % ======================================================================
 %  Section 3: Method
 % ======================================================================
-\section{Method}
+\section{Materials and Methods}
 \label{sec:method}
 
 \subsection{Problem Formulation}
@@ -585,7 +585,7 @@ The two formulations are complementary. The classical pipeline (Sections~\ref{se
 
 
 
-\section{Experiments}
+\section{Results}
 \label{sec:experiments}
 
 \subsection{Dataset and Evaluation Protocol}
@@ -1379,8 +1379,8 @@ Across the chessboard, public stereo sets, and the newly captured sequences, no 
 The stereo laparoscopic evaluation (Section~\ref{sec:stereo_lap}) demonstrates that our method generalizes across five different endoscope configurations (focal lengths 383--766\,px, resolutions $360\times288$ to $720\times576$) without re-tuning, achieving depth accuracy identical to stereo SGM while providing an additional heightfield confidence map.
 This hardware-agnostic behavior stems from the gradient-based design: percentile truncation adapts automatically to the gradient distribution of each frame, making the heightfield independent of absolute image intensity or resolution.
 
-\paragraph{Implications for imaging, visualization, and image-guided intervention.}
-From an imaging-and-graphics standpoint, the useful output is not a disparity map alone but a surface that can be inspected, overlaid, and measured.
+\paragraph{Engineering implications and deployment considerations.}
+From an engineering-systems standpoint, the useful output is not a disparity map alone but a surface that can be inspected, overlaid, and measured.
 The point cloud---whose poses are estimated from the heightfield rather than supplied externally---can be rendered and overlaid. A lesion-diameter or standoff measurement is not supported by the present square-size error: on the $5.0$\,mm board the native mean absolute edge error is $10.9$\,mm (Section~\ref{sec:spacing}). Overlay and measurement both fail when the cloud collapses to a cone or plane.
 Relative to electromagnetic tracking (sensor coils, metal interference) and intra-operative CT or ultrasound (added hardware or dose), a vision-only pipeline that reuses the existing endoscope feed adds no device to the sterile field.
 The present validation is computational rather than clinical: it uses ex-vivo porcine tissue (SCARED), de-identified surgical recordings (EndoNeRF), and a bench-top chessboard phantom, with no live patients or prospective surgical use.
@@ -1399,7 +1399,7 @@ A detailed analysis of failure cases is provided in the Supplementary Material, 
 % ======================================================================
 %  Section 6: Conclusion
 % ======================================================================
-\section{Conclusion}
+\section{Conclusions}
 \label{sec:conclusion}
 
 We have presented a pseudo-3D heightfield framework that turns monocular endoscopic video into a 3D surface that is both displayable and measurable. The heightfield serves two roles at once: it is the geometric matching substrate on which frames are registered, densely matched, and bundle-adjusted over a multi-stride co-visibility graph, and it is the operator corrector whose physical normal field vetoes the spurious homography branch while a calibration gauge injects true metric scale.
