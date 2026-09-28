@@ -39,7 +39,7 @@
 }
 \makeatother
 
-\journal{Displays}
+\journal{Results in Engineering}
 
 %% Numbered references (Elsevier Vancouver style)
 \bibliographystyle{elsarticle-num}
@@ -66,11 +66,11 @@
 % per the Displays Editorial Manager workflow, so they are not repeated on page 1 here.
 
 \begin{abstract}
-Endoscopic video is the only continuous intra-operative view, yet turning it into a 3D surface that can be \emph{displayed} and \emph{measured} remains unsolved: feed-forward foundation models collapse into flat slabs or cones and lose metric scale, while classical monocular geometry drifts and, under small planar baselines, mis-decomposes into reversed camera motion. We argue that the missing object is a \emph{physical surface embedding} that stays three-dimensional, carries an operative normal field, and accepts an exact metric gauge. We therefore lift each frame into a bilateral gradient-anchored pseudo-3D heightfield and use it in two roles. As a \emph{geometric matching substrate}, the heightfield registers consecutive frames by FPFH/RANSAC and point-to-point ICP, supplies dense epipolar-constrained correspondences, and feeds a multi-stride co-visibility bundle adjustment on $\mathrm{SE}(3)$ that closes loops and suppresses dead-reckoning drift. As an \emph{operator corrector}, its dominant physical normal vetoes the spurious branch of planar-homography decomposition, and a calibration gauge converts its dimensionless translations into true millimetres. On an endoscopic chessboard benchmark the heightfield is the only \emph{monocular} reconstruction that stays Normal\,3D ($\lambda_3/\lambda_1 = 0.42$; VGGT, MASt3R, DUSt3R, MUSt3R, COLMAP and ORB-SfM all remain $\leq 0.22$, and only the stereo SGM reference also reaches Normal\,3D at $0.31$) with near-ideal metric scale ($1.11\times$ vs.\ $3.7\times$--$647\times$). On a 17-sequence surgical benchmark the pattern-free multi-view BA outperforms ORB-SfM ($35.52$ vs.\ $43.72$\,mm mean ATE) and beats VGGT-1B in a smoke-filled cavity ($24.86$ vs.\ $37.25$\,mm); when the gauge is visible, the gauge-referenced trajectory reaches the $4.49$\,mm pattern-localisation floor. On public EndoNeRF the calibrated stereo variant attains the best depth (AbsRel $0.0285$ vs.\ FoundationStereo $0.0321$). The result is an un-collapsed, metrically anchored 3D surface that can be rendered, overlaid, and measured for surgical visualization.
+Endoscopic video is the only continuous intra-operative view, yet turning it into a 3D surface that can be \emph{displayed} and \emph{measured} remains unsolved: feed-forward foundation models collapse into flat slabs or cones and lose metric scale, while classical monocular geometry drifts and, under small planar baselines, mis-decomposes into reversed camera motion. We argue that the missing object is a \emph{physical surface embedding} that stays three-dimensional, carries an operative normal field, and accepts an exact metric gauge. We lift each frame into a bilateral gradient-anchored pseudo-3D heightfield and use it in two roles. As a \emph{geometric matching substrate}, it registers consecutive frames by FPFH/RANSAC and point-to-point ICP, supplies dense epipolar-constrained correspondences, and feeds a multi-stride bundle adjustment on $\mathrm{SE}(3)$ that closes loops and suppresses dead-reckoning drift. As an \emph{operator corrector}, its physical normal vetoes the spurious homography branch, and a calibration gauge converts dimensionless translations into true millimetres. On an endoscopic chessboard benchmark the heightfield is the only \emph{monocular} reconstruction that stays Normal\,3D ($\lambda_3/\lambda_1 = 0.42$; all feed-forward and SfM baselines remain $\leq 0.22$) with near-ideal metric scale ($1.11\times$ vs.\ $3.7\times$--$647\times$). On a 17-sequence surgical benchmark the pattern-free BA outperforms ORB-SfM ($35.52$ vs.\ $43.72$\,mm mean ATE) and beats VGGT-1B in a smoke-filled cavity ($24.86$ vs.\ $37.25$\,mm); with the gauge visible it reaches the $4.49$\,mm pattern-localisation floor. On public EndoNeRF the calibrated stereo variant attains the best depth (AbsRel $0.0285$). The result is an un-collapsed, metrically anchored 3D surface that can be rendered, overlaid, and measured for surgical visualization.
 \end{abstract}
 
 \begin{keyword}
-Endoscopy \sep Reconstruction \sep Visualization \sep Laparoscopy \sep Stereoscopy \sep Heightfield
+Endoscopy \sep 3D reconstruction \sep Heightfield \sep Bundle adjustment \sep Metric scale
 \end{keyword}
 
 \end{frontmatter}
@@ -1415,15 +1415,15 @@ The authors thank the developers of the SCARED~\cite{allan2021stereo} and EndoNe
 \section*{Declarations}
 
 \paragraph{Funding.}
-This work was supported by the National Natural Science Foundation of China (Grant No.~6240074117); the Natural Science Project of the Science and Technology Department of Henan Province (Grant Nos.~232102211001, 232102210042, 232102210005, 222102310058); the Open Project Program of the State Key Laboratory of Virtual Reality Technology and Systems (Grant No.~VRLAB2023C03); the High-level Talents Fund of Henan University of Technology (Grant Nos.~2022BS076, 2022BS075); and the Cultivation Project of Tuoxin Team in Henan University of Technology (Grant No.~2024TXTD18).
+This work was supported by the National Natural Science Foundation of China (Grant No.~62402163); the Open Project Program of the State Key Laboratory of Virtual Reality Technology and Systems (Grant No.~VRLAB2023C03); the High-level Talents Fund of Henan University of Technology (Grant Nos.~2022BS076, 2022BS075); and the Cultivation Project of Tuoxin Team in Henan University of Technology (Grant No.~2024TXTD18).
 
-\paragraph{Conflict of interest.}
+\paragraph{Declaration of competing interest.}
 The authors declare that they have no known competing financial interests or personal relationships that could have appeared to influence the work reported in this paper.
 
 \paragraph{Ethics statement.}
 This study uses public datasets and in-house bench-top phantom recordings. The SCARED dataset~\cite{allan2021stereo} contains ex-vivo porcine cadaver tissue and does not involve human subjects. The EndoNeRF dataset~\cite{wang2022endonerf} consists of de-identified surgical recordings previously released by the original authors under their own institutional ethics approval; the present study is a secondary computational analysis of these public recordings and did not require additional ethical clearance. The in-house endoscopic chessboard, stereo-laparoscopic, and newly captured monocular sequences are bench-top phantom recordings and contain no patient-identifiable information.
 
-\paragraph{Authors' contributions.}
+\paragraph{CRediT authorship contribution statement.}
 \textbf{Ranyang Li:} Conceptualization, Methodology, Software, Validation, Formal analysis, Investigation, Data curation, Writing -- original draft, Visualization, Funding acquisition. \textbf{Wufeng Liu:} Methodology, Validation, Writing -- review \& editing. \textbf{Xiaodong Guo:} Software, Validation, Data curation. \textbf{Nan Wei:} Resources, Supervision. \textbf{Chao Fan:} Software, Investigation. All authors read and approved the final manuscript.
 
 \paragraph{Data availability.}

@@ -9,35 +9,31 @@ Zhengzhou 450001, China}
 
 \begin{document}
 
-\begin{letter}{Prof.\ Guangtao Zhai\\
-Editor-in-Chief\\
-Displays\\
+\begin{letter}{The Executive Editors\\
+Results in Engineering\\
 Elsevier}
 
-\opening{Dear Professor Zhai,}
+\opening{Dear Editors,}
 
-We transfer the manuscript
+We submit the manuscript
 ``\textbf{Uncollapsed and Metrically-Scaled 3D Reconstruction from Monocular Endoscopic Video via Pseudo-3D Heightfields}''
-to \textit{Displays} as a Research Article. The manuscript asks a display-first question: can monocular endoscopic video be turned into a 3D surface that is simultaneously \emph{displayable} (un-collapsed, renderable) and \emph{measurable} (metrically scaled)? We show that the answer is a pseudo-3D heightfield used in two roles---as a geometric matching substrate and as an operator corrector.
+to \textit{Results in Engineering} as a Research Article.
 
-\textbf{Why Displays.}
-The useful output is a renderable mesh for intra-operative overlay and measurement, not a disparity map alone. A collapsed cone or planar slab cannot be visualized as a surgical surface and cannot be used to measure physical lengths. This addresses a fundamental display problem: visual signal processing, an un-collapsed 3D surface, and explicit metric scale recovery.
+\textbf{Engineering problem and fit.}
+The work addresses a concrete engineering system problem: how to build a computational pipeline that converts monocular endoscopic video into a three-dimensional surface that is simultaneously \emph{renderable} (un-collapsed, well-formed geometry) and \emph{measurable} (metrically scaled in millimetres). State-of-the-art feed-forward reconstruction models (VGGT, DUSt3R, MASt3R, MUSt3R) collapse into flat slabs or cones and lose metric scale on endoscopic footage, and classical structure-from-motion drifts or mis-decomposes under small planar baselines. Our contribution is an end-to-end geometric signal-processing system whose central object---a bilateral gradient-anchored pseudo-3D heightfield---is engineered to serve two roles at once: a \emph{geometric matching substrate} (frame registration, dense epipolar matching, multi-stride bundle adjustment on $\mathrm{SE}(3)$) and an \emph{operator corrector} (a physical normal field that vetoes the spurious homography branch, and a calibration gauge that injects true metric scale). The system runs on CPU in its classical mode and is validated against nine baselines on four datasets.
 
-\textbf{The story in one paragraph.}
-Feed-forward 3D foundation models (VGGT, DUSt3R, MASt3R, MUSt3R) produce dense but geometrically collapsed, scale-less clouds on endoscopic video, and classical SfM drifts or mis-decomposes under small planar baselines. We reconstruct a bilateral gradient-anchored pseudo-3D heightfield from each frame and exploit it twice. As a \emph{geometric matching substrate}, it registers frames (FPFH/RANSAC/ICP), builds dense epipolar correspondences, and feeds a multi-stride bundle adjustment that suppresses dead-reckoning drift. As an \emph{operator corrector}, its physical normal field vetoes the wrong homography branch, and a calibration gauge injects true metric scale. The same mesh therefore drives matching, pose, branch correction, and scale---so the surface stays three-dimensional and metric where the baselines collapse.
-
-\textbf{Headline results.}
+\textbf{Headline engineering results.}
 \begin{itemize}
-    \item \textbf{Un-collapsed Normal\,3D geometry:} On the endoscopic chessboard benchmark the heightfield is the only \emph{monocular} reconstruction that stays Normal\,3D ($\lambda_3/\lambda_1 = 0.42$); VGGT, MASt3R, DUSt3R, MUSt3R, COLMAP and ORB-SfM all collapse to Flat or Cone ($\leq 0.22$), and only the stereo SGM reference also reaches Normal\,3D ($0.31$).
-    \item \textbf{Near-ideal metric scale:} The gauge recovers $1.11\times$ scale against the reference, while every baseline drifts by $3.7\times$--$647\times$.
-    \item \textbf{Leading depth on public data:} On EndoNeRF the calibrated stereo variant attains the best AbsRel ($0.0285$), ahead of FoundationStereo ($0.0321$) and Stereo SGM ($0.0323$).
-    \item \textbf{Drift suppression and gauge ceiling:} On a 17-sequence benchmark the pattern-free multi-view BA outperforms ORB-SfM ($35.52$ vs.\ $43.72$\,mm mean ATE) and beats VGGT-1B in a smoke-filled cavity ($24.86$ vs.\ $37.25$\,mm); with the gauge visible, the gauge-referenced trajectory reaches the $4.49$\,mm pattern-localisation floor.
+    \item \textbf{Un-collapsed geometry:} the only \emph{monocular} reconstruction that stays Normal\,3D on the benchmark ($\lambda_3/\lambda_1 = 0.42$; all feed-forward and SfM baselines $\leq 0.22$).
+    \item \textbf{Near-ideal metric scale:} $1.11\times$ recovered scale, versus $3.7\times$--$647\times$ drift for the baselines.
+    \item \textbf{Leading depth accuracy:} the calibrated stereo variant attains the best AbsRel ($0.0285$) on the public EndoNeRF benchmark, ahead of FoundationStereo ($0.0321$).
+    \item \textbf{Drift suppression:} on a 17-sequence benchmark the pattern-free multi-view BA outperforms ORB-SfM ($35.52$ vs.\ $43.72$\,mm mean ATE) and beats VGGT-1B in a smoke-filled cavity ($24.86$ vs.\ $37.25$\,mm); with the gauge visible it reaches the $4.49$\,mm pattern-localisation floor.
 \end{itemize}
 
 \textbf{Declarations.}
-This manuscript is not under consideration elsewhere. All authors have approved the submission. The study uses public datasets and in-house bench-top phantom recordings; it does not involve new human-subject or animal experiments. The authors have no competing interests. Code, evaluation scripts, and result files are at \url{https://github.com/liranyang123456-commits/re3d-heightfield}. Full in-house sequences remain available from the corresponding author.
+This manuscript is original, is not under consideration elsewhere, and all authors have approved the submission. The study uses public datasets and in-house bench-top phantom recordings and involves no new human-subject or animal experiments. The authors declare no competing interests. CRediT contributions, funding, data availability, and a generative-AI declaration are included in the manuscript. Code, evaluation scripts, and result files are openly available at \url{https://github.com/liranyang123456-commits/re3d-heightfield}.
 
-We thank you for considering this work.
+We believe the manuscript's emphasis on a complete, validated engineering system for robust 3D reconstruction fits the scope of \textit{Results in Engineering}, and we thank you for considering it.
 
 \closing{Sincerely,}
 

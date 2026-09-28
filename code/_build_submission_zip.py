@@ -49,7 +49,7 @@ for extra in ["cover_letter.tex", "highlights.tex", "references.bib", "elsarticl
         shutil.copy(src, STAGE / extra)
 
 # build the zip
-zip_path = PAPER / "Displays_submission.zip"
+zip_path = PAPER / "RINENG_submission.zip"
 if zip_path.exists():
     zip_path.unlink()
 include_ext = {".tex", ".bib", ".bst", ".pdf", ".txt"}
